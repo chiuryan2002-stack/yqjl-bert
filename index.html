@@ -3,11 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>讀得出，卻沒用上：BERT 與「原、前、舊、老」</title>
+<title>以語料庫與語義向量探討華語語義差異——以「原、前、舊、老」為例</title>
 <style>
+p{text-align:justify}
 :root{
   color-scheme:light;
-  --ink:#1c1b19; --muted:#6b675f; --line:#e4e0d8; --bg:#faf8f4; --card:#ffffff;
+  --ink:#16233a; --muted:#566377; --line:#d4deea; --bg:#e2ebf6; --card:#ffffff;
   --yuan:#2f5fa7; --qian:#d07a1f; --jiu:#4f8a3a; --lao:#b23b3b; --accent:#1c1b19;
   --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
   --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
@@ -27,11 +28,12 @@ p{margin:0 0 14px}
 .m.原{color:var(--yuan)}.m.前{color:var(--qian)}.m.舊{color:var(--jiu)}.m.老{color:var(--lao)}
 .num{font-variant-numeric:tabular-nums}
 /* hero */
-.hero{min-height:92vh;display:flex;align-items:center;border-top:none;padding:40px 0}
-.hero h1{font-size:clamp(40px,7vw,78px);letter-spacing:.02em}
+.hero{min-height:92vh;display:flex;align-items:center;border-top:none;padding:40px 0;background:linear-gradient(160deg,#cddcf0 0%,#e2ebf6 65%)}
+.hero .wrap{width:100%}
+.hero h1{font-size:clamp(28px,4.4vw,52px);letter-spacing:.02em;line-height:1.35}
 .hero .sub{font-size:clamp(18px,2.4vw,24px);color:var(--muted);margin:18px 0 34px;font-family:var(--serif)}
 .chars{display:flex;gap:14px;margin:30px 0}
-.chars span{font-family:var(--serif);font-size:clamp(44px,8vw,88px);font-weight:700;width:1.25em;height:1.25em;display:grid;place-items:center;border-radius:14px;background:var(--card);box-shadow:0 1px 0 var(--line),0 8px 24px rgba(0,0,0,.05)}
+.chars span{font-family:var(--serif);font-size:clamp(40px,6vw,72px);font-weight:700;line-height:1;width:1.4em;height:1.4em;display:flex;align-items:center;justify-content:center;padding:0;border-radius:14px;background:var(--card);box-shadow:0 1px 0 var(--line),0 8px 24px rgba(0,0,0,.05)}
 .stats{display:flex;gap:40px;flex-wrap:wrap;margin-top:26px}
 .stat b{display:block;font-size:34px;font-family:var(--serif)}
 .stat span{font-size:14px;color:var(--muted)}
@@ -73,7 +75,7 @@ button.on{background:var(--ink);color:#fff}
 .tags{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
 .tags span{font-size:12px;border:1px solid var(--line);border-radius:10px;padding:0 8px;color:var(--muted)}
 .pbar{display:grid;grid-template-columns:24px 1fr 46px;gap:8px;align-items:center;margin:5px 0;font-size:14px}
-.pbar .t{height:14px;background:#efece6;border-radius:3px;overflow:hidden}
+.pbar .t{height:14px;background:#e3eaf3;border-radius:3px;overflow:hidden}
 .pbar .t div{height:100%;transition:width .45s cubic-bezier(.3,.7,.3,1)}
 /* twist */
 .big3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:26px 0}
@@ -102,11 +104,28 @@ button.on{background:var(--ink);color:#fff}
 .mm{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:18px}
 .mm h4{font-family:var(--serif);font-size:16px;margin:0 0 6px}
 .mm .sub{font-size:12.5px;color:var(--muted);margin:-2px 0 8px}
-.mverdict{font-family:var(--serif);font-size:18px;line-height:1.7;margin-top:16px;padding:12px 16px;border-radius:10px;background:#f6f3ec}
+.mverdict{font-family:var(--serif);font-size:18px;line-height:1.7;margin-top:16px;padding:12px 16px;border-radius:10px;background:#eef3f9}
 .slgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;margin-top:14px}
 .yrs{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:2px}
 #slChart svg{width:100%;height:auto}
 @media (max-width:820px){ .mm,.slgrid{grid-template-columns:1fr} .hm{grid-template-columns:70px repeat(13,minmax(0,1fr)) 0px} .hm .gl{display:none} .hm .cell{font-size:0;height:24px} }
+/* dictionary semantic sets */
+.dictgrid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;margin-top:22px;align-items:start}
+#dictNet svg{width:100%;height:auto;display:block}
+#dictNet .edge{transition:opacity .3s,stroke-width .3s}
+#dictNet .node{cursor:pointer;transition:opacity .3s}
+#dictNet .node rect{transition:stroke .3s,fill .3s}
+#dictPanel h3{font-size:22px;margin-bottom:4px}
+#dictPanel .pos{display:inline-block;font-size:12px;border:1px solid var(--line);border-radius:8px;padding:0 6px;margin-right:6px;color:var(--muted)}
+#dictPanel ul{padding-left:0;list-style:none;margin:10px 0 0}
+#dictPanel li{font-size:14.5px;line-height:1.65;margin:0 0 9px;padding-left:10px;border-left:3px solid var(--line);text-align:justify}
+#dictPanel li.hit{border-left-color:var(--ink)}
+#dictPanel li.dim{color:var(--muted);font-size:13px}
+#dictPanel .tag{font-size:12px;color:var(--muted)}
+#dictPanel .src{font-size:12px;color:var(--muted);margin-top:12px}
+@media (max-width:820px){ .dictgrid{grid-template-columns:1fr} }
+.srclist{margin:0 0 14px;padding-left:1.3em}
+.srclist li{margin:2px 0;text-align:left}
 footer{padding:50px 0 70px;font-size:14px;color:var(--muted);border-top:1px solid var(--line)}
 @media (max-width:820px){
   .split,.scrolly,.mapgrid,.labgrid,.big3{grid-template-columns:1fr}
@@ -119,10 +138,10 @@ footer{padding:50px 0 70px;font-size:14px;color:var(--muted);border-top:1px soli
 
 <section class="hero"><div class="wrap">
   <div class="kicker">計算語言學與語言學概論 · 期末專案</div>
-  <h1>讀得出，卻沒用上</h1>
-  <div class="sub">BERT 怎麼看待華語的「原、前、舊、老」</div>
+  <h1>以語料庫與語義向量探討華語語義差異<br>——以「原、前、舊、老」為例</h1>
+  <div class="sub">BERT 如何解讀華語的「原、前、舊、老」</div>
   <div class="chars"><span class="m 原">原</span><span class="m 前">前</span><span class="m 舊">舊</span><span class="m 老">老</span></div>
-  <div class="narrow"><p>「前主任」已不在任，「老同事」卻可能還天天見面。四個字都帶著「過去」，卻不能任意互換。我們從臺灣華語文語料庫收集了 2,271 句真實用例，逐句標註它們修飾的職場身分、時間與關係，再問 BERT 兩件事：<b>你的內部表徵讀得出這些差別嗎？你在選字時用上了嗎？</b></p></div>
+  <div class="narrow"><p>「原校長」通常指因職務異動或制度變動而不再擔任原有職務者；「前校長」其語義焦點則側重於曾經擔任某項職務的歷史事實；「舊同事」多強調過去工作關係；「老員工」則除表示任職時間較長外，更可能延伸出資歷、經驗、熟悉度及組織認同等社會評價。四個字都帶著「過去」的意涵，卻不能任意互換。本研究從臺灣華語文語料庫（<span lang="en">Cor&shy;pus of Con&shy;tem&shy;po&shy;rary Tai&shy;wan&shy;ese Man&shy;da&shy;rin</span>, COCT）2019 收集了 2,271 筆真實語料，逐句標註它們修飾的職場身分、時間參照、身分鏈結與評價傾向，並透過 Chinese BERT-base 模型探究兩件事：<b>模型的內部表徵讀得出這些細微差異嗎？在選字時使用了這些語言資訊嗎？</b></p></div>
   <div class="stats">
     <div class="stat"><b class="num">2,271</b><span>句有效語料（COCT 2019）</span></div>
     <div class="stat"><b class="num">13</b><span>層 BERT 表徵逐層探測</span></div>
@@ -132,6 +151,17 @@ footer{padding:50px 0 70px;font-size:14px;color:var(--muted);border-top:1px soli
   <div class="scrollcue">↓ 往下捲動</div>
 </div></section>
 
+<section id="s0"><div class="wrap">
+  <div class="kicker">起點 · 辭典裡的語義集合</div>
+  <h2>四個字，共享哪些意思？</h2>
+  <div class="narrow"><p>依教育部《重編國語辭典修訂本》的釋義，把「原、前、舊、老」與職場身分相關的義項，歸納成六個語義集合。兩個字連到同一個集合，代表它們在這個意思上有重疊，也是最容易混用的地方。點一個字或一個集合，看辭典怎麼說。</p></div>
+  <div class="dictgrid">
+    <div class="card" style="padding:10px"><div id="dictNet"></div>
+      <div class="legend" style="padding:0 10px 6px"><span><i style="background:#16233a"></i>辭典義項</span><span><i style="background:none;border-top:2px dashed #8a96a8;height:0;width:16px;vertical-align:4px"></i>辭典未列，語料中常見的用法</span></div></div>
+    <div class="card" id="dictPanel"></div>
+  </div>
+</div></section>
+
 <section id="s1"><div class="wrap">
   <div class="kicker">第一站 · 語料</div>
   <h2>四個字，各有各的分工</h2>
@@ -139,7 +169,7 @@ footer{padding:50px 0 70px;font-size:14px;color:var(--muted);border-top:1px soli
   <div class="split">
     <div class="card"><h3 style="font-size:18px;margin-bottom:10px">修飾哪一類職場身分</h3><div id="roleBars"></div>
       <div class="legend"><span><i style="background:#8a8577"></i>職務角色</span><span><i style="background:#c9a66b"></i>關係角色</span><span><i style="background:#d9d4c7"></i>組織成員</span></div>
-      <p style="font-size:13px;color:var(--muted);margin:10px 0 0">χ²(6) = 561.89，p &lt; .001，Cramér's V = .35</p></div>
+      <p style="font-size:13px;color:var(--muted);margin:10px 0 0">χ²(6) = 561.89，p &lt; .001</p></div>
     <div class="card"><h3 style="font-size:18px;margin-bottom:10px">時間參照：過去，還是延續？</h3><div id="timeBars"></div>
       <div class="legend"><span><i style="background:#3d3a33"></i>過去</span><span><i style="background:#d9d4c7"></i>延續</span></div>
       <h3 style="font-size:18px;margin:18px 0 10px">身分鏈結：關係中止，還是持續？</h3><div id="linkBars"></div>
@@ -185,14 +215,14 @@ footer{padding:50px 0 70px;font-size:14px;color:var(--muted);border-top:1px soli
 <section id="s4"><div class="wrap">
   <div class="kicker">第四站 · 行為測試</div>
   <h2>轉折：BERT 選字時，真的用上了嗎？</h2>
-  <div class="narrow"><p>我們把每句的修飾語換成 [MASK]，只比較 BERT 對四個字的機率。如果它真的懂這些差別，應該遠勝過「只看名詞最常配哪個字」這種笨方法。</p></div>
+  <div class="narrow"><p>我們把每句的修飾語換成 [MASK]，只比較 BERT 對四個字的機率。如果它真的懂這些差別，應該遠勝過「只看名詞最常配哪個字」這種土法煉鋼的方法。</p></div>
   <div class="big3">
     <div class="card"><b class="num">75.3%</b>BERT，完整語境</div>
     <div class="card"><b class="num">72.0%</b>只看名詞的搭配統計（不用任何模型）</div>
     <div class="card"><b class="num">32.8%</b>BERT，只給名詞</div>
   </div>
   <div class="split">
-    <div><p>BERT 只比笨方法多 3.3 個百分點。它最常犯的錯，是把<span class="m 舊">舊</span>填成<span class="m 老">老</span>：一半的<span class="m 舊">舊</span>都被改成<span class="m 老">老</span>。</p>
+    <div><p>BERT 只比土法煉鋼的方法多 3.3 個百分點。它最常犯的錯，是把<span class="m 舊">舊</span>填成<span class="m 老">老</span>：一半的<span class="m 舊">舊</span>都被改成<span class="m 老">老</span>。</p>
       <p>更關鍵的是<span class="m 老">老</span>的時間。探針在第 7 層能以 0.77 分辨「過去」和「延續」，但 BERT 填空時的選擇幾乎不受影響（AUC = 0.58，0.5 代表完全無關）；在「老同事」裡甚至方向相反（AUC = 0.41）。</p>
       <p><b>資訊就在模型裡，模型卻沒有用它來選字。</b></p></div>
     <div class="card"><h3 style="font-size:17px;margin-bottom:10px">BERT 的混淆矩陣（列：語料原字；欄：BERT 選擇）</h3><div class="cm" id="cm"></div></div>
@@ -201,18 +231,18 @@ footer{padding:50px 0 70px;font-size:14px;color:var(--muted);border-top:1px soli
 
 <section id="mind"><div class="wrap">
   <div class="kicker">第五站 · 心口不一</div>
-  <h2>腦中知道，嘴上卻選錯</h2>
-  <div class="narrow"><p>同一句話，我們同時看兩件事。<b>腦中</b>：每一層的探針從修飾語向量讀到了什麼（時間、鏈結、身分、評價；已扣除「是哪個字」的資訊，所以探針不能只靠字形）。<b>嘴上</b>：BERT 遮住那個字後實際的選擇。挑一句看看，兩者常常對不上。</p></div>
+  <h2>模型知道，實際卻選錯</h2>
+  <div class="narrow"><p>同一句話，我們同時看兩件事。</p><p><b>模型</b>：每一層的探針從修飾語向量讀到了什麼（時間、鏈結、身分、評價；已扣除「是哪個字」的資訊，所以探針不能只靠字形）。</p><p><b>實際</b>：BERT 遮住那個字後實際的選擇。挑一句看看，兩者常常對不上。</p></div>
   <div class="card" style="margin-top:20px">
     <div class="controls" style="margin-top:0"><div class="seg" id="mindPick"></div></div>
     <div class="sent" id="mindSent" style="margin:14px 0 6px;font-size:19px"></div>
     <div class="tags" id="mindTags"></div>
-    <div style="font-size:13px;color:var(--muted);margin:14px 0 6px">腦中：各層探針的判斷（顏色＝判斷結果，越深越有把握；點欄位切換層數）</div>
+    <div style="font-size:13px;color:var(--muted);margin:14px 0 6px">模型：各層探針的判斷（顏色＝判斷結果，越深越有把握；點欄位切換層數）</div>
     <div class="hm" id="hm"></div>
     <div class="legend" id="hmLegend"></div>
     <div class="mm">
-      <div><h4 id="mindHead">腦中（第 7 層）</h4><div class="sub">探針讀到的時間參照與身分鏈結；▼ 標出人工標註</div><div id="mindBars"></div></div>
-      <div><h4>嘴上：BERT 實際的填空</h4><div class="sub">遮住修飾語後，四個字的機率</div><div id="mouthBars"></div></div>
+      <div><h4 id="mindHead">模型（第 7 層）</h4><div class="sub">探針讀到的時間參照與身分鏈結；▼ 標出人工標註</div><div id="mindBars"></div></div>
+      <div><h4>實際：BERT 的填空</h4><div class="sub">遮住修飾語後，四個字的機率</div><div id="mouthBars"></div></div>
     </div>
     <div class="mverdict" id="mindVerdict"></div>
   </div>
@@ -256,15 +286,21 @@ footer{padding:50px 0 70px;font-size:14px;color:var(--muted);border-top:1px soli
   </div>
 </div></section>
 
-<section id="s6"><div class="wrap narrow">
+<section id="s6"><div class="wrap"><div class="narrow">
   <div class="kicker">終點</div>
   <h2>換你來填</h2>
   <p>跟著小張走過三十年職場，看 BERT 在哪一幕跟不上故事；或者直接挑戰真實語料題。你能比 BERT 更會選嗎？從真實語料抽題，先選再揭曉語料原字與 BERT 的答案。課堂上可用「主持模式」讓全班一起和 BERT 對決。</p>
   <div class="cta"><a href="story.html">小張的職場三十年（互動故事）</a><a href="duel.html">開始「你來填」</a><a class="ghost" href="duel.html#host">主持模式（課堂用）</a></div>
-</div></section>
+</div></div></section>
 
 <footer><div class="wrap">
   <p><b>方法摘要</b>　語料：臺灣華語文語料庫（COCT 2019）書面語與口語，CQP 檢索後人工篩選，排除 32 筆非目標用法，得 2,271 句。標註：職場身分（組織成員／職務角色／關係角色）、時間參照（過去／延續）、身分鏈結（中止／持續）、評價傾向（正向／中性／負向）。探測：bert-base-chinese 第 0–12 層，多類別邏輯迴歸，五折交叉驗證 × 3 種子，詞彙基準、控制任務、199 次置換檢定。行為測試：遮蔽修飾語，比較四字機率。語義星圖為各層修飾語向量之 PCA 投影，以正交 Procrustes 逐層對齊；語境改寫實驗台、時間滑桿與互動故事的機率均為事先以同一模型計算；「心口不一」的探針為修飾語去中心化後的五折交叉驗證樣本外預測。</p>
+  <p style="margin-bottom:6px"><b>資料來源</b></p>
+  <ul class="srclist">
+    <li>語料：臺灣華語文語料庫（<span lang="en">Corpus of Contemporary Taiwanese Mandarin</span>, COCT）2019，<a href="https://bcoct.naer.edu.tw/cqpweb/" target="_blank" rel="noopener">https://bcoct.naer.edu.tw/cqpweb/</a></li>
+    <li>辭典釋義：教育部《重編國語辭典修訂本》，<a href="https://dict.revised.moe.edu.tw/" target="_blank" rel="noopener">https://dict.revised.moe.edu.tw/</a></li>
+    <li>模型：bert-base-chinese（Hugging Face），<a href="https://huggingface.co/google-bert/bert-base-chinese" target="_blank" rel="noopener">https://huggingface.co/google-bert/bert-base-chinese</a></li>
+  </ul>
   <p>邱珮慈 · 國立臺灣師範大學 · 2026</p>
 </div></footer>
 
@@ -474,13 +510,13 @@ renderLab();
     const pt=PR.time[L][k].map(v=>v/100), pl=PR.link[L][k].map(v=>v/100);
     const mouth = EXP.pa[i].map(v=>v/1000), mp = MODS[mouth.indexOf(Math.max(...mouth))];
     const pair=(name,cls,p,g,cols)=>`<div style="margin:6px 0 12px"><div style="font-size:13px;color:var(--muted);margin-bottom:3px">${name}</div><div style="display:flex;height:26px;border-radius:5px;overflow:hidden;font-size:12.5px;color:#fff">${cls.map((c,j)=>`<div style="width:${(p[j]*100).toFixed(1)}%;background:${cols[j]};display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden">${c===g?"▼ ":""}${c} ${(p[j]*100).toFixed(0)}%</div>`).join("")}</div></div>`;
-    $("#mindHead").textContent = `腦中（第 ${L} 層）`;
+    $("#mindHead").textContent = `模型（第 ${L} 層）`;
     $("#mindBars").innerHTML = pair("時間參照",CL.time,pt,it[5],["#3d3a33","#c9a66b"]) + pair("身分鏈結",CL.link,pl,it[6],["#3d3a33","#c9a66b"]);
     $("#mouthBars").innerHTML = bars(mouth);
     const tj=pt[0]>=.5?0:1, lj=pl[0]>=.5?0:1, tok=CL.time[tj]===it[5], lok=CL.link[lj]===it[6], mok=mp===it[1];
     const read = `第 ${L} 層的探針讀到：時間＝<b>${CL.time[tj]}</b>${tok?"（與標註一致）":"（標註為"+it[5]+"）"}、鏈結＝<b>${CL.link[lj]}</b>${lok?"（與標註一致）":"（標註為"+it[6]+"）"}。`;
-    const mouthTxt = `BERT 嘴上填的是<b class="m ${mp}">${mp}</b>（${(Math.max(...mouth)*100).toFixed(0)}%），語料原字是<b class="m ${it[1]}">${it[1]}</b>。`;
-    const verdict = (tok&&lok) ? (mok ? "<b>讀得出，也用對了。</b>" : "<b>讀得出，卻沒用上。</b>") : (mok ? "這一句腦中沒有完全讀對，嘴上倒是選對了（可能靠名詞搭配）。" : "這一句腦中和嘴上都沒有對上。");
+    const mouthTxt = `BERT 實際填的是<b class="m ${mp}">${mp}</b>（${(Math.max(...mouth)*100).toFixed(0)}%），語料原字是<b class="m ${it[1]}">${it[1]}</b>。`;
+    const verdict = (tok&&lok) ? (mok ? "<b>讀得出，也用對了。</b>" : "<b>讀得出，卻沒用上。</b>") : (mok ? "這一句模型沒有完全讀對，實際倒是選對了（可能靠名詞搭配）。" : "這一句模型沒有完全讀對，實際也選錯了。");
     $("#mindVerdict").innerHTML = read + mouthTxt + verdict;
   }
   function show(i){
@@ -529,6 +565,72 @@ renderLab();
     $("#slNote").innerHTML = `從「${Y[0]}」拉到「${Y[8]}」：<span class="m 老">老</span> ${(f[3]*100).toFixed(0)}% → ${(l[3]*100).toFixed(0)}%，<span class="m 舊">舊</span> ${(f[2]*100).toFixed(0)}% → ${(l[2]*100).toFixed(0)}%，<span class="m 前">前</span> ${(f[1]*100).toFixed(0)}% → ${(l[1]*100).toFixed(0)}%。${top(f)===top(l)?`首選始終是<b class="m ${top(f)}">${top(f)}</b>。`:`首選從<b class="m ${top(f)}">${top(f)}</b>變成<b class="m ${top(l)}">${top(l)}</b>。`}`;
   }
   draw();
+})();
+
+/* ---------- 起點：辭典語義集合 ---------- */
+(function(){
+  const SRC = {"原":11813,"前":6485,"舊":5730,"老":3280};
+  // 義項：[詞性, 釋義, 例詞, 所屬集合或 null]
+  const SENSES = {
+    "原":[["形","最初的、本來的","原文、原著、物歸原主","orig"],["副","本來","原是道","orig"],["名","根本","",null],["名","廣大而平坦的地方","平原、高原",null],["動","推究根源；寬恕、諒解","原諒、情有可原",null]],
+    "前":[["形","過去的、較早的","前天、前人種樹","past"],["形","已成歷史的","前清、前蘇聯","past"],["形","前任的簡稱","前妻、前總理","exoff"],["形","次序在先的","前三名",null],["形","在正面的、臉所向的一面","前門、前方",null],["形","未來的","前程、前途",null]],
+    "舊":[["形","不新的、古老的、從前的","舊日、舊交、舊車","past|worn"],["名","交情、老朋友","念舊、懷舊、親朋故舊","long"]],
+    "老":[["形","原來的","老地方、老規矩","orig"],["形","陳舊、過時","老式、老套","worn"],["形","年久的","老交情、老主顧、老字號","long"],["形","熟練、經驗豐富","老手、老練","senior"],["形","加在稱呼、姓氏上，表示尊敬或親暱","老師、老闆、老李","senior"],["形","年紀大","老兵、老人","senior"],["動","退休","乃老",null],["副","總是、常常；很、極","老是、老遠",null]]
+  };
+  const SETS = {
+    orig:  {name:"本來、原來", feat:"相對於現狀的原初狀態", dim:"說明「這是原本的那一個」，不直接表示人已離職", x:500, y:58},
+    past:  {name:"過去、從前", feat:"時間參照：過去", dim:"對應本研究的時間參照「過去」", x:500, y:482},
+    exoff: {name:"前任、卸任", feat:"身分鏈結：中止", dim:"對應本研究的身分鏈結「中止」：已不在其位", x:270, y:270},
+    worn:  {name:"陳舊、不新", feat:"物的新舊", dim:"多用於物品，用在人身上帶有過時感", x:660, y:200},
+    long:  {name:"年久、交情", feat:"時間參照：延續", dim:"對應本研究的時間參照「延續」與身分鏈結「持續」：關係長久、仍在", x:660, y:340},
+    senior:{name:"資深、尊稱", feat:"評價傾向", dim:"對應本研究的評價傾向：資歷、經驗、熟悉與親暱", x:895, y:270}
+  };
+  const CHARS = {"原":[110,110],"老":[860,100],"前":[110,430],"舊":[860,440]};
+  const EDGES = [];
+  for(const [c,ss] of Object.entries(SENSES)) for(const s of ss) if(s[3]) for(const k of s[3].split("|")) if(!EDGES.some(e=>e[0]===c&&e[1]===k)) EDGES.push([c,k,false]);
+  EDGES.push(["原","exoff",true]);   // 語料：原＋職稱（原董事長）
+  let sel = null;
+  const W=1000,H=540;
+  let s=`<svg viewBox="0 0 ${W} ${H}">`;
+  EDGES.forEach(([c,k,d])=>{ const [x1,y1]=CHARS[c], S=SETS[k]; s+=`<line class="edge" data-c="${c}" data-k="${k}" x1="${x1}" y1="${y1}" x2="${S.x}" y2="${S.y}" stroke="${d?'#8a96a8':COL[c]}" stroke-width="2.5" ${d?'stroke-dasharray="6 6"':''}/>`; });
+  for(const [k,S] of Object.entries(SETS)){ const w=Math.max(170, S.name.length*29+56);
+    s+=`<g class="node set" data-k="${k}"><rect x="${S.x-w/2}" y="${S.y-38}" width="${w}" height="76" rx="14" fill="#fff" stroke="#c3cfdf" stroke-width="1.5"/><text x="${S.x}" y="${S.y-4}" text-anchor="middle" font-size="25" font-weight="700" font-family="var(--serif)" fill="#16233a">${S.name}</text><text x="${S.x}" y="${S.y+24}" text-anchor="middle" font-size="16" fill="#566377">${S.feat}</text></g>`; }
+  for(const [c,[x,y]] of Object.entries(CHARS)){
+    s+=`<g class="node ch" data-c="${c}"><rect x="${x-58}" y="${y-58}" width="116" height="116" rx="18" fill="#fff" stroke="${COL[c]}" stroke-width="2.5"/><text x="${x}" y="${y+24}" text-anchor="middle" font-size="70" font-weight="700" font-family="var(--serif)" fill="${COL[c]}">${c}</text></g>`; }
+  s+=`</svg>`;
+  $("#dictNet").innerHTML = s;
+  const link = c => `https://dict.revised.moe.edu.tw/dictView.jsp?ID=${SRC[c]}`;
+  function senseLi(c, sn, hit){ return `<li class="${hit?'hit':'dim'}"><span class="pos">${sn[0]}</span>${sn[1]}${sn[2]?`<span class="tag">　如：${sn[2]}</span>`:""}</li>`; }
+  function panelChar(c){
+    const ks = new Set(EDGES.filter(e=>e[0]===c&&!e[2]).map(e=>e[1]));
+    $("#dictPanel").innerHTML = `<h3 class="m ${c}">${c}</h3><div class="tag">與職場身分相關的義項以深色標示</div>
+      <ul>${SENSES[c].map(sn=>senseLi(c,sn,!!sn[3])).join("")}</ul>
+      ${c==="原"?`<p style="font-size:14px;margin:6px 0 0">辭典沒有列出「前任」義，但語料中「原董事長、原校長」大量用來指已不在其位者（虛線）：這是「本來的」延伸到職務上的用法。</p>`:""}
+      <div class="src">資料來源：教育部《重編國語辭典修訂本》〈<a href="${link(c)}" target="_blank" rel="noopener">${c}</a>〉，部分義項節錄。</div>`;
+  }
+  function panelSet(k){
+    const S=SETS[k], mem=EDGES.filter(e=>e[1]===k);
+    $("#dictPanel").innerHTML = `<h3>${S.name}</h3><div class="tag">${S.dim}</div>
+      <ul>${mem.map(([c,_,d])=> d ? `<li class="hit"><b class="m ${c}">${c}</b>　<span class="tag">辭典未列；語料中「原＋職稱」指已卸任者，如「原董事長」。</span></li>`
+        : SENSES[c].filter(sn=>sn[3]&&sn[3].split("|").includes(k)).map(sn=>`<li class="hit"><b class="m ${c}">${c}</b>　<span class="pos">${sn[0]}</span>${sn[1]}${sn[2]?`<span class="tag">　如：${sn[2]}</span>`:""}</li>`).join("")).join("")}</ul>
+      <div class="src">資料來源：教育部《重編國語辭典修訂本》。</div>`;
+  }
+  function panelAll(){
+    $("#dictPanel").innerHTML = `<h3>六個語義集合</h3><div class="tag">點左圖的字或集合查看釋義</div>
+      <ul>${Object.entries(SETS).map(([k,S])=>`<li class="hit"><b>${S.name}</b>　${EDGES.filter(e=>e[1]===k).map(e=>`<b class="m ${e[0]}" style="${e[2]?'opacity:.55':''}">${e[0]}</b>`).join("、")}<br><span class="tag">${S.dim}</span></li>`).join("")}</ul>
+      <p style="font-size:14px;margin:4px 0 0"><b class="m 舊">舊</b>和<b class="m 老">老</b>共享「陳舊」與「年久、交情」兩個集合，重疊最多，正是 BERT 最常混淆的一對。</p>
+      <div class="src">資料來源：教育部《重編國語辭典修訂本》。</div>`;
+  }
+  function highlight(){
+    document.querySelectorAll("#dictNet .edge").forEach(e=>{ const on = !sel || (sel.c ? e.dataset.c===sel.c : e.dataset.k===sel.k); e.style.opacity = on?1:.08; e.setAttribute("stroke-width", sel&&on?4:2.5); });
+    document.querySelectorAll("#dictNet .set").forEach(g=>{ const on = !sel || (sel.k ? g.dataset.k===sel.k : EDGES.some(e=>e[0]===sel.c&&e[1]===g.dataset.k)); g.style.opacity = on?1:.25; g.querySelector("rect").setAttribute("stroke", sel&&sel.k===g.dataset.k?"#16233a":"#c3cfdf"); });
+    document.querySelectorAll("#dictNet .ch").forEach(g=>{ const on = !sel || (sel.c ? g.dataset.c===sel.c : EDGES.some(e=>e[1]===sel.k&&e[0]===g.dataset.c)); g.style.opacity = on?1:.25; });
+    if(!sel) panelAll(); else if(sel.c) panelChar(sel.c); else panelSet(sel.k);
+  }
+  document.querySelectorAll("#dictNet .ch").forEach(g=>g.onclick=()=>{ sel = sel&&sel.c===g.dataset.c ? null : {c:g.dataset.c}; highlight(); });
+  document.querySelectorAll("#dictNet .set").forEach(g=>g.onclick=()=>{ sel = sel&&sel.k===g.dataset.k ? null : {k:g.dataset.k}; highlight(); });
+  $("#dictNet svg").addEventListener("click", e=>{ if(e.target.tagName==="svg"){ sel=null; highlight(); } });
+  highlight();
 })();
 </script>
 </body>
