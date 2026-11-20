@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>你來填：人類 vs. BERT｜原、前、舊、老</title>
+<style>
+:root{
+  --ink:#1c1b19; --muted:#6b675f; --line:#e4e0d8; --bg:#faf8f4; --card:#fff;
+  --yuan:#2f5fa7; --qian:#d07a1f; --jiu:#4f8a3a; --lao:#b23b3b;
+  --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.7;font-size:17px}
+a{color:inherit}
+.wrap{max-width:860px;margin:0 auto;padding:28px 22px 60px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
+header a{text-decoration:none;border-bottom:1px solid var(--line)}
+h1,h2,h3{font-family:var(--serif);margin:0;line-height:1.3}
+.score{display:flex;gap:10px;align-items:center;font-variant-numeric:tabular-nums}
+.pill{border:1px solid var(--line);background:var(--card);border-radius:20px;padding:3px 12px}
+.pill b{font-family:var(--serif);font-size:18px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:30px 30px 26px;margin-top:22px}
+.qno{font-size:13px;letter-spacing:.12em;color:var(--muted)}
+.sent{font-family:var(--serif);font-size:clamp(21px,3vw,27px);line-height:1.75;margin:12px 0 22px}
+.blank{display:inline-block;min-width:1.4em;border-bottom:3px solid var(--ink);text-align:center;margin:0 3px;font-weight:700}
+.noun{font-weight:700;background:#f1ede4;border-radius:4px;padding:0 3px}
+.opts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.opt{font-family:var(--serif);font-size:38px;font-weight:700;padding:14px 0;border-radius:12px;border:2px solid var(--line);background:#fff;cursor:pointer;transition:transform .1s,border-color .2s}
+.opt:hover:not(:disabled){transform:translateY(-2px);border-color:var(--ink)}
+.opt:disabled{cursor:default}
+.原{color:var(--yuan)}.前{color:var(--qian)}.舊{color:var(--jiu)}.老{color:var(--lao)}
+.opt.gold{border-color:currentColor;box-shadow:inset 0 0 0 2px currentColor}
+.opt.dim{opacity:.35}
+.reveal{margin-top:22px;border-top:1px solid var(--line);padding-top:18px;display:none}
+.reveal.on{display:block}
+.verdict{font-family:var(--serif);font-size:20px;margin-bottom:12px}
+.pb{display:grid;grid-template-columns:28px 1fr 56px;gap:10px;align-items:center;margin:6px 0;font-variant-numeric:tabular-nums}
+.pb .t{height:14px;background:#eeeae2;border-radius:7px;overflow:hidden}
+.pb .t div{height:100%;border-radius:7px;width:0;transition:width .6s}
+.pb .c{font-family:var(--serif);font-weight:700}
+.pb span{font-size:14px;color:var(--muted);text-align:right}
+.why{font-size:15.5px;color:#3d3a33;margin-top:14px;background:#f6f3ec;border-radius:10px;padding:12px 14px}
+.tags{font-size:13px;color:var(--muted);margin-top:8px}
+.btn{display:inline-block;border:none;background:var(--ink);color:#fff;font-size:16px;border-radius:26px;padding:10px 24px;cursor:pointer;margin-top:18px;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.intro{margin-top:30px}
+.intro h1{font-size:clamp(30px,5vw,46px)}
+.intro p{color:#3d3a33;max-width:620px}
+.end h2{font-size:32px;margin:6px 0 10px}
+.big{display:flex;gap:18px;margin:16px 0}
+.big div{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.big b{display:block;font-family:var(--serif);font-size:42px}
+.big span{color:var(--muted);font-size:14px}
+table.log{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:14px}
+table.log td,table.log th{border-bottom:1px solid var(--line);padding:7px 6px;text-align:left}
+table.log th{font-weight:500;color:var(--muted);font-size:13px}
+
+/* ===== 主持模式 ===== */
+body.host{background:#14120f;color:#f2eee6}
+body.host .wrap{max-width:1280px;padding:28px 40px}
+body.host header{color:#a8a294}
+body.host header a{border-color:#3a362f}
+body.host .pill{background:#1f1c18;border-color:#3a362f}
+body.host .q{background:#1c1a16;border-color:#2f2b25;padding:40px 46px}
+body.host .qno{color:#a8a294}
+body.host .sent{font-size:clamp(28px,3.4vw,44px)}
+body.host .blank{border-color:#f2eee6}
+body.host .noun{background:#2f2b25}
+body.host .原{color:#7aa5ec}body.host .前{color:#f0a253}body.host .舊{color:#8fd172}body.host .老{color:#ff7a7a}
+.tally{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.tcard{background:#24211c;border:2px solid #34302a;border-radius:14px;padding:12px 14px;text-align:center}
+.tcard .ch{font-family:var(--serif);font-size:62px;font-weight:700;line-height:1.1}
+.tcard .ct{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:6px}
+.tcard button{width:40px;height:40px;border-radius:50%;border:1px solid #4a453c;background:#1c1a16;color:#f2eee6;font-size:22px;cursor:pointer}
+.tcard input{width:72px;font-size:30px;text-align:center;background:transparent;border:none;color:#f2eee6;font-family:var(--serif);font-variant-numeric:tabular-nums}
+.tcard.gold{border-color:currentColor}
+.cmp{display:none;grid-template-columns:1fr 1fr;gap:34px;margin-top:26px}
+.cmp.on{display:grid}
+.cmp h3{font-size:20px;margin-bottom:8px;color:#d6d0c3}
+body.host .pb .t{background:#2f2b25;height:22px;border-radius:6px}
+body.host .pb .t div{border-radius:6px}
+body.host .pb .c{font-size:24px}
+body.host .pb span{color:#d6d0c3;font-size:18px}
+body.host .why{background:#24211c;color:#e2dccf;font-size:20px;padding:16px 20px}
+.timer{height:6px;background:#2f2b25;border-radius:3px;overflow:hidden;margin:-6px 0 22px}
+.timer div{height:100%;background:#f2eee6;width:100%}
+body.host .btn{background:#f2eee6;color:#14120f}
+body.host .btn.ghost{background:transparent;color:#f2eee6;border-color:#f2eee6}
+.keys{font-size:13px;color:#8a8577;margin-top:18px}
+.keys kbd{border:1px solid #4a453c;border-radius:4px;padding:0 5px;font-family:inherit}
+.hostend{text-align:center;padding:60px 0}
+.hostend .vs{display:flex;justify-content:center;gap:70px;margin:30px 0}
+.hostend .vs b{display:block;font-family:var(--serif);font-size:110px;line-height:1}
+.hostend .vs span{font-size:22px;color:#a8a294}
+@media (max-width:620px){
+  .q{padding:22px 18px}
+  .opt{font-size:30px}
+  .big{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a href="index.html">← 回到研究網頁</a>
+    <div class="score" id="score"></div>
+  </header>
+  <main id="app"></main>
+</div>
+<script>
+const POOL = [{"L": "和台南基地的聯隊長，以及軍中一些", "m": "舊", "n": "部屬", "R": "餐敘時，將軍屏師的好朋友鍾明昆先生，商界的", "time": "過去", "link": "中止", "ev": "中性", "pa": [2, 6, 40, 953], "tag": "trap"}, {"L": "小巨人陳：你不願意吃回頭草，卻願意接受", "m": "舊", "n": "老闆", "R": "幫助你。", "time": "過去", "link": "持續", "ev": "中性", "pa": [13, 100, 113, 774], "tag": "trap"}, {"L": "而彭麗媛父親曾是縣文化館館長，他的", "m": "舊", "n": "同事", "R": "、彭家的老鄰居魏中平，已經八旬有餘。", "time": "過去", "link": "中止", "ev": "中性", "pa": [0, 4, 19, 977], "tag": "trap"}, {"L": "午後，接到一通電話，那是一位遠方", "m": "舊", "n": "同事", "R": "哲民的來電。", "time": "過去", "link": "中止", "ev": "中性", "pa": [0, 25, 57, 918], "tag": "trap"}, {"L": "他們的部署我是知道的，因為是", "m": "舊", "n": "同事", "R": "私底下告訴我的", "time": "過去", "link": "持續", "ev": "中性", "pa": [12, 170, 36, 782], "tag": "trap"}, {"L": "都會有一連串的人事變動，一方面員工可能跟", "m": "舊", "n": "上司", "R": "共同進退，亦可能是新任主管需要清除舊派系", "time": "過去", "link": "持續", "ev": "中性", "pa": [55, 87, 397, 461], "tag": "trap"}, {"L": "而且小張很明顯地也不再跟", "m": "舊", "n": "同事", "R": "吃飯喝酒，而開始和其他長官談笑風生，甚至開始迴避以前一起共事的同…", "time": "過去", "link": "中止", "ev": "中性", "pa": [32, 117, 202, 649], "tag": "trap"}, {"L": "安全依附風格的領導人陳、林、李三位", "m": "舊", "n": "同事", "R": "闊別十年後才再相聚，這一次的聚會由老李出面邀約。", "time": "過去", "link": "中止", "ev": "中性", "pa": [0, 20, 11, 968], "tag": "trap"}, {"L": "在那邊人緣也不怎麼樣，而且新老闆不像", "m": "舊", "n": "老闆", "R": "那麼支持他，其他巡警對他頗有微詞，", "time": "過去", "link": "中止", "ev": "正向", "pa": [6, 2, 276, 715], "tag": "trap"}, {"L": "靠織賣草鞋供養劉據。劉據有一位", "m": "舊", "n": "部屬", "R": "，也住在湖縣，聽說他很富有，派", "time": "過去", "link": "中止", "ev": "中性", "pa": [4, 30, 448, 517], "tag": "trap"}, {"L": "集水區可以更有抵抗力再往下游走石門水庫的", "m": "老", "n": "員工", "R": "服務滿十七年的李永安帶我們看了艾利颱風", "time": "延續", "link": "持續", "ev": "中性", "pa": [21, 102, 87, 791], "tag": "old-cont"}, {"L": "…我沉默了一陣子，然後告訴我那些科學家", "m": "老", "n": "同事", "R": "，他們是在自欺欺人", "time": "延續", "link": "持續", "ev": "負向", "pa": [15, 463, 29, 494], "tag": "old-cont"}, {"L": "知道去哪裡找人想寫回憶錄剛好他一個", "m": "老", "n": "同事", "R": "在報紙做了一個主題就是講熟齡版對", "time": "延續", "link": "持續", "ev": "中性", "pa": [0, 97, 135, 768], "tag": "old-cont"}, {"L": "歌聲未息，牢房的門開了，走進了他的", "m": "老", "n": "夥伴", "R": "托乎提。", "time": "延續", "link": "持續", "ev": "中性", "pa": [0, 32, 38, 930], "tag": "old-cont"}, {"L": "培養珊瑚的但是現在先讓我去找我的", "m": "老", "n": "同事", "R": "樊同雲博士讓他來跟各位談一談珊瑚的", "time": "延續", "link": "持續", "ev": "中性", "pa": [1, 54, 62, 884], "tag": "old-cont"}, {"L": "新象要過三十生日，許先生急催要", "m": "老", "n": "員工", "R": "寫文章出版一本專輯，還一定要至少二千字，可是在截稿前我卻連一個字…", "time": "延續", "link": "持續", "ev": "中性", "pa": [60, 80, 54, 807], "tag": "old-cont"}, {"L": "在他從羅德島大學畢業、轉到加州藝術學院念平面設計時，我接受", "m": "老", "n": "同事", "R": "林哲生先生的意見，建議裕鈞到日本松下實習一年，再決定未來工作的方…", "time": "延續", "link": "持續", "ev": "中性", "pa": [13, 211, 122, 654], "tag": "old-cont"}, {"L": "的總而言之是現場的幾位來賓他的親朋好友或是", "m": "老", "n": "同事", "R": "他們送來的他們的也許是擔心也許是祝福也許", "time": "延續", "link": "持續", "ev": "中性", "pa": [2, 71, 130, 797], "tag": "old-cont"}, {"L": "，高家其實已頹敗。再看眼前的這位", "m": "老", "n": "上司", "R": "，張居正的臉上不禁露出一絲得意的笑容", "time": "過去", "link": "中止", "ev": "中性", "pa": [0, 21, 38, 940], "tag": "old-past"}, {"L": "初被拘查後一直扛著，拒不交代“", "m": "老", "n": "領導", "R": "”的問題，直到最近才吐出李繼耐涉嫌貪腐", "time": "過去", "link": "持續", "ev": "負向", "pa": [249, 645, 52, 53], "tag": "old-past"}, {"L": "的感謝您的恩德，您要諒解鄧羌救", "m": "老", "n": "長官", "R": "心急，冒犯了先生。", "time": "過去", "link": "持續", "ev": "正向", "pa": [118, 235, 83, 565], "tag": "old-past"}, {"L": "不禁慚愧得立刻起身，自己跳下船來，向", "m": "老", "n": "長官", "R": "作揖問好，讓全船官兵驚愕不已。", "time": "過去", "link": "持續", "ev": "正向", "pa": [72, 374, 27, 526], "tag": "old-past"}, {"L": "呂泉生沒想到事隔年餘，那批", "m": "老", "n": "同事", "R": "竟然還這麼關心他，心裡怪感動的", "time": "過去", "link": "持續", "ev": "正向", "pa": [0, 42, 23, 935], "tag": "old-past"}, {"L": "無論國親配或國民配，居然都鎖定", "m": "原", "n": "院長", "R": "王金平為合作對象", "time": "過去", "link": "中止", "ev": "中性", "pa": [21, 978, 0, 1], "tag": "yq"}, {"L": "整整七年！在這段時間裡，她的", "m": "原", "n": "雇主", "R": "夫婦已經過世了。", "time": "過去", "link": "中止", "ev": "中性", "pa": [75, 718, 75, 132], "tag": "yq"}, {"L": "，說明他跟評議會如何﹁召集長老，並在", "m": "前", "n": "長官", "R": "殉職的情況下，親自前往赤崁，以使原住民", "time": "過去", "link": "中止", "ev": "中性", "pa": [845, 71, 8, 75], "tag": "yq"}, {"L": "日本大阪地方法院以做假賬坑蒙投資者的罪名判處福特瓦克公司", "m": "原", "n": "總經理", "R": "大橋渡有期徒刑兩年", "time": "過去", "link": "中止", "ev": "負向", "pa": [151, 848, 0, 1], "tag": "yq"}, {"L": "一匙靈的開發就是實踐丸田", "m": "前", "n": "社長", "R": "的經營哲學所得的成果。", "time": "過去", "link": "中止", "ev": "中性", "pa": [649, 150, 26, 175], "tag": "yq"}, {"L": "而﹁親恩﹂二字之命名，是", "m": "前", "n": "社長", "R": "郝更生夫人高梓女士之巧思。", "time": "過去", "link": "中止", "ev": "中性", "pa": [509, 402, 30, 58], "tag": "yq"}, {"L": "現已退休但依然有一定影響力或參與出版界活動的人物有三聯書店", "m": "原", "n": "總經理", "R": "沈昌文", "time": "過去", "link": "中止", "ev": "中性", "pa": [97, 902, 0, 0], "tag": "yq"}, {"L": "的還包括前中央軍委副主席郭伯雄，以及中央軍委", "m": "前", "n": "委員", "R": "兼總後勤部長廖錫龍。", "time": "過去", "link": "中止", "ev": "中性", "pa": [878, 94, 2, 27], "tag": "yq"}, {"L": "公立醫院也群起仿效，例如台灣大學醫學院附屬醫院", "m": "前", "n": "院長", "R": "李源德教授在推動設立分院時，就被多位", "time": "過去", "link": "中止", "ev": "中性", "pa": [87, 910, 1, 3], "tag": "easy"}, {"L": "美國國防部長倫斯斐、美國前國家安全顧問布里辛斯基和美聯儲", "m": "前", "n": "主席", "R": "葛林斯潘，還有就是一代宗師凱恩斯。", "time": "過去", "link": "中止", "ev": "中性", "pa": [5, 992, 2, 1], "tag": "easy"}, {"L": "還必須扼制以7000多萬人的共青團為基盤的", "m": "前", "n": "主席", "R": "胡錦濤。", "time": "過去", "link": "中止", "ev": "中性", "pa": [48, 899, 6, 47], "tag": "easy"}, {"L": "在溫家寶內閣中擔任過國土資源部長，對其", "m": "前", "n": "秘書", "R": "蔣建國的仕途大有裨益。", "time": "過去", "link": "持續", "ev": "中性", "pa": [163, 615, 134, 88], "tag": "easy"}, {"L": "中國財政學會副會長、財政部財政科學研究所", "m": "原", "n": "所長", "R": "賈康分析，即便2008年中央政府應對全球金融危機", "time": "過去", "link": "中止", "ev": "中性", "pa": [657, 341, 0, 2], "tag": "easy"}, {"L": "就一直協助中央軍委專案組調查。問題包括他的", "m": "前", "n": "秘書", "R": "、總後勤部司令部副參謀長符林國少將涉貪被查，", "time": "過去", "link": "中止", "ev": "負向", "pa": [27, 585, 91, 297], "tag": "easy"}, {"L": "彭｜節目中訪問過中央研究院全球變遷中心的", "m": "前", "n": "主任", "R": "劉紹臣院士，他特別提到，我們雖然已經通過《", "time": "過去", "link": "中止", "ev": "中性", "pa": [84, 901, 1, 14], "tag": "easy"}, {"L": "）｜今天特別邀請台積電中國大陸上海廠的", "m": "前", "n": "廠長", "R": "曾孝平博士，討論台灣技術人才外流大陸，對兩岸", "time": "過去", "link": "中止", "ev": "中性", "pa": [146, 826, 14, 14], "tag": "easy"}, {"L": "能夠離開舊團隊到新團隊任職的工程師也無需", "m": "舊", "n": "主管", "R": "的許可。", "time": "過去", "link": "中止", "ev": "中性", "pa": [69, 245, 390, 296], "tag": "jiu-ok"}, {"L": "其中已故大將軍何進以及其弟何苗的", "m": "舊", "n": "部屬", "R": "下，都已經決定歸附到董卓陣營之中。", "time": "過去", "link": "中止", "ev": "中性", "pa": [5, 7, 974, 14], "tag": "jiu-ok"}, {"L": "…成員這方面主要是被視為因成員資格而負有義務者，因而新成員的加入與", "m": "舊", "n": "成員", "R": "的意願無關，要不是依據機構的自由判斷，就是按照一定的規則，再者，…", "time": "延續", "link": "持續", "ev": "中性", "pa": [256, 2, 643, 99], "tag": "jiu-ok"}, {"L": "台南基地，會見了很多隆獻過去的舊相識和", "m": "舊", "n": "部屬", "R": "，最讓她感動的是，他們沒有忘記隆獻", "time": "過去", "link": "持續", "ev": "正向", "pa": [1, 16, 700, 283], "tag": "jiu-ok"}, {"L": "他對於公司該怎麼走，很少不發表意見，而其構想也相當受到", "m": "舊", "n": "同事", "R": "的歡迎，這些舊同事仍與他保持穩定聯繫。", "time": "過去", "link": "持續", "ev": "中性", "pa": [0, 0, 978, 22], "tag": "jiu-ok"}];
+const HOST_SET = [32, 27, 3, 14, 8, 22];
+const MODS = ["原","前","舊","老"];
+const COLV = {"原":"var(--yuan)","前":"var(--qian)","舊":"var(--jiu)","老":"var(--lao)"};
+const HCOL = {"原":"#7aa5ec","前":"#f0a253","舊":"#8fd172","老":"#ff7a7a"};
+const $ = s => document.querySelector(s);
+const app = $("#app");
+const esc = s => s.replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"})[c]);
+const pick = r => MODS[r.pa.indexOf(Math.max(...r.pa))];
+
+function sentence(r, fill){
+  const b = fill ? `<span class="blank ${fill}">${fill}</span>` : `<span class="blank">＿</span>`;
+  return `${esc(r.L)}${b}<span class="noun">${esc(r.n)}</span>${esc(r.R)}`;
+}
+function why(r){
+  const p = pick(r), m = r.m;
+  const lab = `人工標註：時間參照＝${r.time}，身分鏈結＝${r.link}，評價＝${r.ev}。`;
+  const T = {
+    "trap": `語料寫的是<b class="舊">舊</b>，BERT 卻押<b class="老">老</b>。這正是 BERT 最常犯的錯：語料中一半的「舊」都被它改成「老」。<b class="舊">舊</b>強調這段關係已經過去；<b class="老">老</b>多半是人還在、交情久。`,
+    "old-cont": `這個<b class="老">老</b>不是「以前的」，而是「認識很久、到現在還是」。探針在第 7 層能以 0.77 分辨老的兩種時間，但 BERT 填空時幾乎沒用上這份資訊。`,
+    "old-past": `這個<b class="老">老</b>指的是過去的關係：同一個字，可以是「延續」也可以是「過去」，只有語境能決定。`,
+    "yq": `<b class="原">原</b>、<b class="前">前</b>都表示「已不在此職」，在許多語境中可以互換，人和 BERT 都容易在兩者間搖擺。`,
+    "easy": `職務頭銜＋已卸任，幾乎只能是<b class="原">原</b>或<b class="前">前</b>。這類題目 BERT 很拿手，「只看名詞」的搭配統計也猜得到。`,
+    "jiu-ok": `這題 BERT 選對了<b class="舊">舊</b>。<b class="舊">舊</b>常搭配「新」的對比（新老闆／舊老闆、新團隊／舊團隊）。`
+  }[r.tag] || "";
+  return `${T}<div class="tags">${lab}${p===m ? "" : `BERT 的首選：${p}。`}</div>`;
+}
+function probBars(vals, colors, fmt){
+  return MODS.map((m,k)=>`<div class="pb"><div class="c ${m}">${m}</div><div class="t"><div data-w="${(vals[k]*100).toFixed(1)}" style="background:${colors[m]}"></div></div><span>${fmt(vals[k])}</span></div>`).join("");
+}
+function grow(root){ requestAnimationFrame(()=>requestAnimationFrame(()=>root.querySelectorAll(".t div").forEach(d=>d.style.width=d.dataset.w+"%"))); }
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+/* ================= 個人模式 ================= */
+const MIX = {"trap":3,"old-cont":2,"old-past":1,"yq":2,"easy":1,"jiu-ok":1};
+let game;
+function newGame(){
+  let qs = [];
+  for(const [t,k] of Object.entries(MIX)) qs = qs.concat(shuffle(POOL.filter(r=>r.tag===t)).slice(0,k));
+  game = {qs: shuffle(qs), k:0, me:0, bert:0, log:[]};
+}
+function scoreBar(){
+  $("#score").innerHTML = `<span class="pill">你 <b>${game.me}</b></span><span>vs.</span><span class="pill">BERT <b>${game.bert}</b></span>`;
+}
+function intro(){
+  $("#score").innerHTML = "";
+  app.innerHTML = `<div class="intro">
+    <div class="qno">LING5006 期末專案 · 互動遊戲</div>
+    <h1>你來填：人類 vs. BERT</h1>
+    <p style="margin-top:14px">以下 10 句都來自 COCT 2019 語料。每句有一個字被遮住，答案一定是<b class="原">原</b>、<b class="前">前</b>、<b class="舊">舊</b>、<b class="老">老</b>其中之一。你選完之後，會看到語料原本用的字，以及 bert-base-chinese 對四個字的猜測機率。</p>
+    <p>BERT 在全部 2,271 句中答對 75.3%。你能贏它嗎？</p>
+    <button class="btn" id="go">開始</button>
+    <a class="btn ghost" href="#host" style="margin-left:8px">主持模式（課堂用）</a>
+  </div>`;
+  $("#go").onclick = ()=>{ newGame(); ask(); };
+}
+function ask(){
+  scoreBar();
+  const r = game.qs[game.k];
+  app.innerHTML = `<div class="q">
+    <div class="qno">第 ${game.k+1} / ${game.qs.length} 題</div>
+    <div class="sent">${sentence(r)}</div>
+    <div class="opts">${MODS.map(m=>`<button class="opt ${m}" data-m="${m}">${m}</button>`).join("")}</div>
+    <div class="reveal" id="rv"></div>
+  </div>`;
+  app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>answer(b.dataset.m));
+}
+function answer(mine){
+  const r = game.qs[game.k], p = pick(r), ok = mine===r.m, bok = p===r.m;
+  game.me += ok; game.bert += bok; game.log.push({r, mine, p, ok, bok});
+  scoreBar();
+  app.querySelectorAll(".opt").forEach(b=>{ b.disabled = true; if(b.dataset.m===r.m) b.classList.add("gold"); else if(b.dataset.m!==mine) b.classList.add("dim"); });
+  app.querySelector(".sent").innerHTML = sentence(r, r.m);
+  const verdict = ok && bok ? "你和 BERT 都答對了。" : ok ? "你答對了，BERT 答錯。" : bok ? `BERT 答對了，你選的是「${mine}」。` : `你和 BERT 都沒猜中（你選「${mine}」）。`;
+  const rv = $("#rv");
+  rv.innerHTML = `<div class="verdict">語料原字是 <b class="${r.m}">${r.m}</b>。${verdict}</div>
+    <div style="font-size:14px;color:var(--muted);margin-bottom:4px">BERT 的猜測機率（遮住修飾語，只比較四個字）</div>
+    ${probBars(r.pa.map(v=>v/1000), COLV, v=>(v*100).toFixed(1)+"%")}
+    <div class="why">${why(r)}</div>
+    <button class="btn" id="next">${game.k+1<game.qs.length ? "下一題" : "看結果"}</button>`;
+  rv.classList.add("on"); grow(rv);
+  $("#next").onclick = ()=>{ game.k++; game.k<game.qs.length ? ask() : end(); };
+  $("#next").focus();
+}
+function end(){
+  scoreBar();
+  const n = game.qs.length;
+  const trap = game.log.filter(x=>x.r.tag==="trap");
+  const head = game.me>game.bert ? "你贏了 BERT。" : game.me===game.bert ? "平手。" : "這次 BERT 贏了。";
+  app.innerHTML = `<div class="end" style="margin-top:28px">
+    <div class="qno">結果</div><h2>${head}</h2>
+    <div class="big"><div><b>${game.me}/${n}</b><span>你</span></div><div><b>${game.bert}/${n}</b><span>BERT</span></div></div>
+    <p>在「舊」題（語料用舊、BERT 卻押老）上，你答對 ${trap.filter(x=>x.ok).length}/${trap.length}，BERT 答對 ${trap.filter(x=>x.bok).length}/${trap.length}。
+    這些題目是特別挑出來的：BERT 讀得出語境裡的「過去／延續」，但選字時多半只看名詞，把「舊同事」也當成「老同事」。</p>
+    <table class="log"><tr><th>句子</th><th>語料</th><th>你</th><th>BERT</th></tr>
+    ${game.log.map(x=>`<tr><td>…${esc(x.r.L.slice(-14))}<b class="${x.r.m}">${x.r.m}</b>${esc(x.r.n)}</td><td class="${x.r.m}"><b>${x.r.m}</b></td><td>${x.ok?"✓":"✗ "+x.mine}</td><td>${x.bok?"✓":"✗ "+x.p}</td></tr>`).join("")}
+    </table>
+    <button class="btn" id="again">再玩一次</button> <a class="btn ghost" href="index.html#lab">去語境實驗室動手改句子</a>
+  </div>`;
+  $("#again").onclick = ()=>{ newGame(); ask(); };
+}
+
+/* ================= 主持模式（投影用） ================= */
+let H;
+function hostInit(){
+  document.body.classList.add("host");
+  H = {k:0, res:{}, counts:[0,0,0,0], revealed:false, timer:null};
+  hostAsk();
+}
+function hostScore(){
+  const v=Object.values(H.res); H.cls=v.reduce((a,x)=>a+x[0],0); H.bert=v.reduce((a,x)=>a+x[1],0);
+  $("#score").innerHTML = `<span class="pill">全班 <b>${H.cls}</b></span><span>vs.</span><span class="pill">BERT <b>${H.bert}</b></span>`;
+}
+function hostAsk(){
+  hostScore();
+  H.counts=[0,0,0,0]; H.revealed=false;
+  const r = POOL[HOST_SET[H.k]];
+  app.innerHTML = `<div class="q">
+    <div class="qno">第 ${H.k+1} / ${HOST_SET.length} 題　·　請舉手：你會填哪個字？</div>
+    <div class="sent">${sentence(r)}</div>
+    <div class="timer"><div id="tbar"></div></div>
+    <div class="tally">${MODS.map((m,k)=>`<div class="tcard ${m}" data-k="${k}"><div class="ch">${m}</div><div class="ct"><button data-d="-1">−</button><input type="number" min="0" value="0"><button data-d="1">＋</button></div></div>`).join("")}</div>
+    <div class="cmp" id="cmp"></div>
+    <div><button class="btn" id="rvBtn">揭曉</button> <button class="btn ghost" id="tBtn">計時 15 秒</button></div>
+    <div class="keys">鍵盤：<kbd>1</kbd>–<kbd>4</kbd> 為原／前／舊／老加一票（<kbd>Shift</kbd>＋數字減一），<kbd>T</kbd> 計時，<kbd>Space</kbd> 揭曉／下一題，<kbd>←</kbd> 上一題</div>
+  </div>`;
+  app.querySelectorAll(".tcard").forEach(c=>{
+    const k=+c.dataset.k, inp=c.querySelector("input");
+    c.querySelectorAll("button").forEach(b=>b.onclick=()=>{ H.counts[k]=Math.max(0,H.counts[k]+ +b.dataset.d); inp.value=H.counts[k]; });
+    inp.oninput=()=>{ H.counts[k]=Math.max(0,+inp.value||0); };
+  });
+  $("#rvBtn").onclick = hostReveal;
+  $("#tBtn").onclick = startTimer;
+}
+function startTimer(){
+  clearInterval(H.timer); const t0=Date.now(), D=15000, bar=$("#tbar");
+  H.timer=setInterval(()=>{ const f=Math.max(0,1-(Date.now()-t0)/D); if(bar) bar.style.width=(f*100)+"%"; if(f<=0) clearInterval(H.timer); },50);
+}
+function hostReveal(){
+  if(H.revealed){ H.k++; H.k<HOST_SET.length ? hostAsk() : hostEnd(); return; }
+  clearInterval(H.timer);
+  H.revealed=true;
+  const r = POOL[HOST_SET[H.k]], p = pick(r), tot = H.counts.reduce((a,b)=>a+b,0);
+  const mx = Math.max(...H.counts), clsPick = tot ? MODS.filter((m,k)=>H.counts[k]===mx) : [];
+  const clsOK = clsPick.length===1 && clsPick[0]===r.m;
+  H.res[H.k]=[+clsOK, +(p===r.m)]; hostScore();
+  app.querySelector(".sent").innerHTML = sentence(r, r.m);
+  app.querySelectorAll(".tcard").forEach(c=>{ if(MODS[+c.dataset.k]===r.m) c.classList.add("gold"); });
+  const cmp = $("#cmp");
+  const cv = tot ? H.counts.map(c=>c/tot) : [0,0,0,0];
+  cmp.innerHTML = `<div><h3>全班（${tot} 票）${clsPick.length===1 ? "：多數選「"+clsPick[0]+"」"+(clsOK?" ✓":" ✗") : tot ? "：平票" : ""}</h3>${probBars(cv, HCOL, v=>Math.round(v*100)+"%")}</div>
+    <div><h3>BERT：首選「${p}」${p===r.m?" ✓":" ✗"}</h3>${probBars(r.pa.map(v=>v/1000), HCOL, v=>(v*100).toFixed(1)+"%")}</div>
+    <div class="why" style="grid-column:1/-1">語料原字是 <b class="${r.m}">${r.m}</b>。${why(r)}</div>`;
+  cmp.classList.add("on"); grow(cmp);
+  $("#rvBtn").textContent = H.k+1<HOST_SET.length ? "下一題" : "總結";
+}
+function hostEnd(){
+  hostScore();
+  const n=HOST_SET.length;
+  app.innerHTML = `<div class="hostend">
+    <div class="qno">總結</div>
+    <div class="vs"><div><b>${H.cls}</b><span>全班</span></div><div><b>${H.bert}</b><span>BERT</span></div></div>
+    <p style="font-size:24px;max-width:860px;margin:0 auto">${n} 題中，BERT 在全部 2,271 句的準確率是 75.3%，<br>但「只看名詞」的搭配統計就有 72.0%。</p>
+    <p style="font-size:24px;max-width:860px;margin:18px auto 0">那麼，BERT 到底有沒有讀懂語境？我們用探針一層一層看。</p>
+    <button class="btn" onclick="location.href='index.html'">進入研究網頁</button>
+  </div>`;
+}
+document.addEventListener("keydown", e=>{
+  if(!document.body.classList.contains("host") || e.target.tagName==="INPUT") return;
+  const d = {"Digit1":0,"Digit2":1,"Digit3":2,"Digit4":3}[e.code];
+  if(d!==undefined && H && !H.revealed && $(".tcard")){ H.counts[d]=Math.max(0,H.counts[d]+(e.shiftKey?-1:1)); app.querySelectorAll(".tcard input")[d].value=H.counts[d]; e.preventDefault(); }
+  else if(e.code==="Space"){ e.preventDefault(); if($("#rvBtn")) hostReveal(); }
+  else if(e.code==="KeyT"){ if($("#tBtn")) startTimer(); }
+  else if(e.code==="ArrowLeft" && H.k>0){ H.k--; hostAsk(); }
+});
+function route(){ if(location.hash==="#host") hostInit(); else { document.body.classList.remove("host"); intro(); } }
+window.addEventListener("hashchange", route);
+route();
+</script>
+</body>
+</html>

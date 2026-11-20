@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>小張的職場三十年｜原、前、舊、老</title>
+<style>
+:root{
+  --ink:#1c1b19; --muted:#6b675f; --line:#e4e0d8; --bg:#faf8f4; --card:#fff;
+  --yuan:#2f5fa7; --qian:#d07a1f; --jiu:#4f8a3a; --lao:#b23b3b;
+  --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.75;font-size:17px}
+a{color:inherit}
+.wrap{max-width:820px;margin:0 auto;padding:28px 22px 80px}
+header{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted);gap:12px;flex-wrap:wrap}
+header a{text-decoration:none;border-bottom:1px solid var(--line)}
+h1,h2,h3{font-family:var(--serif);margin:0;line-height:1.3}
+.原{color:var(--yuan)}.前{color:var(--qian)}.舊{color:var(--jiu)}.老{color:var(--lao)}
+.hero{padding:50px 0 20px}
+.hero h1{font-size:clamp(34px,6vw,54px)}
+.hero p{color:#3d3a33;max-width:620px;margin:14px 0 0}
+.career{display:flex;align-items:center;gap:0;margin:34px 0 10px;font-family:var(--serif)}
+.career .st{flex:1;text-align:center;font-size:14px;color:var(--muted);position:relative;padding-top:22px;transition:color .4s}
+.career .st::before{content:"";position:absolute;top:6px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:#d9d4c7;transition:background .4s}
+.career .st::after{content:"";position:absolute;top:11px;left:calc(50% + 8px);right:calc(-50% + 8px);height:2px;background:#e4e0d8}
+.career .st:last-child::after{display:none}
+.career .st.on{color:var(--ink)}
+.career .st.on::before{background:var(--ink)}
+.scene{position:relative;padding:0 0 0 70px;margin-top:34px;opacity:0;transform:translateY(16px);transition:opacity .6s,transform .6s}
+.scene.show{opacity:1;transform:none}
+.scene .yr{position:absolute;left:0;top:2px;width:56px;white-space:nowrap;text-align:center;font-family:var(--serif);font-size:13px;color:var(--muted);line-height:1.2}
+.scene .yr b{display:block;font-size:24px;color:var(--ink)}
+.scene .line{position:absolute;left:27px;top:52px;bottom:-30px;width:2px;background:var(--line)}
+.scene h3{font-size:20px;margin-bottom:6px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+.txt{font-family:var(--serif);font-size:20px;line-height:1.9}
+.blank{display:inline-block;min-width:1.4em;border-bottom:3px solid var(--ink);text-align:center;font-weight:700;margin:0 2px}
+.opts{display:flex;gap:10px;margin-top:16px}
+.opt{font-family:var(--serif);font-size:28px;font-weight:700;width:64px;height:58px;border-radius:12px;border:2px solid var(--line);background:#fff;cursor:pointer;transition:transform .1s,border-color .2s}
+.opt:hover:not(:disabled){transform:translateY(-2px);border-color:var(--ink)}
+.opt:disabled{cursor:default}
+.opt.ok{border-color:currentColor;box-shadow:inset 0 0 0 2px currentColor}
+.opt.dim{opacity:.3}
+.res{display:none;margin-top:16px;border-top:1px solid var(--line);padding-top:14px}
+.res.on{display:block}
+.pb{display:grid;grid-template-columns:24px 1fr 52px;gap:10px;align-items:center;margin:5px 0;font-size:14px;font-variant-numeric:tabular-nums}
+.pb .c{font-family:var(--serif);font-weight:700;font-size:16px}
+.pb .t{height:12px;background:#eeeae2;border-radius:6px;overflow:hidden}
+.pb .t div{height:100%;width:0;border-radius:6px;transition:width .6s}
+.pb span{color:var(--muted);text-align:right}
+.verdict{font-family:var(--serif);font-size:17px;margin-bottom:6px}
+.note{font-size:15px;color:#3d3a33;background:#f6f3ec;border-radius:10px;padding:10px 14px;margin-top:10px}
+.badge{display:inline-block;font-size:12px;border-radius:10px;padding:0 8px;margin-left:6px;vertical-align:2px}
+.badge.y{background:#e5f1e0;color:#2f6b25}.badge.a{background:#fbefd6;color:#8a5a12}.badge.n{background:#f8e1df;color:#9a2f2a}
+.btn{display:inline-block;border:none;background:var(--ink);color:#fff;font-size:16px;border-radius:26px;padding:10px 24px;cursor:pointer;margin-top:16px;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.end{margin-top:46px;display:none}
+.end.on{display:block}
+.strip{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin:18px 0}
+.strip div{border-radius:8px;padding:8px 0;text-align:center;font-size:13px;background:var(--card);border:1px solid var(--line)}
+.strip div b{display:block;font-family:var(--serif);font-size:22px}
+.strip .bad{background:#f8e1df;border-color:#f0c4c0}.strip .alt{background:#fbefd6;border-color:#f0dcae}
+.score{font-variant-numeric:tabular-nums}
+.score b{font-family:var(--serif);font-size:18px}
+@media (max-width:620px){ .scene{padding-left:0} .scene .yr{position:static;width:auto;text-align:left;margin-bottom:6px} .scene .yr b{display:inline;font-size:18px;margin-right:6px} .scene .line{display:none} .strip{grid-template-columns:repeat(4,1fr)} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><a href="index.html">← 回到研究網頁</a><div class="score" id="score"></div></header>
+  <div class="hero">
+    <div style="font-size:13px;letter-spacing:.15em;color:var(--muted)">互動故事</div>
+    <h1>小張的職場三十年</h1>
+    <p>小張和阿明同一年進公司。三十年間，他們一起升遷、分開、退休。同一段人際關係，隨著時間要用不同的字：<b class="老">老</b>同事、<b class="前">前</b>主任、<b class="舊">舊</b>同事……</p>
+    <p>每一幕都有一個字被遮住。你先選，再看 BERT 怎麼選。看看它在哪一幕開始跟不上故事。</p>
+  </div>
+  <div class="career" id="career"></div>
+  <div id="scenes"></div>
+  <div class="end" id="end"></div>
+</div>
+<script>
+const D = {"story": ["二十年過去了，阿明和小張還在同一個部門。小張向新人介紹：「這是我的{M}同事阿明，我們一起打拚了二十年。」", "那年秋天，部門的主任退休了，由小張接任。新人問起以前的主管，小張說：「你說{M}主任啊？他上個月退休了。」", "後來小張跳槽到另一家公司。週末，他約了幾個{M}同事吃飯，聊起以前在那家公司的日子。", "新公司的老闆要求很嚴格。小張常常心想：新老闆不像{M}老闆那樣好說話。", "幾年後，小張在新公司也待久了。年輕同事都叫他張哥，說他是公司裡的{M}員工。", "某天新聞報導，小張第一家公司的{M}董事長因涉嫌背信遭到起訴，小張看了直搖頭。", "小張最後在新公司當上主任。退休那天，接任的學弟向大家介紹：「這位是我們部門的{M}主任張先生。」", "退休那天晚上，一起共事三十年的{M}同事們都來送他，大家喝到半夜才散。"], "ps": [[1, 16, 83, 900], [57, 177, 71, 694], [0, 29, 102, 869], [0, 0, 207, 793], [0, 9, 17, 974], [90, 785, 34, 91], [390, 224, 33, 353], [0, 17, 10, 973]]};
+const MODS = ["原","前","舊","老"];
+const COLV = {"原":"var(--yuan)","前":"var(--qian)","舊":"var(--jiu)","老":"var(--lao)"};
+const META = [
+  {yr:"第20年", title:"二十年的夥伴", ok:["老"], note:"兩人一起打拚了二十年，關係到現在都還在：這是「延續」的<b class=老>老</b>。"},
+  {yr:"第21年", title:"交接", ok:["前","原"], alt:["老"], note:"主任已經卸任，職務關係中止：<b class=前>前</b>或<b class=原>原</b>。說「<b class=老>老</b>主任」也聽得懂，但重點變成「資歷深、相處久」，沒有點出他已經卸任。"},
+  {yr:"第23年", title:"跳槽", ok:["舊","老"], note:"小張已經離開那家公司。<b class=舊>舊</b>同事點出「那段共事已經結束」；<b class=老>老</b>同事也說得通，但強調的是交情久，而不是已經分開。"},
+  {yr:"第24年", title:"新老闆", ok:["舊","前","原"], alt:["老"], note:"和「新老闆」對比，最自然的是<b class=舊>舊</b>；<b class=前>前</b>、<b class=原>原</b>也表示已不是他的老闆。「<b class=老>老</b>老闆」口語裡也有人說，但容易聽成「跟了很久的老闆」，和「新老闆」的對比就弱了。"},
+  {yr:"第28年", title:"張哥", ok:["老"], note:"資歷深、人還在職：<b class=老>老</b>員工。"},
+  {yr:"第29年", title:"新聞", ok:["前","原"], note:"董事長已經不在任，職務頭銜配<b class=前>前</b>或<b class=原>原</b>，是語料中最常見的用法。"},
+  {yr:"第35年", title:"退休", ok:["前","原"], note:"小張卸下主任一職：<b class=前>前</b>主任。"},
+  {yr:"第35年", title:"送別", ok:["老"], note:"共事三十年、到退休那天都還是同事：延續的<b class=老>老</b>。"}
+];
+const STAGES = ["新人","老同事","接任主任","跳槽","資深員工","升主任","退休"];
+const $ = s => document.querySelector(s);
+const esc = s => s.replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"})[c]);
+const pick = p => MODS[p.indexOf(Math.max(...p))];
+let k = 0, me = 0, bert = 0; const log = [];
+$("#career").innerHTML = STAGES.map(s=>`<div class="st">${s}</div>`).join("");
+function stage(i){ const map=[1,2,3,3,4,4,6,6]; document.querySelectorAll(".career .st").forEach((d,j)=>d.classList.toggle("on", j<=map[i])); }
+function score(){ $("#score").innerHTML = `你 <b>${F(me)}</b>　vs.　BERT <b>${F(bert)}</b>`; }
+const F = x => Number.isInteger(x) ? x : x.toFixed(1);
+function txt(i, fill){
+  const [a,b] = D.story[i].split("{M}");
+  return esc(a) + (fill ? `<span class="blank ${fill}">${fill}</span>` : `<span class="blank">＿</span>`) + esc(b);
+}
+function scene(i){
+  const m = META[i];
+  const el = document.createElement("div");
+  el.className = "scene";
+  el.innerHTML = `<div class="yr"><b>${i+1}</b>${m.yr}</div>${i<META.length-1?'<div class="line"></div>':''}
+    <h3>${m.title}</h3>
+    <div class="box"><div class="txt" id="t${i}">${txt(i)}</div>
+      <div class="opts">${MODS.map(c=>`<button class="opt ${c}" data-c="${c}">${c}</button>`).join("")}</div>
+      <div class="res" id="r${i}"></div></div>`;
+  $("#scenes").append(el);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add("show")));
+  if(i>0) el.scrollIntoView({behavior:"smooth", block:"center"});
+  el.querySelectorAll(".opt").forEach(b=>b.onclick=()=>answer(i, b.dataset.c, el));
+  stage(i);
+}
+function answer(i, c, el){
+  const m = META[i], p = D.ps[i].map(v=>v/1000), bp = pick(D.ps[i]);
+  const sc = x => m.ok.includes(x) ? 1 : (m.alt||[]).includes(x) ? .5 : 0;
+  const ok = sc(c), bok = sc(bp);
+  me += ok; bert += bok; log.push({ok, bok, bp, c}); score();
+  const badge = v => v===1 ? '<span class="badge y">合適</span>' : v ? '<span class="badge a">說得通，但意思偏了</span>' : '<span class="badge n">不太合適</span>';
+  el.querySelectorAll(".opt").forEach(b=>{ b.disabled=true; if(m.ok.includes(b.dataset.c)) b.classList.add("ok"); else if(b.dataset.c!==c) b.classList.add("dim"); });
+  $("#t"+i).innerHTML = txt(i, sc(c) ? c : m.ok[0]);
+  const r = $("#r"+i);
+  r.innerHTML = `<div class="verdict">你選「<b class="${c}">${c}</b>」${badge(ok)}　BERT 選「<b class="${bp}">${bp}</b>」${badge(bok)}</div>
+    ${MODS.map((x,j)=>`<div class="pb"><div class="c ${x}">${x}</div><div class="t"><div data-w="${(p[j]*100).toFixed(1)}" style="background:${COLV[x]}"></div></div><span>${(p[j]*100).toFixed(1)}%</span></div>`).join("")}
+    <div class="note">${m.note}</div>
+    <button class="btn" id="n${i}">${i+1<META.length?"下一幕":"看結局"}</button>`;
+  r.classList.add("on");
+  requestAnimationFrame(()=>requestAnimationFrame(()=>r.querySelectorAll(".t div").forEach(d=>d.style.width=d.dataset.w+"%")));
+  $("#n"+i).onclick = e=>{ e.target.remove(); i+1<META.length ? scene(i+1) : end(); };
+}
+function end(){
+  const bad = log.map((x,i)=>x.bok<1?i:null).filter(x=>x!==null);
+  const e = $("#end");
+  e.innerHTML = `<h2>結局：你 ${F(me)} 分，BERT ${F(bert)} 分</h2><p style="font-size:14px;color:var(--muted)">每幕最貼切得 1 分，說得通但意思偏了得 0.5 分。</p>
+    <div class="strip">${log.map((x,i)=>`<div class="${x.bok===1?'':x.bok?'alt':'bad'}"><b class="${x.bp}">${x.bp}</b>${META[i].title}</div>`).join("")}</div>
+    <p style="font-size:14px;color:var(--muted);margin-top:-8px">每一格是 BERT 在該幕的首選；黃底代表說得通但意思偏了，紅底代表不合適。</p>
+    <p>${bad.length ? `BERT 在「${bad.map(i=>META[i].title).join("」「")}」${bad.length>1?"這幾幕":"這一幕"}沒有選出最貼切的字：它都押了<b class="老">老</b>。` : "這一次 BERT 每一幕都跟上了。"}
+    要選對這些字，需要知道<b>這段關係現在還在不在</b>：人是不是已經離開、職務是不是已經卸下。研究中的探針顯示，BERT 的中間層其實讀得出這些資訊，但它填空時主要還是看名詞配什麼字最常見。</p>
+    <a class="btn" href="index.html#mind">看 BERT 的「心口不一」</a> <a class="btn ghost" href="duel.html">挑戰真實語料題</a>`;
+  e.classList.add("on"); e.scrollIntoView({behavior:"smooth", block:"start"});
+}
+score(); scene(0);
+</script>
+</body>
+</html>
