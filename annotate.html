@@ -6,10 +6,10 @@
 <title>人工語義標註闖關｜原、前、舊、老</title>
 <style>
 :root{
-  color-scheme:light;
-  --ink:#16233a; --muted:#566377; --line:#d4deea; --bg:#e2ebf6; --card:#ffffff;
-  --yuan:#2f5fa7; --qian:#d07a1f; --jiu:#4f8a3a; --lao:#b23b3b;
-  --ok:#2e7d4f; --bad:#b23b3b; --tip:#fff6df;
+  color-scheme:dark;
+  --ink:#e8eef8; --muted:#9fb3d1; --line:rgba(255,255,255,.1); --bg:#0b1526; --card:#13223d;
+  --yuan:#7fa8ec; --qian:#f0a04b; --jiu:#86c46f; --lao:#ec7376;
+  --ok:#3fa36a; --bad:#d9545a; --tip:#1a2a45;
   --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
   --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
 }
@@ -28,18 +28,18 @@ header .sub{color:var(--muted);font-family:var(--serif);font-size:19px;margin-to
 .m{font-family:var(--serif);font-weight:700}
 .m.原{color:var(--yuan)}.m.前{color:var(--qian)}.m.舊{color:var(--jiu)}.m.老{color:var(--lao)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px}
-button{font:inherit;font-size:15px;border:1px solid var(--ink);background:var(--card);color:var(--ink);border-radius:24px;padding:8px 18px;cursor:pointer;transition:background .2s,color .2s}
-button:hover:not(:disabled){background:#eef3f9}
-button.primary{background:var(--ink);color:#fff}
-button.primary:hover{background:#2a3b58}
+button{font:inherit;font-size:15px;border:1px solid rgba(255,255,255,.25);background:var(--card);color:var(--ink);border-radius:24px;padding:8px 18px;cursor:pointer;transition:background .2s,color .2s}
+button:hover:not(:disabled){background:#1a2c4d}
+button.primary{background:linear-gradient(135deg,#3f6fc0,#2a4f92);color:#fff}
+button.primary:hover{background:linear-gradient(135deg,#4b7bcc,#30589e)}
 button:disabled{cursor:default}
 /* level map */
 .map{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:20px 0 26px}
-.lv{border:1px solid var(--line);background:#f3f6fb;border-radius:12px;padding:10px 8px;text-align:center;font-size:13px;color:var(--muted);position:relative}
+.lv{border:1px solid var(--line);background:rgba(255,255,255,.03);border-radius:12px;padding:10px 8px;text-align:center;font-size:13px;color:var(--muted);position:relative}
 .lv b{display:block;font-family:var(--serif);font-size:16px;color:var(--ink)}
-.lv.open{background:#fff;border-color:var(--ink);cursor:pointer}
+.lv.open{background:#13223d;border-color:var(--ink);cursor:pointer}
 .lv.now{outline:3px solid var(--ink);outline-offset:1px}
-.lv.done{background:#e8f3ec;border-color:var(--ok);cursor:pointer}
+.lv.done{background:rgba(63,163,106,.14);border-color:var(--ok);cursor:pointer}
 .lv.done::after{content:"✓";position:absolute;top:4px;right:8px;color:var(--ok);font-weight:700}
 .lv.lock{opacity:.55}
 .lv.lock::after{content:"🔒";position:absolute;top:4px;right:6px;font-size:11px}
@@ -51,11 +51,11 @@ button:disabled{cursor:default}
 .dots i{width:28px;height:6px;border-radius:3px;background:var(--line)}
 .dots i.ok{background:var(--ok)}.dots i.bad{background:var(--bad)}.dots i.cur{background:var(--ink)}
 .labels{display:grid;gap:10px;margin:14px 0 18px}
-.lab{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:start;padding:10px 14px;border-left:4px solid var(--ink);background:#f4f7fb;border-radius:0 8px 8px 0}
+.lab{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:start;padding:10px 14px;border-left:4px solid var(--ink);background:rgba(255,255,255,.04);border-radius:0 8px 8px 0}
 .lab b{font-family:var(--serif);font-size:17px}
 .lab span{font-size:15px}
 .sent{font-family:var(--serif);font-size:21px;line-height:1.95;margin:6px 0 18px}
-.sent .t{background:#fff1c9;border-bottom:3px solid var(--ink);padding:0 3px;border-radius:3px;font-weight:700}
+.sent .t{background:#3b3520;border-bottom:3px solid var(--ink);padding:0 3px;border-radius:3px;font-weight:700}
 .sent .blank{display:inline-block;min-width:1.6em;border-bottom:3px solid var(--ink);text-align:center;font-weight:700}
 .src{font-size:12.5px;color:var(--muted);margin-top:-10px;margin-bottom:16px}
 .opts{display:flex;gap:10px;flex-wrap:wrap}
@@ -63,14 +63,14 @@ button:disabled{cursor:default}
 .opts.chars button{min-width:72px;font-family:var(--serif);font-size:26px;font-weight:700;padding:6px 18px}
 .opts button.right{background:var(--ok);border-color:var(--ok);color:#fff}
 .opts button.wrong{background:var(--bad);border-color:var(--bad);color:#fff}
-.fb{margin-top:18px;padding:16px 18px;border-radius:10px;background:#eef3f9;display:none}
+.fb{margin-top:18px;padding:16px 18px;border-radius:10px;background:#1a2c4d;display:none}
 .fb.show{display:block;animation:pop .3s ease}
 @keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .fb .verdict{font-family:var(--serif);font-size:19px;font-weight:700;margin-bottom:6px}
 .fb .verdict.ok{color:var(--ok)}.fb .verdict.bad{color:var(--bad)}
 .fb .ans{font-size:14px;color:var(--muted);margin-bottom:8px}
 .pbar{display:grid;grid-template-columns:30px 1fr 52px;gap:8px;align-items:center;margin:4px 0;font-size:14px}
-.pbar .tr{height:14px;background:#e3eaf3;border-radius:3px;overflow:hidden}
+.pbar .tr{height:14px;background:#24375a;border-radius:3px;overflow:hidden}
 .pbar .tr div{height:100%;width:0;transition:width .6s cubic-bezier(.3,.7,.3,1)}
 .bertbox{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
 .bertbox h4{margin:0 0 6px;font-size:14px;font-family:var(--sans)}
@@ -83,14 +83,14 @@ button:disabled{cursor:default}
 .dbar div{height:100%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;white-space:nowrap;overflow:hidden}
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
 .legend i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:5px;vertical-align:-1px}
-.tip{background:var(--tip);border:1px solid #f0dca8;border-radius:12px;padding:16px 18px;margin-top:18px}
+.tip{background:var(--tip);border:1px solid #3a4f75;border-radius:12px;padding:16px 18px;margin-top:18px}
 .tip h3{font-size:18px;margin-bottom:6px}
-.tip .tag{display:inline-block;font-size:12px;background:#f3d98f;border-radius:10px;padding:0 8px;margin-right:6px;color:#5c4510}
+.tip .tag{display:inline-block;font-size:12px;background:rgba(243,217,143,.16);border-radius:10px;padding:0 8px;margin-right:6px;color:#f3d98f}
 .tip ul{margin:6px 0 0;padding-left:1.2em}
 .tip li{margin:4px 0;font-size:15.5px}
 .steps{counter-reset:s;list-style:none;padding:0;margin:10px 0}
-.steps li{counter-increment:s;position:relative;padding:10px 12px 10px 52px;margin:8px 0;background:#f4f7fb;border-radius:10px}
-.steps li::before{content:counter(s);position:absolute;left:12px;top:10px;width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-family:var(--serif);font-weight:700}
+.steps li{counter-increment:s;position:relative;padding:10px 12px 10px 52px;margin:8px 0;background:rgba(255,255,255,.04);border-radius:10px}
+.steps li::before{content:counter(s);position:absolute;left:12px;top:10px;width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#3f6fc0,#2a4f92);color:#fff;display:grid;place-items:center;font-family:var(--serif);font-weight:700}
 .res{list-style:none;padding:0;margin:8px 0 0}
 .res li{margin:8px 0;font-size:15px}
 .res a{font-weight:700}
@@ -106,7 +106,9 @@ header{position:relative;overflow:hidden;margin-top:14px;padding:40px 36px 36px;
 header .kicker{color:#9fb3d1}
 header h1{color:#fff}
 header .sub{color:#b4c4dc}
-header .m{background:#fff;border-radius:10px;padding:0 6px;margin:0 2px;box-shadow:0 8px 20px -8px rgba(0,0,0,.6);display:inline-block;transform:translateY(-2px)}
+header .m{background:#fff;}
+header .m.原{color:#2f5fa7}header .m.前{color:#d07a1f}header .m.舊{color:#4f8a3a}header .m.老{color:#b23b3b}
+header .m{border-radius:10px;padding:0 6px;margin:0 2px;box-shadow:0 8px 20px -8px rgba(0,0,0,.6);display:inline-block;transform:translateY(-2px)}
 .floaters{position:absolute;right:28px;top:50%;transform:translateY(-50%);display:flex;gap:12px;perspective:700px;pointer-events:none}
 .floaters span{font-family:var(--serif);font-weight:700;font-size:40px;width:64px;height:64px;display:grid;place-items:center;border-radius:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(6px);animation:fl 6s ease-in-out infinite;transform-style:preserve-3d}
 .floaters span:nth-child(2){animation-delay:-1.5s}.floaters span:nth-child(3){animation-delay:-3s}.floaters span:nth-child(4){animation-delay:-4.5s}
@@ -124,10 +126,17 @@ button:active:not(:disabled){transform:scale(.96)}
 .opts button.wrong{animation:shake .42s}
 @keyframes pulse{0%{transform:scale(1)}40%{transform:scale(1.08)}100%{transform:scale(1)}}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
-.score{background:linear-gradient(90deg,#2f5fa7,#d07a1f,#4f8a3a,#b23b3b);-webkit-background-clip:text;background-clip:text;color:transparent}
+.score{background:linear-gradient(90deg,#7fa8ec,#f0a04b,#86c46f,#ec7376);-webkit-background-clip:text;background-clip:text;color:transparent}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:80}
 @media (max-width:640px){.floaters{display:none}header{padding:28px 22px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===== unified deep-navy theme ===== */
+body{background:radial-gradient(1200px 800px at 85% -10%,rgba(29,53,96,.6),transparent 60%),#0b1526;background-attachment:fixed;color:#e8eef8;-webkit-font-smoothing:antialiased}
+h1,h2,h3{color:#fff}
+.card,.q,.big div,.opt,.scene,.panel{box-shadow:0 1px 0 rgba(255,255,255,.05) inset,0 18px 40px -22px rgba(0,0,0,.7)}
+a{color:#bcd0ee}
+::selection{background:#7fa8ec;color:#0b1526}
 </style>
 </head>
 <body>
@@ -150,7 +159,7 @@ button:active:not(:disabled){transform:scale(.96)}
 </div>
 
 <script>
-const COL={原:"#2f5fa7",前:"#d07a1f",舊:"#4f8a3a",老:"#b23b3b"};
+const COL={原:"#7fa8ec",前:"#f0a04b",舊:"#86c46f",老:"#ec7376"};
 const MODS=["原","前","舊","老"];
 const DIST={"role2":{"原":[166,15,2],"前":[523,107,45],"舊":[22,121,26],"老":[414,657,173]},"time2":{"原":[182,1],"前":[675,0],"舊":[135,34],"老":[471,773]},"link2":{"原":[179,4],"前":[665,10],"舊":[89,80],"老":[297,947]},"evalu2":{"原":[1,114,68],"前":[36,568,71],"舊":[16,145,8],"老":[192,974,78]}};
 const esc=s=>s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
@@ -161,7 +170,7 @@ const LEVELS=[
   q:"這個名詞屬於哪一類職場身分？",
   intro:"先看「中心名詞」。同一個修飾語，接上不同類型的身分名詞，意思就不一樣。本研究參考 Stryker 與 Burke（2000）、Ashforth（2001）的身分分類，把職場身分名詞分成三類：",
   labels:[["職務角色身分","組織裡的正式職位或管理角色：主任、董事長、校長、經理"],["關係角色身分","透過工作互動建立的人際角色：同事、部屬、夥伴、上司、雇主"],["組織成員身分","只標示屬於某個組織，不指特定職位：員工、職員、成員"]],
-  colors:["#8a8577","#c9a66b","#d9d4c7"],
+  colors:["#8ea6c8","#c9a66b","#2f4670"],
   items:[
    {s:"新舊行事風格差異之大，也讓老員工無所適從。",t:"老員工",a:"組織成員身分",why:"「員工」只說明他屬於這間公司，沒有指出職位，也不是相對於某個人的關係，所以是組織成員身分。"},
    {s:"民國三十八年大陸淪共前夕，政校新聞系在原系主任馬星野率領下，來到台北籌備《中央日報》復刊事宜。",t:"原系主任",a:"職務角色身分",why:"「系主任」是學校裡的正式職位，帶有權責（「率領」），屬於職務角色身分。"},
@@ -177,7 +186,7 @@ const LEVELS=[
   q:"這個修飾語突顯的是哪一種時間？",
   intro:"時間參照不是事件真正發生的時間，而是修飾語在語境中「讓人看到」的時間面向：",
   labels:[["過去","把身分定位在之前的某個時間點：以前是，現在不一定是"],["延續","身分從過去一路延續到現在，強調時間的累積：資深、待很久"]],
-  colors:["#3d3a33","#d9d4c7"],
+  colors:["#6f8fbf","#2f4670"],
   items:[
    {s:"看見一位滿頭白髮的老員工，就問他：「威爾遜，你已經在這裡工作多久了呢？」",t:"老員工",a:"延續",why:"他現在還在這裡工作，「老」強調的是工作年資很長，時間一路延續到現在。"},
    {s:"數百名老同事出席了他的喪禮，出席的不只是他服務公司的高階主管，還有許多業界領袖。",t:"老同事",a:"過去",why:"同樣是「老」，這裡指的是過去一起工作過的人，共事是過去的事。「老」是本研究唯一同時有大量「過去」與「延續」用法的字。"},
@@ -193,7 +202,7 @@ const LEVELS=[
   q:"人物和這個職場身分（或關係）現在還連著嗎？",
   intro:"時間參照看「時間」，身分鏈結看「關係」：即使是過去的身分，人和人之間的連結也可能還在。",
   labels:[["中止","職務已卸下、關係已結束，人物與原本的身分或關係不再連結"],["持續","仍然擔任、仍有往來，或舊關係被重新啟動"]],
-  colors:["#3d3a33","#d9d4c7"],
+  colors:["#6f8fbf","#2f4670"],
   items:[
    {s:"再者，細川藤孝曾是他在足利家的舊同事，來往過於密切容易讓人覺得他們是一夥的。",t:"舊同事",a:"持續",why:"共事是過去的事（時間參照：過去），但兩人「來往過於密切」，關係還在，所以身分鏈結是持續。時間和鏈結要分開判斷。"},
    {s:"原來那位軍官是林時清的舊下屬，以前經常到林家裏去，所以認得出幗芳。",t:"舊下屬",a:"中止",why:"「以前經常」說明上下屬關係已經是過去，現在只是認得，沒有延續工作關係，所以是中止。"},
@@ -209,7 +218,7 @@ const LEVELS=[
   q:"說話者透過這個詞，流露出什麼態度？",
   intro:"評價傾向參考評價理論（Martin & White, 2005），看的是說話者的立場，而不是人物本身好不好：",
   labels:[["正向","尊敬、感念、讚許：資歷被視為資產"],["中性","單純指稱，沒有明顯情感色彩（語料中多數屬於這一類）"],["負向","批評、不滿或負面事件：倚老賣老、涉案落馬"]],
-  colors:["#4f8a3a","#d9d4c7","#b23b3b"],
+  colors:["#5fa448","#2f4670","#d9545a"],
   items:[
    {s:"老員工忠心耿耿，事業才能傳承，這張德輝便是薛家產業的支柱。",t:"老員工",a:"正向",why:"「忠心耿耿」「支柱」都是讚許，資歷被當成資產，評價是正向。"},
    {s:"探春機警，知道這辦事的老員工故意為難她。",t:"老員工",a:"負向",why:"同樣是「老員工」，這裡「故意為難」人，是倚仗資歷的負面形象。「老」可褒可貶，要看語境。"},
@@ -243,7 +252,7 @@ const LEVELS=[
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const cf=document.createElement('canvas');cf.id='confetti';document.body.appendChild(cf);const cx=cf.getContext('2d');let parts=[],run=false;
 function sizeCf(){cf.width=innerWidth*devicePixelRatio;cf.height=innerHeight*devicePixelRatio;cx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);}sizeCf();addEventListener('resize',sizeCf);
-function burst(x,y,n=60){ if(RM) return; const cols=['#2f5fa7','#d07a1f','#4f8a3a','#b23b3b','#f3d98f'];
+function burst(x,y,n=60){ if(RM) return; const cols=['#7fa8ec','#f0a04b','#86c46f','#ec7376','#f3d98f'];
   for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,v=3+Math.random()*6;parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-4,r:3+Math.random()*4,c:cols[i%5],rot:Math.random()*6,vr:(Math.random()-.5)*.4,life:1});}
   if(!run){run=true;requestAnimationFrame(tick);} }
 function tick(){cx.clearRect(0,0,innerWidth,innerHeight);parts=parts.filter(p=>p.life>0);
@@ -334,7 +343,7 @@ function distHTML(L){
   const names=L.labels.map(x=>x[0]);
   return `<h3 style="font-size:18px;margin:20px 0 4px">這一關在 2,271 句語料中的分布</h3>
    <div class="dist">${MODS.map(m=>{const v=DIST[L.key][m], n=v.reduce((a,b)=>a+b,0);
-     return `<div class="drow"><span class="m ${m}">${m}</span><div class="dbar">${v.map((x,j)=>{const p=x/n*100;return `<div style="width:${p}%;background:${L.colors[j]};color:${L.colors[j]==='#d9d4c7'?'#16233a':'#fff'}" title="${names[j]} ${x} 句">${p>=9?p.toFixed(0)+'%':''}</div>`}).join('')}</div><span style="color:var(--muted)">${n.toLocaleString()} 句</span></div>`}).join('')}</div>
+     return `<div class="drow"><span class="m ${m}">${m}</span><div class="dbar">${v.map((x,j)=>{const p=x/n*100;return `<div style="width:${p}%;background:${L.colors[j]};color:#fff" title="${names[j]} ${x} 句">${p>=9?p.toFixed(0)+'%':''}</div>`}).join('')}</div><span style="color:var(--muted)">${n.toLocaleString()} 句</span></div>`}).join('')}</div>
    <div class="legend">${names.map((x,j)=>`<span><i style="background:${L.colors[j]}"></i>${x}</span>`).join('')}</div>`;
 }
 

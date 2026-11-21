@@ -7,8 +7,8 @@
 <style>
 p{text-align:justify}
 :root{
-  --ink:#16233a; --muted:#566377; --line:#d4deea; --bg:#e2ebf6; --card:#fff;
-  --yuan:#2f5fa7; --qian:#d07a1f; --jiu:#4f8a3a; --lao:#b23b3b;
+  --ink:#e8eef8; --muted:#9fb3d1; --line:rgba(255,255,255,.1); --bg:#0b1526; --card:#13223d;
+  --yuan:#7fa8ec; --qian:#f0a04b; --jiu:#86c46f; --lao:#ec7376;
   --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
   --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
 }
@@ -26,10 +26,10 @@ h1,h2,h3{font-family:var(--serif);margin:0;line-height:1.3}
 .qno{font-size:13px;letter-spacing:.12em;color:var(--muted)}
 .sent{font-family:var(--serif);font-size:clamp(21px,3vw,27px);line-height:1.75;margin:12px 0 22px}
 .blank{display:inline-block;min-width:1.4em;border-bottom:3px solid var(--ink);text-align:center;margin:0 3px;font-weight:700}
-.noun{font-weight:700;background:#e3eaf3;border-radius:4px;padding:0 3px}
+.noun{font-weight:700;background:#24375a;border-radius:4px;padding:0 3px}
 .opts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.opt{font-family:var(--serif);font-size:38px;font-weight:700;padding:14px 0;border-radius:12px;border:2px solid var(--line);background:#fff;cursor:pointer;transition:transform .1s,border-color .2s}
-.opt:hover:not(:disabled){transform:translateY(-2px);border-color:var(--ink)}
+.opt{font-family:var(--serif);font-size:38px;font-weight:700;padding:14px 0;border-radius:12px;border:2px solid var(--line);background:#13223d;cursor:pointer;transition:transform .1s,border-color .2s}
+.opt:hover:not(:disabled){transform:translateY(-2px);border-color:#7fa8ec}
 .opt:disabled{cursor:default}
 .原{color:var(--yuan)}.前{color:var(--qian)}.舊{color:var(--jiu)}.老{color:var(--lao)}
 .opt.gold{border-color:currentColor;box-shadow:inset 0 0 0 2px currentColor}
@@ -38,17 +38,17 @@ h1,h2,h3{font-family:var(--serif);margin:0;line-height:1.3}
 .reveal.on{display:block}
 .verdict{font-family:var(--serif);font-size:20px;margin-bottom:12px}
 .pb{display:grid;grid-template-columns:28px 1fr 56px;gap:10px;align-items:center;margin:6px 0;font-variant-numeric:tabular-nums}
-.pb .t{height:14px;background:#e3eaf3;border-radius:7px;overflow:hidden}
+.pb .t{height:14px;background:#24375a;border-radius:7px;overflow:hidden}
 .pb .t div{height:100%;border-radius:7px;width:0;transition:width .6s}
 .pb .c{font-family:var(--serif);font-weight:700}
 .pb span{font-size:14px;color:var(--muted);text-align:right}
-.why{font-size:15.5px;color:#3d3a33;margin-top:14px;background:#eef3f9;border-radius:10px;padding:12px 14px}
+.why{font-size:15.5px;color:#c9d6ea;margin-top:14px;background:#1a2c4d;border-radius:10px;padding:12px 14px}
 .tags{font-size:13px;color:var(--muted);margin-top:8px}
-.btn{display:inline-block;border:none;background:var(--ink);color:#fff;font-size:16px;border-radius:26px;padding:10px 24px;cursor:pointer;margin-top:18px;text-decoration:none}
+.btn{display:inline-block;border:none;background:linear-gradient(135deg,#3f6fc0,#2a4f92);color:#fff;font-size:16px;border-radius:26px;padding:10px 24px;cursor:pointer;margin-top:18px;text-decoration:none}
 .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
 .intro{margin-top:30px}
 .intro h1{font-size:clamp(30px,5vw,46px)}
-.intro p{color:#3d3a33;max-width:620px}
+.intro p{color:#c9d6ea;max-width:620px}
 .end h2{font-size:32px;margin:6px 0 10px}
 .big{display:flex;gap:18px;margin:16px 0}
 .big div{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
@@ -59,47 +59,54 @@ table.log td,table.log th{border-bottom:1px solid var(--line);padding:7px 6px;te
 table.log th{font-weight:500;color:var(--muted);font-size:13px}
 
 /* ===== 主持模式 ===== */
-body.host{background:#14120f;color:#f2eee6}
+body.host{background:#070e1b;color:#e8eef8}
 body.host .wrap{max-width:1280px;padding:28px 40px}
-body.host header{color:#a8a294}
-body.host header a{border-color:#3a362f}
-body.host .pill{background:#1f1c18;border-color:#3a362f}
-body.host .q{background:#1c1a16;border-color:#2f2b25;padding:40px 46px}
-body.host .qno{color:#a8a294}
+body.host header{color:#9fb3d1}
+body.host header a{border-color:#2f4670}
+body.host .pill{background:#13223d;border-color:#2f4670}
+body.host .q{background:#13223d;border-color:#24375a;padding:40px 46px}
+body.host .qno{color:#9fb3d1}
 body.host .sent{font-size:clamp(28px,3.4vw,44px)}
-body.host .blank{border-color:#f2eee6}
-body.host .noun{background:#2f2b25}
+body.host .blank{border-color:#e8eef8}
+body.host .noun{background:#24375a}
 body.host .原{color:#7aa5ec}body.host .前{color:#f0a253}body.host .舊{color:#8fd172}body.host .老{color:#ff7a7a}
 .tally{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.tcard{background:#24211c;border:2px solid #34302a;border-radius:14px;padding:12px 14px;text-align:center}
+.tcard{background:#1a2c4d;border:2px solid #2f4670;border-radius:14px;padding:12px 14px;text-align:center}
 .tcard .ch{font-family:var(--serif);font-size:62px;font-weight:700;line-height:1.1}
 .tcard .ct{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:6px}
-.tcard button{width:40px;height:40px;border-radius:50%;border:1px solid #4a453c;background:#1c1a16;color:#f2eee6;font-size:22px;cursor:pointer}
-.tcard input{width:72px;font-size:30px;text-align:center;background:transparent;border:none;color:#f2eee6;font-family:var(--serif);font-variant-numeric:tabular-nums}
+.tcard button{width:40px;height:40px;border-radius:50%;border:1px solid #3d5480;background:#13223d;color:#e8eef8;font-size:22px;cursor:pointer}
+.tcard input{width:72px;font-size:30px;text-align:center;background:transparent;border:none;color:#e8eef8;font-family:var(--serif);font-variant-numeric:tabular-nums}
 .tcard.gold{border-color:currentColor}
 .cmp{display:none;grid-template-columns:1fr 1fr;gap:34px;margin-top:26px}
 .cmp.on{display:grid}
-.cmp h3{font-size:20px;margin-bottom:8px;color:#d6d0c3}
-body.host .pb .t{background:#2f2b25;height:22px;border-radius:6px}
+.cmp h3{font-size:20px;margin-bottom:8px;color:#c9d6ea}
+body.host .pb .t{background:#24375a;height:22px;border-radius:6px}
 body.host .pb .t div{border-radius:6px}
 body.host .pb .c{font-size:24px}
-body.host .pb span{color:#d6d0c3;font-size:18px}
-body.host .why{background:#24211c;color:#e2dccf;font-size:20px;padding:16px 20px}
-.timer{height:6px;background:#2f2b25;border-radius:3px;overflow:hidden;margin:-6px 0 22px}
-.timer div{height:100%;background:#f2eee6;width:100%}
-body.host .btn{background:#f2eee6;color:#14120f}
-body.host .btn.ghost{background:transparent;color:#f2eee6;border-color:#f2eee6}
-.keys{font-size:13px;color:#8a8577;margin-top:18px}
-.keys kbd{border:1px solid #4a453c;border-radius:4px;padding:0 5px;font-family:inherit}
+body.host .pb span{color:#c9d6ea;font-size:18px}
+body.host .why{background:#1a2c4d;color:#dbe6f5;font-size:20px;padding:16px 20px}
+.timer{height:6px;background:#24375a;border-radius:3px;overflow:hidden;margin:-6px 0 22px}
+.timer div{height:100%;background:#e8eef8;width:100%}
+body.host .btn{background:#e8eef8;color:#070e1b}
+body.host .btn.ghost{background:transparent;color:#e8eef8;border-color:#e8eef8}
+.keys{font-size:13px;color:#8ea6c8;margin-top:18px}
+.keys kbd{border:1px solid #3d5480;border-radius:4px;padding:0 5px;font-family:inherit}
 .hostend{text-align:center;padding:60px 0}
 .hostend .vs{display:flex;justify-content:center;gap:70px;margin:30px 0}
 .hostend .vs b{display:block;font-family:var(--serif);font-size:110px;line-height:1}
-.hostend .vs span{font-size:22px;color:#a8a294}
+.hostend .vs span{font-size:22px;color:#9fb3d1}
 @media (max-width:620px){
   .q{padding:22px 18px}
   .opt{font-size:30px}
   .big{flex-direction:column}
 }
+
+/* ===== unified deep-navy theme ===== */
+body{background:radial-gradient(1200px 800px at 85% -10%,rgba(29,53,96,.6),transparent 60%),#0b1526;background-attachment:fixed;color:#e8eef8;-webkit-font-smoothing:antialiased}
+h1,h2,h3{color:#fff}
+.card,.q,.big div,.opt,.scene,.panel{box-shadow:0 1px 0 rgba(255,255,255,.05) inset,0 18px 40px -22px rgba(0,0,0,.7)}
+a{color:#bcd0ee}
+::selection{background:#7fa8ec;color:#0b1526}
 </style>
 </head>
 <body>
