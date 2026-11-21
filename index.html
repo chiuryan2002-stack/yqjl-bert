@@ -132,24 +132,124 @@ footer{padding:50px 0 70px;font-size:14px;color:var(--muted);border-top:1px soli
   .sticky{position:sticky;top:0;height:auto;background:var(--bg);z-index:2;padding:8px 0}
   .steps .step{min-height:60vh}
 }
+/* ===== premium layer (2026 upgrade) ===== */
+:root{--navy:#0b1526;--navy2:#13223d;--glass:rgba(255,255,255,.07);--glassb:rgba(255,255,255,.14);--ease:cubic-bezier(.22,.8,.24,1);--shadow:0 1px 2px rgba(22,35,58,.06),0 8px 28px -12px rgba(22,35,58,.22)}
+body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+::selection{background:#16233a;color:#fff}
+/* progress + nav */
+#fxProg{position:fixed;top:0;left:0;height:3px;width:0;z-index:60;background:linear-gradient(90deg,#6f9be0,#f0a04b,#7fc06a,#e8676b);transition:width .12s linear}
+#fxNav{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:55;display:flex;flex-direction:column;gap:12px;opacity:0;pointer-events:none;transition:opacity .4s}
+#fxNav.show{opacity:1;pointer-events:auto}
+#fxNav a{position:relative;display:block;width:10px;height:10px;border-radius:50%;background:rgba(22,35,58,.22);transition:transform .25s var(--ease),background .25s}
+#fxNav a:hover{transform:scale(1.5)}
+#fxNav a.on{background:#16233a;transform:scale(1.35)}
+#fxNav a span{position:absolute;right:20px;top:50%;transform:translate(6px,-50%);white-space:nowrap;font-size:12.5px;background:#16233a;color:#fff;padding:3px 10px;border-radius:12px;opacity:0;pointer-events:none;transition:opacity .2s,transform .25s var(--ease)}
+#fxNav a:hover span{opacity:1;transform:translate(0,-50%)}
+#fxNav.dark a{background:rgba(255,255,255,.3)}#fxNav.dark a.on{background:#fff}
+/* hero */
+.hero3d{position:relative;min-height:100vh;overflow:hidden;color:#eef3fb;background:radial-gradient(1200px 700px at 78% 40%,#1d3560 0%,rgba(19,34,61,0) 60%),radial-gradient(900px 600px at 10% 90%,#1a2b4d 0%,rgba(11,21,38,0) 60%),var(--navy);padding:0;border:none;display:flex;align-items:center}
+.hero3d::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+#tower3d{position:absolute;inset:0;width:100%;height:100%;cursor:grab;touch-action:pan-y}
+#tower3d:active{cursor:grabbing}
+.hero-glow{position:absolute;width:520px;height:520px;right:8%;top:18%;border-radius:50%;background:radial-gradient(circle,rgba(111,155,224,.22),transparent 65%);filter:blur(20px);pointer-events:none;animation:glow 9s ease-in-out infinite alternate}
+@keyframes glow{to{transform:translate(-40px,30px) scale(1.12)}}
+.hero-inner{position:relative;z-index:2;width:100%;max-width:1280px;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr);gap:30px;align-items:end;padding-top:80px;padding-bottom:90px;pointer-events:none}
+.hero-copy,.towerinfo{pointer-events:auto}
+.hero3d .kicker{color:#9fb3d1}
+.hero3d h1{font-size:clamp(26px,3.3vw,46px);letter-spacing:.02em;line-height:1.32;color:#fff;text-shadow:0 2px 30px rgba(0,0,0,.35)}
+.h1sub{font-weight:600;color:#c9d7ec;font-size:.82em;white-space:nowrap}
+.hero3d .sub{color:#b4c4dc;font-size:clamp(17px,2vw,22px);margin:16px 0 26px;font-family:var(--serif)}
+.hero3d .chars{margin:0 0 30px;perspective:600px}
+.hero3d .chars span{background:rgba(255,255,255,.96);box-shadow:0 10px 30px -10px rgba(0,0,0,.6),inset 0 -2px 0 rgba(0,0,0,.06);cursor:pointer;transition:transform .35s var(--ease),box-shadow .35s,opacity .3s;transform-style:preserve-3d}
+.hero3d .chars span:hover{transform:translateY(-6px) rotateX(10deg);box-shadow:0 22px 40px -14px rgba(0,0,0,.7)}
+.hero3d .chars span.dim{opacity:.35}
+.hero3d .stats{gap:14px}
+.hero3d .stat{background:var(--glass);border:1px solid var(--glassb);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:14px;padding:12px 18px;min-width:150px}
+.hero3d .stat b{color:#fff;font-size:30px}
+.hero3d .stat span{color:#a9bbd6;font-size:13px}
+.hero3d .byline{color:#8ea3c3;margin-top:26px}
+.towerinfo{justify-self:end;background:rgba(11,21,38,.55);border:1px solid var(--glassb);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:16px;padding:16px 18px;max-width:330px}
+.ti-layer{font-family:var(--serif);font-size:15px;color:#9fb3d1}.ti-layer b{font-size:34px;color:#fff;font-variant-numeric:tabular-nums;margin:0 4px}
+.ti-cap{font-family:var(--serif);font-size:17px;color:#fff;min-height:2.8em;margin:4px 0 10px;transition:opacity .3s}
+.ti-legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12.5px;color:#c3d0e4}
+.ti-legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+.ti-trace i{width:18px!important;height:2px!important;border-radius:1px!important;background:#fff;box-shadow:0 0 6px #fff;vertical-align:3px}
+.ti-hint{font-size:12px;color:#7f93b3;margin-top:8px}
+.hero3d .scrollcue{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);z-index:3;color:#9fb3d1;text-decoration:none;font-size:12px;letter-spacing:.2em;display:flex;flex-direction:column;align-items:center;gap:8px;margin:0}
+.hero3d .scrollcue i{width:1px;height:38px;background:linear-gradient(#9fb3d1,transparent);animation:cue 1.8s ease-in-out infinite}
+@keyframes cue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.intro-p{padding:70px 0 10px;background:var(--bg)}
+.intro-p p{font-family:var(--serif);font-size:19px;line-height:1.95}
+/* entrance */
+.fx-in{opacity:0;transform:translateY(18px);animation:fxin .9s var(--ease) forwards}
+.fx-in.d1{animation-delay:.12s}.fx-in.d2{animation-delay:.24s}.fx-in.d3{animation-delay:.36s}.fx-in.d4{animation-delay:.5s}.fx-in.d5{animation-delay:.64s}
+@keyframes fxin{to{opacity:1;transform:none}}
+/* scroll reveal */
+.fx-reveal{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.fx-reveal.vis{opacity:1;transform:none}
+section h2{letter-spacing:.01em}
+section .kicker{display:inline-flex;align-items:center;gap:10px}
+section .kicker::before{content:"";width:22px;height:1px;background:currentColor;opacity:.6}
+/* surfaces + micro-interactions */
+.card{box-shadow:var(--shadow);transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s;position:relative}
+.card.fx-hover:hover{transform:translateY(-3px);box-shadow:0 2px 4px rgba(22,35,58,.06),0 18px 40px -16px rgba(22,35,58,.35)}
+.card.fx-spot::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(380px circle at var(--mx,50%) var(--my,50%),rgba(111,155,224,.12),transparent 60%)}
+.card.fx-spot:hover::before{opacity:1}
+button,.btn{transition:transform .2s var(--ease),background .2s,color .2s,box-shadow .2s}
+button:hover,.btn:hover{transform:translateY(-1px);box-shadow:0 6px 14px -8px rgba(22,35,58,.5)}
+button:active,.btn:active{transform:translateY(0) scale(.97)}
+.cta a{transition:transform .25s var(--ease),box-shadow .25s,background .25s}
+.cta a:hover{transform:translateY(-2px);box-shadow:0 12px 24px -12px rgba(22,35,58,.55)}
+footer{background:var(--navy);color:#b4c4dc;border-top:none}
+footer a{color:#dbe6f5}
+footer b{color:#fff}
+@media (max-width:860px){
+  .hero-inner{grid-template-columns:1fr;align-items:start;padding-top:60px}
+  .towerinfo{justify-self:start;max-width:none}
+  #tower3d{opacity:.4}
+  #fxNav{display:none}
+  .hero3d .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .hero3d .stat{min-width:0;padding:10px}
+  .hero3d .stat b{font-size:22px}
+  .hero3d .stat span{font-size:11px;line-height:1.4;display:block}
+  .h1sub{white-space:normal}
+}
+@media (prefers-reduced-motion:reduce){
+  .fx-in,.fx-reveal{opacity:1!important;transform:none!important;animation:none!important;transition:none!important}
+  .hero-glow,.hero3d .scrollcue i{animation:none}
+}
+
 </style>
 </head>
 <body>
 
-<section class="hero"><div class="wrap">
-  <div class="kicker">計算語言學與語言學概論 · 期末專案</div>
-  <h1>以語料庫與語義向量探討華語語義差異<br>——以「原、前、舊、老」為例</h1>
-  <div class="sub">BERT 如何解讀華語的「原、前、舊、老」</div>
-  <div class="chars"><span class="m 原">原</span><span class="m 前">前</span><span class="m 舊">舊</span><span class="m 老">老</span></div>
-  <div class="narrow"><p>「原校長」通常指因職務異動或制度變動而不再擔任原有職務者；「前校長」其語義焦點則側重於曾經擔任某項職務的歷史事實；「舊同事」多強調過去工作關係；「老員工」則除表示任職時間較長外，更可能延伸出資歷、經驗、熟悉度及組織認同等社會評價。四個字都帶著「過去」的意涵，卻不能任意互換。本研究從臺灣華語文語料庫（<span lang="en">Cor&shy;pus of Con&shy;tem&shy;po&shy;rary Tai&shy;wan&shy;ese Man&shy;da&shy;rin</span>, COCT）2019 收集了 2,271 筆真實語料，逐句標註它們修飾的職場身分、時間參照、身分鏈結與評價傾向，並透過 Chinese BERT-base 模型探究兩件事：<b>模型的內部表徵讀得出這些細微差異嗎？在選字時使用了這些語言資訊嗎？</b></p></div>
-  <div class="stats">
-    <div class="stat"><b class="num">2,271</b><span>句有效語料（COCT 2019）</span></div>
-    <div class="stat"><b class="num">13</b><span>層 BERT 表徵逐層探測</span></div>
-    <div class="stat"><b class="num">75.3%</b><span>BERT 遮蔽填空正確率</span></div>
+<section class="hero hero3d" id="top">
+  <canvas id="tower3d" aria-label="三維語義塔：2,271 句在 BERT 13 層中的位置，可拖曳旋轉"></canvas>
+  <div class="hero-glow"></div>
+  <div class="wrap hero-inner">
+    <div class="hero-copy">
+      <div class="kicker fx-in">計算語言學與語言學概論 · 期末專案</div>
+      <h1 class="fx-in d1">以語料庫與語義向量探討華語語義差異<br><span class="h1sub">——以「原、前、舊、老」為例</span></h1>
+      <div class="sub fx-in d2">BERT 如何解讀華語的「原、前、舊、老」</div>
+      <div class="chars fx-in d3"><span class="m 原" data-c="原">原</span><span class="m 前" data-c="前">前</span><span class="m 舊" data-c="舊">舊</span><span class="m 老" data-c="老">老</span></div>
+      <div class="stats fx-in d4">
+        <div class="stat"><b class="num" data-count="2271">0</b><span>句有效語料（COCT 2019）</span></div>
+        <div class="stat"><b class="num" data-count="13">0</b><span>層 BERT 表徵逐層探測</span></div>
+        <div class="stat"><b class="num" data-count="75.3" data-dec="1" data-suf="%">0</b><span>BERT 遮蔽填空正確率</span></div>
+      </div>
+      <div class="byline fx-in d5">邱珮慈 · 國立臺灣師範大學 · 模型：bert-base-chinese（參數凍結）</div>
+    </div>
+    <div class="towerinfo fx-in d4">
+      <div class="ti-layer">第 <b id="tiL">0</b> 層</div>
+      <div class="ti-cap" id="tiCap">一開始，四個字各自成團</div>
+      <div class="ti-legend"><span><i style="background:#6f9be0"></i>原</span><span><i style="background:#f0a04b"></i>前</span><span><i style="background:#7fc06a"></i>舊</span><span><i style="background:#e8676b"></i>老</span><span class="ti-trace"><i></i>一句「舊同事」穿過 13 層</span></div>
+      <div class="ti-hint">拖曳可旋轉 · 點字可單獨顯示</div>
+    </div>
   </div>
-  <div class="byline">邱珮慈 · 國立臺灣師範大學 · 模型：bert-base-chinese（參數凍結）</div>
-  <div class="scrollcue">↓ 往下捲動</div>
-</div></section>
+  <a class="scrollcue" href="#s0"><span>往下捲動</span><i></i></a>
+</section>
+<div class="intro-p"><div class="wrap"><div class="narrow fx-reveal"><p>「原校長」通常指因職務異動或制度變動而不再擔任原有職務者；「前校長」其語義焦點則側重於曾經擔任某項職務的歷史事實；「舊同事」多強調過去工作關係；「老員工」則除表示任職時間較長外，更可能延伸出資歷、經驗、熟悉度及組織認同等社會評價。四個字都帶著「過去」的意涵，卻不能任意互換。本研究從臺灣華語文語料庫（<span lang="en">Cor&shy;pus of Con&shy;tem&shy;po&shy;rary Tai&shy;wan&shy;ese Man&shy;da&shy;rin</span>, COCT）2019 收集了 2,271 筆真實語料，逐句標註它們修飾的職場身分、時間參照、身分鏈結與評價傾向，並透過 Chinese BERT-base 模型探究兩件事：<b>模型的內部表徵讀得出這些細微差異嗎？在選字時使用了這些語言資訊嗎？</b></p></div></div></div>
+
 
 <section id="s0"><div class="wrap">
   <div class="kicker">起點 · 辭典裡的語義集合</div>
@@ -635,6 +735,132 @@ renderLab();
   document.querySelectorAll("#dictNet .set").forEach(g=>g.onclick=()=>{ sel = sel&&sel.k===g.dataset.k ? null : {k:g.dataset.k}; highlight(); });
   $("#dictNet svg").addEventListener("click", e=>{ if(e.target.tagName==="svg"){ sel=null; highlight(); } });
   highlight();
+})();
+</script>
+<script>
+/* ===== premium layer (2026 upgrade) ===== */
+(()=>{
+const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- 3D semantic tower ---------- */
+(function tower(){
+  const cv=document.getElementById('tower3d'); if(!cv||typeof EXP==='undefined') return;
+  const ctx=cv.getContext('2d');
+  const C=EXP.coords, L=C.length, NN=EXP.n;
+  const PAL={原:'#6f9be0',前:'#f0a04b',舊:'#7fc06a',老:'#e8676b'};
+  const MODS=['原','前','舊','老'];
+  // subset: all 原/舊, every 2nd 前, every 3rd 老
+  const cnt={原:0,前:0,舊:0,老:0}, keep={原:1,前:2,舊:1,老:3}, byMod={原:[],前:[],舊:[],老:[]};
+  for(let i=0;i<NN;i++){const m=ITEMS[i][1]; if((cnt[m]++)%keep[m]===0) byMod[m].push(i);}
+  // per-layer normalisation (98th pct of |coord|)
+  const S=C.map(layer=>{const a=layer.map(p=>Math.max(Math.abs(p[0]),Math.abs(p[1]))).sort((x,y)=>x-y);return a[Math.floor(a.length*.9)]||1;});
+  const P=new Float32Array(L*NN*3);
+  for(let l=0;l<L;l++)for(let i=0;i<NN;i++){const k=(l*NN+i)*3,p=C[l][i];
+    P[k]=Math.max(-1.05,Math.min(1.05,p[0]/S[l])); P[k+1]=(l-6)*0.17; P[k+2]=Math.max(-1.05,Math.min(1.05,p[1]/S[l]));}
+  const TRACE=[890,909].filter(i=>i<NN);
+  const CAP=[[0,'一開始，四個字各自成團，只認得字形'],[3,'語境開始流進修飾語'],[4,'職場身分最容易讀出（第 4 層 0.78）'],[7,'「老」的過去／延續最清楚（第 7 層 0.77）'],[10,'評價傾向最清楚（第 10 層 0.61）'],[12,'「原」「前」交融，「舊」落在中間']];
+  const tiL=document.getElementById('tiL'), tiCap=document.getElementById('tiCap');
+  let W=0,H=0,dpr=1,yaw=-0.5,pitch=0.3,autoYaw=true,drag=null,only=null,visible=true,t0=performance.now(),lastCap='';
+  function resize(){dpr=Math.min(2,window.devicePixelRatio||1);W=cv.clientWidth;H=cv.clientHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}
+  resize(); addEventListener('resize',resize);
+  function proj(x,y,z,cx,cy,sc){
+    const cyw=Math.cos(yaw),syw=Math.sin(yaw); let X=x*cyw-z*syw, Z=x*syw+z*cyw;
+    const cp=Math.cos(pitch),sp=Math.sin(pitch); let Y=y*cp-Z*sp; Z=y*sp+Z*cp;
+    const f=8/(8+Z); return [cx+X*sc*f, cy-Y*sc*f, f];
+  }
+  function layerAt(t){ // 0..12 over 13s, hold 2.5s
+    const T=15.5, u=Math.max(0,t)%T; return Math.min(12,u/13*12);
+  }
+  function frame(now){
+    if(!visible){requestAnimationFrame(frame);return;}
+    const t=(now-t0)/1000;
+    if(autoYaw&&!drag&&!RM) yaw+=0.0022;
+    const cur=RM?12:layerAt(t), li=Math.round(cur);
+    const mobile=W<860, cx=mobile?W*.5:W*.72, cy=H*(mobile?.32:.4), sc=Math.min(W*(mobile?.3:.17),H*.26);
+    ctx.clearRect(0,0,W,H);
+    for(let l=0;l<L;l++){
+      const act=Math.abs(l-cur)<0.5, near=Math.max(0,1-Math.abs(l-cur)/2.5);
+      // plane
+      const q=[[-1.12,-1.12],[1.12,-1.12],[1.12,1.12],[-1.12,1.12]].map(([x,z])=>proj(x,(l-6)*0.17,z,cx,cy,sc));
+      ctx.beginPath(); q.forEach(([x,y],j)=>j?ctx.lineTo(x,y):ctx.moveTo(x,y)); ctx.closePath();
+      ctx.fillStyle=`rgba(160,190,240,${act?.07:.018})`; ctx.fill();
+      ctx.strokeStyle=`rgba(180,205,245,${act?.55:.08+near*.12})`; ctx.lineWidth=act?1.2:.7; ctx.stroke();
+      if(act){ctx.fillStyle='rgba(220,232,250,.85)';ctx.font='12px "Noto Sans TC",sans-serif';ctx.fillText(`L${l}`,q[1][0]+8,q[1][1]+4);}
+      const a=.28+near*.65, sz=act?2.6:1.7;
+      for(const m of MODS){
+        if(only&&only!==m) continue;
+        ctx.fillStyle=PAL[m]; ctx.globalAlpha=a;
+        for(const i of byMod[m]){const k=(l*NN+i)*3; const [x,y,f]=proj(P[k],P[k+1],P[k+2],cx,cy,sc); const s=sz*f; ctx.fillRect(x-s/2,y-s/2,s,s);}
+      }
+      ctx.globalAlpha=1;
+    }
+    // traces
+    TRACE.forEach((i,ti)=>{
+      const pts=[]; for(let l=0;l<L;l++){const k=(l*NN+i)*3; pts.push(proj(P[k],P[k+1],P[k+2],cx,cy,sc));}
+      ctx.save(); ctx.shadowColor='rgba(255,255,255,.8)'; ctx.shadowBlur=8;
+      ctx.strokeStyle=ti?'rgba(255,255,255,.35)':'rgba(255,255,255,.85)'; ctx.lineWidth=ti?1:1.6;
+      ctx.beginPath(); pts.forEach(([x,y],j)=>j?ctx.lineTo(x,y):ctx.moveTo(x,y)); ctx.stroke();
+      if(!ti){const a=Math.floor(cur),b=Math.min(12,a+1),u=cur-a; const x=pts[a][0]+(pts[b][0]-pts[a][0])*u, y=pts[a][1]+(pts[b][1]-pts[a][1])*u;
+        ctx.fillStyle='#fff'; ctx.shadowBlur=18; ctx.beginPath(); ctx.arc(x,y,4.5,0,6.283); ctx.fill();}
+      ctx.restore();
+    });
+    if(tiL) tiL.textContent=li;
+    let cap=CAP[0][1]; for(const [k,c] of CAP) if(li>=k) cap=c;
+    if(tiCap&&cap!==lastCap){lastCap=cap; tiCap.style.opacity=0; setTimeout(()=>{tiCap.textContent=cap;tiCap.style.opacity=1;},180);}
+    if(!RM) requestAnimationFrame(frame);
+  }
+  cv.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,yaw,pitch};cv.setPointerCapture(e.pointerId);autoYaw=false;});
+  cv.addEventListener('pointermove',e=>{if(!drag)return; yaw=drag.yaw+(e.clientX-drag.x)*0.006; pitch=Math.max(0.12,Math.min(1.25,drag.pitch+(e.clientY-drag.y)*0.004)); if(RM) requestAnimationFrame(frame);});
+  const up=()=>{drag=null;setTimeout(()=>autoYaw=true,2500);};
+  cv.addEventListener('pointerup',up); cv.addEventListener('pointercancel',up);
+  document.querySelectorAll('.hero3d .chars span').forEach(sp=>sp.addEventListener('click',()=>{
+    const c=sp.dataset.c; only=only===c?null:c;
+    document.querySelectorAll('.hero3d .chars span').forEach(x=>x.classList.toggle('dim',!!only&&x.dataset.c!==only));
+    if(RM) requestAnimationFrame(frame);
+  }));
+  new IntersectionObserver(es=>{visible=es[0].isIntersecting;},{threshold:0}).observe(cv);
+  requestAnimationFrame(frame);
+})();
+
+/* ---------- count-up ---------- */
+document.querySelectorAll('[data-count]').forEach(el=>{
+  const to=+el.dataset.count, dec=+(el.dataset.dec||0), suf=el.dataset.suf||'', fmt=v=>v.toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec})+suf;
+  if(RM){el.textContent=fmt(to);return;}
+  const t0=performance.now()+700, D=1400;
+  const step=now=>{const u=Math.max(0,Math.min(1,(now-t0)/D)), e=1-Math.pow(1-u,3); el.textContent=fmt(to*e); if(u<1) requestAnimationFrame(step);};
+  requestAnimationFrame(step);
+});
+
+/* ---------- scroll reveal ---------- */
+const revealTargets=[];
+document.querySelectorAll('section:not(.hero3d) > .wrap > *').forEach(el=>{ if(el.classList.contains('scrolly')) return; el.classList.add('fx-reveal'); revealTargets.push(el); });
+const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('vis'); io.unobserve(e.target);} }),{rootMargin:'0px 0px -8% 0px',threshold:0.05});
+document.querySelectorAll('.fx-reveal').forEach((el,i)=>{ el.style.transitionDelay=((i%4)*60)+'ms'; io.observe(el); });
+
+/* ---------- cards: spotlight + lift ---------- */
+document.querySelectorAll('.card').forEach(c=>{
+  if(c.closest('.hero3d')) return;
+  c.classList.add('fx-spot');
+  if(c.offsetHeight && c.offsetHeight<240 && !c.querySelector('canvas,svg,input')) c.classList.add('fx-hover');
+  c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect(); c.style.setProperty('--mx',(e.clientX-r.left)+'px'); c.style.setProperty('--my',(e.clientY-r.top)+'px');});
+});
+
+/* ---------- progress bar + section nav ---------- */
+const prog=document.createElement('div'); prog.id='fxProg'; document.body.appendChild(prog);
+const nav=document.createElement('nav'); nav.id='fxNav'; nav.setAttribute('aria-label','章節導覽');
+const secs=[...document.querySelectorAll('section[id]')].filter(s=>s.id!=='top');
+secs.forEach(s=>{ const k=s.querySelector('.kicker'); const h=s.querySelector('h2'); const a=document.createElement('a'); a.href='#'+s.id;
+  a.innerHTML=`<span>${(k?k.textContent.split('·')[0].trim()+'　':'')}${h?h.textContent:''}</span>`; nav.appendChild(a); });
+document.body.appendChild(nav);
+const hero=document.querySelector('.hero3d'), foot=document.querySelector('footer');
+function onScroll(){
+  const st=scrollY, max=document.documentElement.scrollHeight-innerHeight; prog.style.width=(max>0?st/max*100:0)+'%';
+  const hb=hero?hero.getBoundingClientRect().bottom:0; nav.classList.toggle('show',hb<innerHeight*.4);
+  let idx=-1; secs.forEach((s,i)=>{ if(s.getBoundingClientRect().top<innerHeight*.45) idx=i; });
+  nav.querySelectorAll('a').forEach((a,i)=>a.classList.toggle('on',i===idx));
+  const fr=foot?foot.getBoundingClientRect().top:1e9; nav.classList.toggle('dark',fr<innerHeight*.5);
+}
+addEventListener('scroll',onScroll,{passive:true}); onScroll();
 })();
 </script>
 </body>

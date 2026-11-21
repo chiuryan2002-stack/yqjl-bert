@@ -34,7 +34,7 @@ button.primary{background:var(--ink);color:#fff}
 button.primary:hover{background:#2a3b58}
 button:disabled{cursor:default}
 /* level map */
-.map{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:8px 0 26px}
+.map{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:20px 0 26px}
 .lv{border:1px solid var(--line);background:#f3f6fb;border-radius:12px;padding:10px 8px;text-align:center;font-size:13px;color:var(--muted);position:relative}
 .lv b{display:block;font-family:var(--serif);font-size:16px;color:var(--ink)}
 .lv.open{background:#fff;border-color:var(--ink);cursor:pointer}
@@ -98,6 +98,36 @@ button:disabled{cursor:default}
 .hidden{display:none}
 footer{padding:40px 0 60px;font-size:13.5px;color:var(--muted)}
 @media (max-width:640px){ .map{grid-template-columns:repeat(5,1fr);gap:5px} .lv{padding:8px 2px;font-size:11px} .lv b{font-size:13px} .lab{grid-template-columns:1fr;gap:2px} .sent{font-size:19px} }
+
+/* ===== premium layer ===== */
+:root{--navy:#0b1526;--ease:cubic-bezier(.22,.8,.24,1)}
+body{-webkit-font-smoothing:antialiased}
+header{position:relative;overflow:hidden;margin-top:14px;padding:40px 36px 36px;border-radius:22px;color:#eef3fb;background:radial-gradient(700px 400px at 85% 30%,#1d3560,rgba(19,34,61,0) 65%),var(--navy);box-shadow:0 30px 60px -30px rgba(11,21,38,.6)}
+header .kicker{color:#9fb3d1}
+header h1{color:#fff}
+header .sub{color:#b4c4dc}
+header .m{background:#fff;border-radius:10px;padding:0 6px;margin:0 2px;box-shadow:0 8px 20px -8px rgba(0,0,0,.6);display:inline-block;transform:translateY(-2px)}
+.floaters{position:absolute;right:28px;top:50%;transform:translateY(-50%);display:flex;gap:12px;perspective:700px;pointer-events:none}
+.floaters span{font-family:var(--serif);font-weight:700;font-size:40px;width:64px;height:64px;display:grid;place-items:center;border-radius:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(6px);animation:fl 6s ease-in-out infinite;transform-style:preserve-3d}
+.floaters span:nth-child(2){animation-delay:-1.5s}.floaters span:nth-child(3){animation-delay:-3s}.floaters span:nth-child(4){animation-delay:-4.5s}
+@keyframes fl{0%,100%{transform:translateY(0) rotateY(-18deg) rotateX(8deg)}50%{transform:translateY(-12px) rotateY(18deg) rotateX(-6deg)}}
+.card{box-shadow:0 1px 2px rgba(22,35,58,.06),0 10px 30px -14px rgba(22,35,58,.25);animation:cin .55s var(--ease)}
+@keyframes cin{from{opacity:0;transform:translateY(14px) scale(.99)}to{opacity:1;transform:none}}
+.lv{transition:transform .25s var(--ease),box-shadow .25s,background .25s}
+.lv.open:hover,.lv.done:hover{transform:translateY(-3px);box-shadow:0 12px 24px -14px rgba(22,35,58,.5)}
+.lv.now{outline:none;background:var(--navy)!important;border-color:var(--navy)!important;color:#9fb3d1}
+.lv.now b{color:#fff}
+button{transition:transform .2s var(--ease),background .2s,color .2s,box-shadow .2s}
+button:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 16px -10px rgba(22,35,58,.55)}
+button:active:not(:disabled){transform:scale(.96)}
+.opts button.right{animation:pulse .5s var(--ease)}
+.opts button.wrong{animation:shake .42s}
+@keyframes pulse{0%{transform:scale(1)}40%{transform:scale(1.08)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+.score{background:linear-gradient(90deg,#2f5fa7,#d07a1f,#4f8a3a,#b23b3b);-webkit-background-clip:text;background-clip:text;color:transparent}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:80}
+@media (max-width:640px){.floaters{display:none}header{padding:28px 22px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -208,6 +238,18 @@ const LEVELS=[
  }
 ];
 
+
+// ---- confetti ----
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cf=document.createElement('canvas');cf.id='confetti';document.body.appendChild(cf);const cx=cf.getContext('2d');let parts=[],run=false;
+function sizeCf(){cf.width=innerWidth*devicePixelRatio;cf.height=innerHeight*devicePixelRatio;cx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);}sizeCf();addEventListener('resize',sizeCf);
+function burst(x,y,n=60){ if(RM) return; const cols=['#2f5fa7','#d07a1f','#4f8a3a','#b23b3b','#f3d98f'];
+  for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,v=3+Math.random()*6;parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-4,r:3+Math.random()*4,c:cols[i%5],rot:Math.random()*6,vr:(Math.random()-.5)*.4,life:1});}
+  if(!run){run=true;requestAnimationFrame(tick);} }
+function tick(){cx.clearRect(0,0,innerWidth,innerHeight);parts=parts.filter(p=>p.life>0);
+  for(const p of parts){p.vy+=.22;p.vx*=.985;p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;p.life-=.012;cx.save();cx.globalAlpha=Math.max(0,p.life);cx.translate(p.x,p.y);cx.rotate(p.rot);cx.fillStyle=p.c;cx.fillRect(-p.r,-p.r/2,p.r*2,p.r);cx.restore();}
+  if(parts.length) requestAnimationFrame(tick); else {run=false;cx.clearRect(0,0,innerWidth,innerHeight);} }
+
 let cur=-1, qi=0, answered=false;
 const score=LEVELS.map(()=>[]);   // true/false per question
 let unlocked=1;
@@ -271,7 +313,7 @@ function answer(o){
   score[cur].push(ok);
   document.querySelectorAll('.opts button').forEach(b=>{
     b.disabled=true;
-    if(b.dataset.o===it.a){b.classList.add('right');b.style.color='#fff'}
+    if(b.dataset.o===it.a){b.classList.add('right');b.style.color='#fff'; if(ok){const r=b.getBoundingClientRect(); burst(r.left+r.width/2,r.top+r.height/2,40);} }
     else if(b.dataset.o===o){b.classList.add('wrong');b.style.color='#fff'}
   });
   let bert='';
@@ -301,6 +343,7 @@ function levelEnd(){
   if(cur+1>=unlocked) unlocked=Math.min(LEVELS.length,cur+2);
   renderMap();
   const last=cur===LEVELS.length-1;
+  if(s>=L.items.length-1) setTimeout(()=>burst(innerWidth/2,innerHeight*.35,110),250);
   document.getElementById('stage').innerHTML=`<div class="card">
     <div class="stagehead"><h2>${L.short}・${L.name}　完成！</h2></div>
     <div style="display:flex;align-items:baseline;gap:12px"><span class="score">${s} / ${L.items.length}</span><span style="color:var(--muted)">${s===L.items.length?'全對，標註一致！':s>=L.items.length/2?'大致掌握了這個構面。':'這個構面不容易，可以再挑戰一次。'}</span></div>
@@ -315,6 +358,7 @@ function finale(){
   cur=-1; renderMap();
   const tot=score.flat().filter(Boolean).length, all=LEVELS.reduce((a,L)=>a+L.items.length,0);
   const title=tot>=all-2?'資深標註員':tot>=all*0.6?'標註員':'見習標註員';
+  setTimeout(()=>{burst(innerWidth*.3,innerHeight*.4,90);burst(innerWidth*.7,innerHeight*.4,90);},200);
   document.getElementById('stage').innerHTML=`<div class="card">
     <div class="kicker">闖關總結</div>
     <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap"><span class="score">${tot} / ${all}</span><h2 style="font-size:24px">${title}</h2></div>
