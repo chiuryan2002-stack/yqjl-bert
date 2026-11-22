@@ -1,15 +1,22 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" data-page="story">
 <head>
+<script>(function(){var d=document.documentElement,t=null,l=null;try{t=localStorage.getItem('yq-theme');l=localStorage.getItem('yq-lang');}catch(e){}var u=new URLSearchParams(location.search).get('lang');if(u){l=u;try{localStorage.setItem('yq-lang',u)}catch(e){}}d.dataset.theme=t==='light'?'light':'dark';d.dataset.lang=l==='en'?'en':'zh';if(d.dataset.lang==='en')d.classList.add('i18n-pending');})();</script>
+<link rel="stylesheet" href="site.css">
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>小張的職場三十年｜原、前、舊、老</title>
 <style>
+/* ===== theme tokens (dark default / light) ===== */
+:root,html[data-theme=dark]{--bg:#0b1526;--card:#13223d;--ink:#e8eef8;--muted:#9fb3d1;--line:rgba(255,255,255,.1);--track:#24375a;--track2:#1a2c4d;--grid:#2f4670;--grid2:#3d5480;--bar1:#6f8fbf;--bar2:#2a3d5f;--bar3:#7d8fb0;--soft:#c9d6ea;--yuan:#7fa8ec;--qian:#f0a04b;--jiu:#86c46f;--lao:#ec7376;--tipbg:#1a2a45;--tipline:#3a4f75;--hl:#3b3520;--kick:#8ea6c8;--ink2:#dbe6f5;--link:#bcd0ee;--deep:#070e1b;
+ --glass1:rgba(26,44,77,.82);--glass2:rgba(19,34,61,.82);--glassb:rgba(255,255,255,.09);--glow1:rgba(29,53,96,.6);--shadow-c:rgba(0,0,0,.6);--btnbg:rgba(255,255,255,.04);--btnline:rgba(255,255,255,.22);--heroA:#1d3560;--heroB:#1a2b4d;--heroBg:#0b1526;--heroInk:#fff;--heroSub:#b4c4dc;--heroK:#9fb3d1;--heroGlass:rgba(255,255,255,.07);--heroGlassB:rgba(255,255,255,.14);--heroPanel:rgba(11,21,38,.55);color-scheme:dark}
+html[data-theme=light]{--bg:#e2ebf6;--card:#ffffff;--ink:#16233a;--muted:#566377;--line:#d4deea;--track:#e3eaf3;--track2:#eef3f9;--grid:#c3cfdf;--grid2:#9fb0c8;--bar1:#3d5a8a;--bar2:#b8c6da;--bar3:#8a8577;--soft:#3d3a33;--yuan:#2f5fa7;--qian:#d07a1f;--jiu:#4f8a3a;--lao:#b23b3b;--tipbg:#fff6df;--tipline:#f0dca8;--hl:#fff1c9;--kick:#566377;--ink2:#16233a;--link:#2f5fa7;--deep:#16233a;
+ --glass1:rgba(255,255,255,.92);--glass2:rgba(255,255,255,.86);--glassb:#d4deea;--glow1:rgba(160,195,240,.55);--shadow-c:rgba(22,35,58,.25);--btnbg:#fff;--btnline:#9fb0c8;--heroA:#c6dbf5;--heroB:#d7e6f8;--heroBg:#e8f0fa;--heroInk:#16233a;--heroSub:#3d4d66;--heroK:#566377;--heroGlass:rgba(255,255,255,.65);--heroGlassB:#c9d7ea;--heroPanel:rgba(255,255,255,.72);color-scheme:light}
+
 p{text-align:justify}
 :root{
-  --ink:#e8eef8; --muted:#9fb3d1; --line:rgba(255,255,255,.1); --bg:#0b1526; --card:#13223d;
-  --yuan:#7fa8ec; --qian:#f0a04b; --jiu:#86c46f; --lao:#ec7376;
-  --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --line:rgba(255,255,255,.1); --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
   --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
 }
 *{box-sizing:border-box}
@@ -22,11 +29,11 @@ h1,h2,h3{font-family:var(--serif);margin:0;line-height:1.3}
 .原{color:var(--yuan)}.前{color:var(--qian)}.舊{color:var(--jiu)}.老{color:var(--lao)}
 .hero{padding:50px 0 20px}
 .hero h1{font-size:clamp(34px,6vw,54px)}
-.hero p{color:#c9d6ea;max-width:620px;margin:14px 0 0}
+.hero p{color:var(--soft);max-width:620px;margin:14px 0 0}
 .career{display:flex;align-items:center;gap:0;margin:34px 0 10px;font-family:var(--serif)}
 .career .st{flex:1;text-align:center;font-size:14px;color:var(--muted);position:relative;padding-top:22px;transition:color .4s}
-.career .st::before{content:"";position:absolute;top:6px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:#2f4670;transition:background .4s}
-.career .st::after{content:"";position:absolute;top:11px;left:calc(50% + 8px);right:calc(-50% + 8px);height:2px;background:#2f4670}
+.career .st::before{content:"";position:absolute;top:6px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--grid);transition:background .4s}
+.career .st::after{content:"";position:absolute;top:11px;left:calc(50% + 8px);right:calc(-50% + 8px);height:2px;background:var(--grid)}
 .career .st:last-child::after{display:none}
 .career .st.on{color:var(--ink)}
 .career .st.on::before{background:var(--ink)}
@@ -40,7 +47,7 @@ h1,h2,h3{font-family:var(--serif);margin:0;line-height:1.3}
 .txt{font-family:var(--serif);font-size:20px;line-height:1.9}
 .blank{display:inline-block;min-width:1.4em;border-bottom:3px solid var(--ink);text-align:center;font-weight:700;margin:0 2px}
 .opts{display:flex;gap:10px;margin-top:16px}
-.opt{font-family:var(--serif);font-size:28px;font-weight:700;width:64px;height:58px;border-radius:12px;border:2px solid var(--line);background:#13223d;cursor:pointer;transition:transform .1s,border-color .2s}
+.opt{font-family:var(--serif);font-size:28px;font-weight:700;width:64px;height:58px;border-radius:12px;border:2px solid var(--line);background:var(--card);cursor:pointer;transition:transform .1s,border-color .2s}
 .opt:hover:not(:disabled){transform:translateY(-2px);border-color:var(--ink)}
 .opt:disabled{cursor:default}
 .opt.ok{border-color:currentColor;box-shadow:inset 0 0 0 2px currentColor}
@@ -49,11 +56,11 @@ h1,h2,h3{font-family:var(--serif);margin:0;line-height:1.3}
 .res.on{display:block}
 .pb{display:grid;grid-template-columns:24px 1fr 52px;gap:10px;align-items:center;margin:5px 0;font-size:14px;font-variant-numeric:tabular-nums}
 .pb .c{font-family:var(--serif);font-weight:700;font-size:16px}
-.pb .t{height:12px;background:#24375a;border-radius:6px;overflow:hidden}
+.pb .t{height:12px;background:var(--track);border-radius:6px;overflow:hidden}
 .pb .t div{height:100%;width:0;border-radius:6px;transition:width .6s}
 .pb span{color:var(--muted);text-align:right}
 .verdict{font-family:var(--serif);font-size:17px;margin-bottom:6px}
-.note{font-size:15px;color:#c9d6ea;background:#1a2c4d;border-radius:10px;padding:10px 14px;margin-top:10px}
+.note{font-size:15px;color:var(--soft);background:var(--track2);border-radius:10px;padding:10px 14px;margin-top:10px}
 .badge{display:inline-block;font-size:12px;border-radius:10px;padding:0 8px;margin-left:6px;vertical-align:2px}
 .badge.y{background:rgba(134,196,111,.16);color:#a6dd90}.badge.a{background:rgba(240,160,75,.16);color:#f5c080}.badge.n{background:rgba(236,115,118,.16);color:#f4a1a3}
 .btn{display:inline-block;border:none;background:linear-gradient(135deg,#3f6fc0,#2a4f92);color:#fff;font-size:16px;border-radius:26px;padding:10px 24px;cursor:pointer;margin-top:16px;text-decoration:none}
@@ -69,11 +76,11 @@ h1,h2,h3{font-family:var(--serif);margin:0;line-height:1.3}
 @media (max-width:620px){ .scene{padding-left:0} .scene .yr{position:static;width:auto;text-align:left;margin-bottom:6px} .scene .yr b{display:inline;font-size:18px;margin-right:6px} .scene .line{display:none} .strip{grid-template-columns:repeat(4,1fr)} }
 
 /* ===== unified deep-navy theme ===== */
-body{background:radial-gradient(1200px 800px at 85% -10%,rgba(29,53,96,.6),transparent 60%),#0b1526;background-attachment:fixed;color:#e8eef8;-webkit-font-smoothing:antialiased}
+body{background:radial-gradient(1200px 800px at 85% -10%,rgba(29,53,96,.6),transparent 60%),var(--bg);background-attachment:fixed;color:var(--ink);-webkit-font-smoothing:antialiased}
 h1,h2,h3{color:#fff}
 .card,.q,.big div,.opt,.scene,.panel{box-shadow:0 1px 0 rgba(255,255,255,.05) inset,0 18px 40px -22px rgba(0,0,0,.7)}
-a{color:#bcd0ee}
-::selection{background:#7fa8ec;color:#0b1526}
+a{color:var(--link)}
+::selection{background:var(--yuan);color:var(--bg)}
 </style>
 </head>
 <body>
@@ -84,6 +91,7 @@ a{color:#bcd0ee}
     <h1>小張的職場三十年</h1>
     <p>小張和阿明同一年進公司。三十年間，他們一起升遷、分開、退休。同一段人際關係，隨著時間要用不同的字：<b class="老">老</b>同事、<b class="前">前</b>主任、<b class="舊">舊</b>同事……</p>
     <p>每一幕都有一個字被遮住。你先選，再看 BERT 怎麼選。看看它在哪一幕開始跟不上故事。</p>
+    <div data-twominds="compact" class="compact" style="margin-top:22px"></div>
   </div>
   <div class="career" id="career"></div>
   <div id="scenes"></div>
@@ -145,6 +153,7 @@ function answer(i, c, el){
     <div class="note">${m.note}</div>
     <button class="btn" id="n${i}">${i+1<META.length?"下一幕":"看結局"}</button>`;
   r.classList.add("on");
+  if(window.SFX) ok===1?SFX.correct():ok?SFX.meh():SFX.wrong();
   requestAnimationFrame(()=>requestAnimationFrame(()=>r.querySelectorAll(".t div").forEach(d=>d.style.width=d.dataset.w+"%")));
   $("#n"+i).onclick = e=>{ e.target.remove(); i+1<META.length ? scene(i+1) : end(); };
 }
@@ -156,10 +165,12 @@ function end(){
     <p style="font-size:14px;color:var(--muted);margin-top:-8px">每一格是 BERT 在該幕的首選；黃底代表說得通但意思偏了，紅底代表不合適。</p>
     <p>${bad.length ? `BERT 在「${bad.map(i=>META[i].title).join("」「")}」${bad.length>1?"這幾幕":"這一幕"}沒有選出最貼切的字：它都押了<b class="老">老</b>。` : "這一次 BERT 每一幕都跟上了。"}
     要選對這些字，需要知道<b>這段關係現在還在不在</b>：人是不是已經離開、職務是不是已經卸下。研究中的探針顯示，BERT 的中間層其實讀得出這些資訊，但它填空時主要還是看名詞配什麼字最常見。</p>
-    <a class="btn" href="index.html#mind">看 BERT 的「心口不一」</a> <a class="btn ghost" href="duel.html">挑戰真實語料題</a>`;
+    <a class="btn" href="index.html#mind">看「模型知道，實際卻選錯」</a> <a class="btn ghost" href="duel.html">挑戰真實語料題</a>`;
   e.classList.add("on"); e.scrollIntoView({behavior:"smooth", block:"start"});
 }
 score(); scene(0);
 </script>
+<script src="i18n.js"></script>
+<script src="site.js"></script>
 </body>
 </html>

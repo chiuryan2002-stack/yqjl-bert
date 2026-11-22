@@ -1,15 +1,22 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" data-page="duel">
 <head>
+<script>(function(){var d=document.documentElement,t=null,l=null;try{t=localStorage.getItem('yq-theme');l=localStorage.getItem('yq-lang');}catch(e){}var u=new URLSearchParams(location.search).get('lang');if(u){l=u;try{localStorage.setItem('yq-lang',u)}catch(e){}}d.dataset.theme=t==='light'?'light':'dark';d.dataset.lang=l==='en'?'en':'zh';if(d.dataset.lang==='en')d.classList.add('i18n-pending');})();</script>
+<link rel="stylesheet" href="site.css">
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>你來填：人類 vs. BERT｜原、前、舊、老</title>
 <style>
+/* ===== theme tokens (dark default / light) ===== */
+:root,html[data-theme=dark]{--bg:#0b1526;--card:#13223d;--ink:#e8eef8;--muted:#9fb3d1;--line:rgba(255,255,255,.1);--track:#24375a;--track2:#1a2c4d;--grid:#2f4670;--grid2:#3d5480;--bar1:#6f8fbf;--bar2:#2a3d5f;--bar3:#7d8fb0;--soft:#c9d6ea;--yuan:#7fa8ec;--qian:#f0a04b;--jiu:#86c46f;--lao:#ec7376;--tipbg:#1a2a45;--tipline:#3a4f75;--hl:#3b3520;--kick:#8ea6c8;--ink2:#dbe6f5;--link:#bcd0ee;--deep:#070e1b;
+ --glass1:rgba(26,44,77,.82);--glass2:rgba(19,34,61,.82);--glassb:rgba(255,255,255,.09);--glow1:rgba(29,53,96,.6);--shadow-c:rgba(0,0,0,.6);--btnbg:rgba(255,255,255,.04);--btnline:rgba(255,255,255,.22);--heroA:#1d3560;--heroB:#1a2b4d;--heroBg:#0b1526;--heroInk:#fff;--heroSub:#b4c4dc;--heroK:#9fb3d1;--heroGlass:rgba(255,255,255,.07);--heroGlassB:rgba(255,255,255,.14);--heroPanel:rgba(11,21,38,.55);color-scheme:dark}
+html[data-theme=light]{--bg:#e2ebf6;--card:#ffffff;--ink:#16233a;--muted:#566377;--line:#d4deea;--track:#e3eaf3;--track2:#eef3f9;--grid:#c3cfdf;--grid2:#9fb0c8;--bar1:#3d5a8a;--bar2:#b8c6da;--bar3:#8a8577;--soft:#3d3a33;--yuan:#2f5fa7;--qian:#d07a1f;--jiu:#4f8a3a;--lao:#b23b3b;--tipbg:#fff6df;--tipline:#f0dca8;--hl:#fff1c9;--kick:#566377;--ink2:#16233a;--link:#2f5fa7;--deep:#16233a;
+ --glass1:rgba(255,255,255,.92);--glass2:rgba(255,255,255,.86);--glassb:#d4deea;--glow1:rgba(160,195,240,.55);--shadow-c:rgba(22,35,58,.25);--btnbg:#fff;--btnline:#9fb0c8;--heroA:#c6dbf5;--heroB:#d7e6f8;--heroBg:#e8f0fa;--heroInk:#16233a;--heroSub:#3d4d66;--heroK:#566377;--heroGlass:rgba(255,255,255,.65);--heroGlassB:#c9d7ea;--heroPanel:rgba(255,255,255,.72);color-scheme:light}
+
 p{text-align:justify}
 :root{
-  --ink:#e8eef8; --muted:#9fb3d1; --line:rgba(255,255,255,.1); --bg:#0b1526; --card:#13223d;
-  --yuan:#7fa8ec; --qian:#f0a04b; --jiu:#86c46f; --lao:#ec7376;
-  --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --line:rgba(255,255,255,.1); --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
   --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
 }
 *{box-sizing:border-box}
@@ -26,10 +33,10 @@ h1,h2,h3{font-family:var(--serif);margin:0;line-height:1.3}
 .qno{font-size:13px;letter-spacing:.12em;color:var(--muted)}
 .sent{font-family:var(--serif);font-size:clamp(21px,3vw,27px);line-height:1.75;margin:12px 0 22px}
 .blank{display:inline-block;min-width:1.4em;border-bottom:3px solid var(--ink);text-align:center;margin:0 3px;font-weight:700}
-.noun{font-weight:700;background:#24375a;border-radius:4px;padding:0 3px}
+.noun{font-weight:700;background:var(--track);border-radius:4px;padding:0 3px}
 .opts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.opt{font-family:var(--serif);font-size:38px;font-weight:700;padding:14px 0;border-radius:12px;border:2px solid var(--line);background:#13223d;cursor:pointer;transition:transform .1s,border-color .2s}
-.opt:hover:not(:disabled){transform:translateY(-2px);border-color:#7fa8ec}
+.opt{font-family:var(--serif);font-size:38px;font-weight:700;padding:14px 0;border-radius:12px;border:2px solid var(--line);background:var(--card);cursor:pointer;transition:transform .1s,border-color .2s}
+.opt:hover:not(:disabled){transform:translateY(-2px);border-color:var(--yuan)}
 .opt:disabled{cursor:default}
 .原{color:var(--yuan)}.前{color:var(--qian)}.舊{color:var(--jiu)}.老{color:var(--lao)}
 .opt.gold{border-color:currentColor;box-shadow:inset 0 0 0 2px currentColor}
@@ -38,17 +45,17 @@ h1,h2,h3{font-family:var(--serif);margin:0;line-height:1.3}
 .reveal.on{display:block}
 .verdict{font-family:var(--serif);font-size:20px;margin-bottom:12px}
 .pb{display:grid;grid-template-columns:28px 1fr 56px;gap:10px;align-items:center;margin:6px 0;font-variant-numeric:tabular-nums}
-.pb .t{height:14px;background:#24375a;border-radius:7px;overflow:hidden}
+.pb .t{height:14px;background:var(--track);border-radius:7px;overflow:hidden}
 .pb .t div{height:100%;border-radius:7px;width:0;transition:width .6s}
 .pb .c{font-family:var(--serif);font-weight:700}
 .pb span{font-size:14px;color:var(--muted);text-align:right}
-.why{font-size:15.5px;color:#c9d6ea;margin-top:14px;background:#1a2c4d;border-radius:10px;padding:12px 14px}
+.why{font-size:15.5px;color:var(--soft);margin-top:14px;background:var(--track2);border-radius:10px;padding:12px 14px}
 .tags{font-size:13px;color:var(--muted);margin-top:8px}
 .btn{display:inline-block;border:none;background:linear-gradient(135deg,#3f6fc0,#2a4f92);color:#fff;font-size:16px;border-radius:26px;padding:10px 24px;cursor:pointer;margin-top:18px;text-decoration:none}
 .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
 .intro{margin-top:30px}
 .intro h1{font-size:clamp(30px,5vw,46px)}
-.intro p{color:#c9d6ea;max-width:620px}
+.intro p{color:var(--soft);max-width:620px}
 .end h2{font-size:32px;margin:6px 0 10px}
 .big{display:flex;gap:18px;margin:16px 0}
 .big div{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
@@ -59,42 +66,42 @@ table.log td,table.log th{border-bottom:1px solid var(--line);padding:7px 6px;te
 table.log th{font-weight:500;color:var(--muted);font-size:13px}
 
 /* ===== 主持模式 ===== */
-body.host{background:#070e1b;color:#e8eef8}
+body.host{background:var(--deep);color:var(--ink)}
 body.host .wrap{max-width:1280px;padding:28px 40px}
-body.host header{color:#9fb3d1}
-body.host header a{border-color:#2f4670}
-body.host .pill{background:#13223d;border-color:#2f4670}
-body.host .q{background:#13223d;border-color:#24375a;padding:40px 46px}
-body.host .qno{color:#9fb3d1}
+body.host header{color:var(--muted)}
+body.host header a{border-color:var(--grid)}
+body.host .pill{background:var(--card);border-color:var(--grid)}
+body.host .q{background:var(--card);border-color:var(--track);padding:40px 46px}
+body.host .qno{color:var(--muted)}
 body.host .sent{font-size:clamp(28px,3.4vw,44px)}
-body.host .blank{border-color:#e8eef8}
-body.host .noun{background:#24375a}
+body.host .blank{border-color:var(--ink)}
+body.host .noun{background:var(--track)}
 body.host .原{color:#7aa5ec}body.host .前{color:#f0a253}body.host .舊{color:#8fd172}body.host .老{color:#ff7a7a}
 .tally{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.tcard{background:#1a2c4d;border:2px solid #2f4670;border-radius:14px;padding:12px 14px;text-align:center}
+.tcard{background:var(--track2);border:2px solid var(--grid);border-radius:14px;padding:12px 14px;text-align:center}
 .tcard .ch{font-family:var(--serif);font-size:62px;font-weight:700;line-height:1.1}
 .tcard .ct{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:6px}
-.tcard button{width:40px;height:40px;border-radius:50%;border:1px solid #3d5480;background:#13223d;color:#e8eef8;font-size:22px;cursor:pointer}
-.tcard input{width:72px;font-size:30px;text-align:center;background:transparent;border:none;color:#e8eef8;font-family:var(--serif);font-variant-numeric:tabular-nums}
+.tcard button{width:40px;height:40px;border-radius:50%;border:1px solid var(--grid2);background:var(--card);color:var(--ink);font-size:22px;cursor:pointer}
+.tcard input{width:72px;font-size:30px;text-align:center;background:transparent;border:none;color:var(--ink);font-family:var(--serif);font-variant-numeric:tabular-nums}
 .tcard.gold{border-color:currentColor}
 .cmp{display:none;grid-template-columns:1fr 1fr;gap:34px;margin-top:26px}
 .cmp.on{display:grid}
-.cmp h3{font-size:20px;margin-bottom:8px;color:#c9d6ea}
-body.host .pb .t{background:#24375a;height:22px;border-radius:6px}
+.cmp h3{font-size:20px;margin-bottom:8px;color:var(--soft)}
+body.host .pb .t{background:var(--track);height:22px;border-radius:6px}
 body.host .pb .t div{border-radius:6px}
 body.host .pb .c{font-size:24px}
-body.host .pb span{color:#c9d6ea;font-size:18px}
-body.host .why{background:#1a2c4d;color:#dbe6f5;font-size:20px;padding:16px 20px}
-.timer{height:6px;background:#24375a;border-radius:3px;overflow:hidden;margin:-6px 0 22px}
-.timer div{height:100%;background:#e8eef8;width:100%}
-body.host .btn{background:#e8eef8;color:#070e1b}
-body.host .btn.ghost{background:transparent;color:#e8eef8;border-color:#e8eef8}
-.keys{font-size:13px;color:#8ea6c8;margin-top:18px}
-.keys kbd{border:1px solid #3d5480;border-radius:4px;padding:0 5px;font-family:inherit}
+body.host .pb span{color:var(--soft);font-size:18px}
+body.host .why{background:var(--track2);color:var(--ink2);font-size:20px;padding:16px 20px}
+.timer{height:6px;background:var(--track);border-radius:3px;overflow:hidden;margin:-6px 0 22px}
+.timer div{height:100%;background:var(--ink);width:100%}
+body.host .btn{background:var(--ink);color:var(--deep)}
+body.host .btn.ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
+.keys{font-size:13px;color:var(--kick);margin-top:18px}
+.keys kbd{border:1px solid var(--grid2);border-radius:4px;padding:0 5px;font-family:inherit}
 .hostend{text-align:center;padding:60px 0}
 .hostend .vs{display:flex;justify-content:center;gap:70px;margin:30px 0}
 .hostend .vs b{display:block;font-family:var(--serif);font-size:110px;line-height:1}
-.hostend .vs span{font-size:22px;color:#9fb3d1}
+.hostend .vs span{font-size:22px;color:var(--muted)}
 @media (max-width:620px){
   .q{padding:22px 18px}
   .opt{font-size:30px}
@@ -102,11 +109,11 @@ body.host .btn.ghost{background:transparent;color:#e8eef8;border-color:#e8eef8}
 }
 
 /* ===== unified deep-navy theme ===== */
-body{background:radial-gradient(1200px 800px at 85% -10%,rgba(29,53,96,.6),transparent 60%),#0b1526;background-attachment:fixed;color:#e8eef8;-webkit-font-smoothing:antialiased}
+body{background:radial-gradient(1200px 800px at 85% -10%,rgba(29,53,96,.6),transparent 60%),var(--bg);background-attachment:fixed;color:var(--ink);-webkit-font-smoothing:antialiased}
 h1,h2,h3{color:#fff}
 .card,.q,.big div,.opt,.scene,.panel{box-shadow:0 1px 0 rgba(255,255,255,.05) inset,0 18px 40px -22px rgba(0,0,0,.7)}
-a{color:#bcd0ee}
-::selection{background:#7fa8ec;color:#0b1526}
+a{color:var(--link)}
+::selection{background:var(--yuan);color:var(--bg)}
 </style>
 </head>
 <body>
@@ -168,11 +175,13 @@ function intro(){
     <div class="qno">LING5006 期末專案 · 互動遊戲</div>
     <h1>你來填：人類 vs. BERT</h1>
     <p style="margin-top:14px">以下 10 句都來自 COCT 2019 語料。每句有一個字被遮住，答案一定是<b class="原">原</b>、<b class="前">前</b>、<b class="舊">舊</b>、<b class="老">老</b>其中之一。你選完之後，會看到語料原本用的字，以及 bert-base-chinese 對四個字的猜測機率。</p>
+    <div data-twominds="compact" class="compact" style="margin:22px 0 6px"></div>
     <p>BERT 在全部 2,271 句中答對 75.3%。你能贏它嗎？</p>
     <button class="btn" id="go">開始</button>
     <a class="btn ghost" href="#host" style="margin-left:8px">主持模式（課堂用）</a>
   </div>`;
   $("#go").onclick = ()=>{ newGame(); ask(); };
+  if(window.YQ_mount) YQ_mount();
 }
 function ask(){
   scoreBar();
@@ -199,6 +208,7 @@ function answer(mine){
     <div class="why">${why(r)}</div>
     <button class="btn" id="next">${game.k+1<game.qs.length ? "下一題" : "看結果"}</button>`;
   rv.classList.add("on"); grow(rv);
+  if(window.SFX) ok?SFX.correct():SFX.wrong();
   $("#next").onclick = ()=>{ game.k++; game.k<game.qs.length ? ask() : end(); };
   $("#next").focus();
 }
@@ -264,6 +274,7 @@ function hostReveal(){
   const mx = Math.max(...H.counts), clsPick = tot ? MODS.filter((m,k)=>H.counts[k]===mx) : [];
   const clsOK = clsPick.length===1 && clsPick[0]===r.m;
   H.res[H.k]=[+clsOK, +(p===r.m)]; hostScore();
+  if(window.SFX) clsOK?SFX.correct(true):SFX.wrong();
   app.querySelector(".sent").innerHTML = sentence(r, r.m);
   app.querySelectorAll(".tcard").forEach(c=>{ if(MODS[+c.dataset.k]===r.m) c.classList.add("gold"); });
   const cmp = $("#cmp");
@@ -297,5 +308,7 @@ function route(){ if(location.hash==="#host") hostInit(); else { document.body.c
 window.addEventListener("hashchange", route);
 route();
 </script>
+<script src="i18n.js"></script>
+<script src="site.js"></script>
 </body>
 </html>
