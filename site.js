@@ -19,10 +19,20 @@ const CJK=/[㐀-鿿＀-￯　-〿]/;
    --------------------------------------------------------- */
 const SFX=(()=>{
   let ac=null, master=null, on=LS.get('yq-sound')!=='off';
+  let silentEl=null;
   function ctx(){
-    if(!ac){ const A=window.AudioContext||window.webkitAudioContext; if(!A) return null; ac=new A(); master=ac.createGain(); master.gain.value=.55; master.connect(ac.destination); }
-    if(ac.state==='suspended') ac.resume();
+    if(!ac){ const A=window.AudioContext||window.webkitAudioContext; if(!A) return null; ac=new A({latencyHint:'interactive'}); master=ac.createGain(); master.gain.value=.7; master.connect(ac.destination); }
+    if(ac.state!=='running') ac.resume().catch(()=>{});
     return ac;
+  }
+  // must run inside a user gesture: resumes audio, plays a 1-sample silent buffer (iOS/Safari unlock),
+  // and asks iOS to treat this page as media playback so the silent switch does not mute it
+  function unlock(){
+    const c=ctx(); if(!c) return Promise.resolve();
+    try{ if(navigator.audioSession) navigator.audioSession.type='playback'; }catch(e){}
+    try{ const b=c.createBuffer(1,1,22050), s=c.createBufferSource(); s.buffer=b; s.connect(c.destination); s.start(0); }catch(e){}
+    try{ if(!silentEl){ silentEl=new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA='); silentEl.loop=true; silentEl.volume=0; silentEl.setAttribute('playsinline',''); } silentEl.play().catch(()=>{}); }catch(e){}
+    return c.state==='running'?Promise.resolve():c.resume().catch(()=>{});
   }
   const noiseBuf=()=>{ const c=ctx(); const b=c.createBuffer(1,c.sampleRate*2,c.sampleRate); const d=b.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1; return b; };
   let NB=null; const nb=()=>NB||(NB=noiseBuf());
@@ -42,7 +52,8 @@ const SFX=(()=>{
   }
   const api={
     get on(){return on}, set(v){on=v; LS.set('yq-sound',v?'on':'off'); if(v){ctx(); api.click();}},
-    unlock(){ctx()},
+    unlock,
+    ready(){ return !!ac && ac.state==='running'; },
     // typewriter key: mechanical click + low thock
     type(){ noise({d:.035,v:.35,bp:2600+Math.random()*1400,Q:2.5}); tone({f:140+Math.random()*30,type:'triangle',d:.06,v:.12}); },
     carriage(){ noise({d:.18,v:.12,bp:5000,Q:.7}); tone({f:1760,d:.5,v:.06}); },
@@ -61,22 +72,24 @@ const SFX=(()=>{
     wrong(){ tone({f:196,type:'sawtooth',d:.22,v:.12,q:1200}); tone({f:147,type:'sawtooth',t:.2,d:.38,v:.12,q:1000}); },
     // half-right
     meh(){ tone({f:440,type:'triangle',d:.15,v:.1}); tone({f:392,type:'triangle',t:.13,d:.25,v:.1}); },
-    // correct: bright chord + applause + crowd cheer
+    // bell partials (used by the new success chime)
+    bell(f,t=0,v=.14,d=1.4){ tone({f,t,d,v}); tone({f:f*2.76,t,d:d*.5,v:v*.35}); tone({f:f*5.4,t,d:d*.25,v:v*.15}); },
+    // correct: game-show chime (G5-C6-E6 then a shimmering C7) + short, crisp applause
     correct(big=false){
-      [523.25,659.25,783.99,1046.5].forEach((f,i)=>tone({f,type:'triangle',t:i*.06,d:.6,v:.11}));
-      const n=big?120:55, D=big?2.4:1.4;
-      for(let i=0;i<n;i++){ const t=.12+Math.pow(Math.random(),1.3)*D; noise({t,d:.012+Math.random()*.02,v:.18+Math.random()*.22,bp:900+Math.random()*2600,Q:1.4}); }
-      // "yay" — formant-filtered voices
-      const c=ctx(); if(!c||!on) return; const voices=big?7:4;
-      for(let k=0;k<voices;k++){
-        const t0=c.currentTime+.1+Math.random()*.15, d=(big?1.5:.9)+Math.random()*.3;
-        const o=c.createOscillator(); o.type='sawtooth'; const f0=230+Math.random()*180; o.frequency.setValueAtTime(f0,t0); o.frequency.linearRampToValueAtTime(f0*1.35,t0+d*.35); o.frequency.linearRampToValueAtTime(f0*1.1,t0+d);
-        const vib=c.createOscillator(), vg=c.createGain(); vib.frequency.value=5+Math.random()*2; vg.gain.value=f0*.03; vib.connect(vg); vg.connect(o.frequency);
-        const f1=c.createBiquadFilter(); f1.type='bandpass'; f1.frequency.value=800; f1.Q.value=6;
-        const f2=c.createBiquadFilter(); f2.type='bandpass'; f2.frequency.value=1300; f2.Q.value=6;
-        const g=c.createGain(); g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(.05,t0+.12); g.gain.exponentialRampToValueAtTime(.0001,t0+d);
-        o.connect(f1); o.connect(f2); f1.connect(g); f2.connect(g); g.connect(master); o.start(t0); vib.start(t0); o.stop(t0+d+.1); vib.stop(t0+d+.1);
-      }
+      api.bell(783.99,0,.13); api.bell(1046.5,.09,.13); api.bell(1318.5,.18,.14,1.8);
+      for(let i=0;i<10;i++) tone({f:2093*(1+i*.12),type:'sine',t:.3+i*.035,d:.25,v:.035});
+      const n=big?70:28, D=big?1.8:.9;
+      for(let i=0;i<n;i++){ const t=.32+Math.pow(Math.random(),1.6)*D; noise({t,d:.03+Math.random()*.03,v:.12+Math.random()*.14,bp:1200+Math.random()*1500,Q:.8}); }
+      if(big){ tone({f:1567,f2:2349,type:'sine',t:.5,d:.35,v:.05}); tone({f:2349,f2:1760,type:'sine',t:.85,d:.3,v:.045}); }
+    },
+    // opening ambience: a soft pad that runs under the whole opening
+    ambience(sec=16){
+      const c=ctx(); if(!c||!on) return ()=>{};
+      const t0=c.currentTime, g=c.createGain(); g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(.09,t0+2); g.gain.setValueAtTime(.09,t0+sec-2); g.gain.linearRampToValueAtTime(0,t0+sec);
+      const lp=c.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=900; lp.Q.value=.7; lp.connect(g); g.connect(master);
+      const lfo=c.createOscillator(), lg=c.createGain(); lfo.frequency.value=.12; lg.gain.value=380; lfo.connect(lg); lg.connect(lp.frequency); lfo.start(t0); lfo.stop(t0+sec);
+      const oscs=[110,164.81,220,329.63].map((f,i)=>{ const o=c.createOscillator(); o.type=i%2?'triangle':'sawtooth'; o.frequency.value=f; o.detune.value=(i-1.5)*6; o.connect(lp); o.start(t0); o.stop(t0+sec); return o; });
+      return ()=>{ try{ const n=c.currentTime; g.gain.cancelScheduledValues(n); g.gain.setValueAtTime(g.gain.value,n); g.gain.linearRampToValueAtTime(0,n+.6); oscs.forEach(o=>o.stop(n+.7)); lfo.stop(n+.7);}catch(e){} };
     }
   };
   return api;
@@ -84,7 +97,7 @@ const SFX=(()=>{
 window.SFX=SFX;
 
 /* generic UI sounds: buttons, sliders, section arrivals */
-document.addEventListener('pointerdown',()=>SFX.unlock(),{once:true,capture:true});
+['pointerdown','touchend','click','keydown'].forEach(ev=>document.addEventListener(ev,()=>{ if(!SFX.ready()) SFX.unlock(); },{capture:true,passive:true}));
 document.addEventListener('click',e=>{
   const b=e.target.closest('button,.btn,.cta a,.opt,.lv.open,.lv.done,#fxNav a');
   if(b && !b.closest('.yq-ctrl') && !b.dataset.nosfx) SFX.click();
@@ -294,6 +307,7 @@ function playIntro(force){
      <div class="yi-gate-k">${EN?'An interactive study of Chinese near-synonyms':'華語近義詞 × 語言模型 · 互動研究'}</div>
      <button class="yi-start" data-nosfx>${ICON.play}<span>${EN?'Start':'開始'}</span></button>
      <div class="yi-gate-h">${EN?'Press Enter or click · best with sound on':'按 Enter 或點擊開始 · 建議開啟聲音'}</div>
+     <button class="yi-snd" data-nosfx aria-pressed="${SFX.on}">${SFX.on?ICON.snd:ICON.mute}<span>${SFX.on?(EN?'Sound on':'音效：開'):(EN?'Sound off':'音效：關')}</span></button>
    </div>
    <div class="yi-type"><div class="yi-chars"></div></div>
    <div class="yi-cloud"></div>
@@ -315,12 +329,14 @@ function playIntro(force){
   function key(e){ if(e.key==='Escape') end(); if(e.key==='Enter'&&!started) start(); }
   addEventListener('keydown',key);
   $('.yi-skip').onclick=end;
+  $('.yi-snd').onclick=e=>{ SFX.unlock(); SFX.set(!SFX.on); const b=e.currentTarget; b.innerHTML=(SFX.on?ICON.snd:ICON.mute)+`<span>${SFX.on?(EN?'Sound on':'音效：開'):(EN?'Sound off':'音效：關')}</span>`; b.setAttribute('aria-pressed',SFX.on); const cb=document.querySelector('#yqSnd'); if(cb){ cb.innerHTML=SFX.on?ICON.snd:ICON.mute; cb.setAttribute('aria-pressed',SFX.on);} };
   // ambient star field
   stops.push(starfield($('.yi-bg')));
   let started=false;
   $('.yi-start').onclick=start; $('.yi-start').focus();
   async function start(){
-    if(started) return; started=true; SFX.unlock(); SFX.whoosh();
+    if(started) return; started=true; const u=SFX.unlock(); await Promise.race([u,wait(400)]);
+    const stopAmb=SFX.ambience(17); stops.push(stopAmb); SFX.whoosh();
     $('.yi-gate').classList.add('gone'); await wait(500);
     /* 1. typewriter */
     const box=$('.yi-chars'); ov.classList.add('s1');
@@ -339,10 +355,10 @@ function playIntro(force){
       placed.push([x,y]);
       el.style.left=(x*100)+'%'; el.style.top=(y*100)+'%'; el.style.fontSize=(15+s*11)+'px'; el.style.setProperty('--d',(i*55)+'ms');
       el.innerHTML=w+(EN?`<small>${PY[w]||''} · ${NOUN_EN[w]||''}</small>`:''); el.dataset.side=i%2?'m':'h'; cloud.appendChild(el); });
-    for(let i=0;i<NOUNS.length;i+=3){ if(dead) return; SFX.blip(i); await wait(70); }
+    SFX.tech(); for(let i=0;i<NOUNS.length;i+=2){ if(dead) return; SFX.blip(i); await wait(60); }
     await wait(1500);
     /* 3. human eye / brain vs machine */
-    ov.classList.add('s3'); SFX.whoosh();
+    ov.classList.add('s3'); SFX.whoosh(); SFX.compute(10);
     stops.push(net3d($('.yi-net'),{}));
     cloud.querySelectorAll('.yi-w').forEach((el,i)=>{ el.style.setProperty('--d',(i*35)+'ms'); el.classList.add(el.dataset.side==='h'?'to-h':'to-m'); });
     await wait(900); if(dead) return;
