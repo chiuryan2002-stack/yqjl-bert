@@ -164,7 +164,7 @@ function end(){
     <div class="strip">${log.map((x,i)=>`<div class="${x.bok===1?'':x.bok?'alt':'bad'}"><b class="${x.bp}">${x.bp}</b>${META[i].title}</div>`).join("")}</div>
     <p style="font-size:14px;color:var(--muted);margin-top:-8px">每一格是 BERT 在該幕的首選；黃底代表說得通但意思偏了，紅底代表不合適。</p>
     <p>${bad.length ? `BERT 在「${bad.map(i=>META[i].title).join("」「")}」${bad.length>1?"這幾幕":"這一幕"}沒有選出最貼切的字：它都押了<b class="老">老</b>。` : "這一次 BERT 每一幕都跟上了。"}
-    要選對這些字，需要知道<b>這段關係現在還在不在</b>：人是不是已經離開、職務是不是已經卸下。研究中的探針顯示，BERT 的中間層其實讀得出這些資訊，但它填空時主要還是看名詞配什麼字最常見。</p>
+    要選對這些字，需要知道<b>這段關係現在還在不在</b>：人是不是已經離開、職務是不是已經卸下。研究中的探針顯示，這些資訊可以從 BERT 的中間層解碼出來，但它的填空結果多與名詞最常見的搭配一致，未穩定反映這些資訊。</p>
     <a class="btn" href="index.html#mind">看「模型知道，實際卻選錯」</a> <a class="btn ghost" href="duel.html">挑戰真實語料題</a>`;
   e.classList.add("on"); e.scrollIntoView({behavior:"smooth", block:"start"});
 }

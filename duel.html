@@ -144,7 +144,7 @@ function why(r){
   const lab = `人工標註：時間參照＝${r.time}，身分鏈結＝${r.link}，評價＝${r.ev}。`;
   const T = {
     "trap": `語料寫的是<b class="舊">舊</b>，BERT 卻押<b class="老">老</b>。這正是 BERT 最常犯的錯：語料中一半的「舊」都被它改成「老」。<b class="舊">舊</b>強調這段關係已經過去；<b class="老">老</b>多半是人還在、交情久。`,
-    "old-cont": `這個<b class="老">老</b>不是「以前的」，而是「認識很久、到現在還是」。探針在第 7 層能以 0.77 分辨老的兩種時間，但 BERT 填空時幾乎沒用上這份資訊。`,
+    "old-cont": `這個<b class="老">老</b>不是「以前的」，而是「認識很久、到現在還是」。探針在第 7 層能以 0.77 分辨老的兩種時間，但 BERT 的填空選擇並未穩定反映這份資訊。`,
     "old-past": `這個<b class="老">老</b>指的是過去的關係：同一個字，可以是「延續」也可以是「過去」，只有語境能決定。`,
     "yq": `<b class="原">原</b>、<b class="前">前</b>都表示「已不在此職」，在許多語境中可以互換，人和 BERT 都容易在兩者間搖擺。`,
     "easy": `職務頭銜＋已卸任，幾乎只能是<b class="原">原</b>或<b class="前">前</b>。這類題目 BERT 很拿手，「只看名詞」的搭配統計也猜得到。`,
@@ -221,7 +221,7 @@ function end(){
     <div class="qno">結果</div><h2>${head}</h2>
     <div class="big"><div><b>${game.me}/${n}</b><span>你</span></div><div><b>${game.bert}/${n}</b><span>BERT</span></div></div>
     <p>在「舊」題（語料用舊、BERT 卻押老）上，你答對 ${trap.filter(x=>x.ok).length}/${trap.length}，BERT 答對 ${trap.filter(x=>x.bok).length}/${trap.length}。
-    這些題目是特別挑出來的：BERT 讀得出語境裡的「過去／延續」，但選字時多半只看名詞，把「舊同事」也當成「老同事」。</p>
+    這些題目是特別挑出來的：探針能從 BERT 的表徵讀出語境裡的「過去／延續」，但它的選字結果多與名詞最常見的搭配一致，常把「舊同事」填成「老同事」。</p>
     <table class="log"><tr><th>句子</th><th>語料</th><th>你</th><th>BERT</th></tr>
     ${game.log.map(x=>`<tr><td>…${esc(x.r.L.slice(-14))}<b class="${x.r.m}">${x.r.m}</b>${esc(x.r.n)}</td><td class="${x.r.m}"><b>${x.r.m}</b></td><td>${x.ok?"✓":"✗ "+x.mine}</td><td>${x.bok?"✓":"✗ "+x.p}</td></tr>`).join("")}
     </table>

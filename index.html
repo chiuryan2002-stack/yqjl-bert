@@ -255,6 +255,22 @@ input[type=range]{accent-color:var(--yuan)!important}
 footer{background:var(--deep);border-top:1px solid rgba(255,255,255,.06)}
 svg text{fill-opacity:1}
 a{color:var(--link)}
+
+/* RQ navigator / focus / caveat */
+.rqgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:20px}
+.rq{text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:6px;padding:18px}
+.rq h3{font-size:17px;line-height:1.45}.rq p{font-size:14px;color:var(--muted);margin:0}.rq small{margin-top:auto;font-size:12.5px;color:var(--link)}
+.rqn{display:inline-block;align-self:flex-start;font:700 12px/1 var(--sans);letter-spacing:.08em;padding:5px 9px;border-radius:12px;background:linear-gradient(135deg,#3f6fc0,#2a4f92);color:#fff}
+.rqtag{margin-left:10px;font:700 11px/1 var(--sans);letter-spacing:.06em;padding:3px 7px;border-radius:10px;border:1px solid currentColor;opacity:.85}
+.caveat{margin:10px 0 4px;padding:10px 14px;border-radius:10px;border:1px solid var(--tipline);background:var(--tipbg);font-size:14.5px;line-height:1.7;max-width:760px}
+.caveat b{display:inline-block;margin-right:8px;padding:1px 8px;border-radius:8px;background:#d07a1f;color:#fff;font-size:12px}
+.mnote summary{cursor:pointer;list-style:none}.mnote summary::-webkit-details-marker{display:none}.mnote summary::after{content:" ＋";color:var(--muted)}.mnote[open] summary::after{content:" －"}
+.mnote ol{margin:10px 0 0;padding-left:1.3em;font-size:14.5px;line-height:1.75}.mnote li{margin:4px 0}
+.focusgrid{display:grid;grid-template-columns:1.1fr 1fr;gap:18px;margin-top:20px;align-items:start}
+.focuscards{display:grid;gap:12px}
+.fc{display:flex;gap:14px;align-items:flex-start;padding:14px 16px}.fc>b{font-size:34px;line-height:1;font-family:var(--serif)}.fc h3{font-size:16px;margin-bottom:2px}.fc p{font-size:14px;margin:0}
+@media (max-width:860px){.rqgrid{grid-template-columns:1fr 1fr}.focusgrid{grid-template-columns:1fr}}
+@media (max-width:520px){.rqgrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -269,9 +285,9 @@ a{color:var(--link)}
       <div class="sub fx-in d2">BERT 如何解讀華語的「原、前、舊、老」</div>
       <div class="chars fx-in d3"><span class="m 原" data-c="原">原</span><span class="m 前" data-c="前">前</span><span class="m 舊" data-c="舊">舊</span><span class="m 老" data-c="老">老</span></div>
       <div class="stats fx-in d4">
-        <div class="stat"><b class="num" data-count="2271">0</b><span>句有效語料（COCT 2019）</span></div>
-        <div class="stat"><b class="num" data-count="13">0</b><span>層 BERT 表徵逐層探測</span></div>
-        <div class="stat"><b class="num" data-count="75.3" data-dec="1" data-suf="%">0</b><span>BERT 遮蔽填空正確率</span></div>
+        <div class="stat"><b class="num" data-count="2271">2,271</b><span>句有效語料（COCT 2019）</span></div>
+        <div class="stat"><b class="num" data-count="13">13</b><span>層 BERT 表徵逐層探測</span></div>
+        <div class="stat"><b class="num" data-count="75.3" data-dec="1" data-suf="%">75.3%</b><span>BERT 遮蔽填空正確率</span></div>
       </div>
       <div class="byline fx-in d5">邱珮慈 · 國立臺灣師範大學 · 模型：bert-base-chinese（參數凍結）</div>
     </div>
@@ -287,6 +303,17 @@ a{color:var(--link)}
 <div class="intro-p"><div class="wrap"><div class="narrow fx-reveal"><p>「原校長」通常指因職務異動或制度變動而不再擔任原有職務者；「前校長」其語義焦點則側重於曾經擔任某項職務的歷史事實；「舊同事」多強調過去工作關係；「老員工」則除表示任職時間較長外，更可能延伸出資歷、經驗、熟悉度及組織認同等社會評價。四個字都帶著「過去」的意涵，卻不能任意互換。本研究從臺灣華語文語料庫（<span lang="en">Cor&shy;pus of Con&shy;tem&shy;po&shy;rary Tai&shy;wan&shy;ese Man&shy;da&shy;rin</span>, COCT）2019 收集了 2,271 筆真實語料，逐句標註它們修飾的職場身分、時間參照、身分鏈結與評價傾向，並透過 Chinese BERT-base 模型探究兩件事：<b>模型的內部表徵讀得出這些細微差異嗎？在選字時使用了這些語言資訊嗎？</b></p></div></div></div>
 
 
+<section id="rq"><div class="wrap">
+  <div class="kicker">研究問題導覽</div>
+  <h2>四個研究問題，對應網站的每一站</h2>
+  <div class="rqgrid">
+    <a class="card rq" href="#s1"><span class="rqn">RQ1</span><h3>四個修飾語的語義分工</h3><p>語料分布、時間參照、身分鏈結、評價傾向</p><small>第一站</small></a>
+    <a class="card rq" href="#s2"><span class="rqn">RQ2</span><h3>BERT 能解碼這些資訊嗎？</h3><p>逐層探測與向量空間</p><small>第二站、第三站</small></a>
+    <a class="card rq" href="#s4"><span class="rqn">RQ3</span><h3>探針讀出的資訊會影響模型選字嗎？</h3><p>遮蔽填空、模型 vs. 實際、語境改寫</p><small>第四站、第五站、第六站</small></a>
+    <a class="card rq" href="#focus"><span class="rqn">RQ4</span><h3>如何解釋四個詞的語義差異？</h3><p>語義焦點與概念模型</p><small>第七站</small></a>
+  </div>
+</div></section>
+
 <section id="s0"><div class="wrap">
   <div class="kicker">起點 · 辭典裡的語義集合</div>
   <h2>四個字，共享哪些意思？</h2>
@@ -299,9 +326,9 @@ a{color:var(--link)}
 </div></section>
 
 <section id="s1"><div class="wrap">
-  <div class="kicker">第一站 · 語料</div>
+  <div class="kicker">第一站 · 語料<span class="rqtag">RQ1</span></div>
   <h2>四個字，各有各的分工</h2>
-  <div class="narrow"><p><span class="m 原">原</span>、<span class="m 前">前</span>九成、八成修飾「主任、董事長」這類職務角色，幾乎都指已不在其位；<span class="m 舊">舊</span>、<span class="m 老">老</span>則多半修飾「同事、部屬」這類關係角色，而<span class="m 老">老</span>有六成多是「延續」：人還在，只是資歷深。</p></div>
+  <div class="narrow"><p><span class="m 原">原</span>、<span class="m 前">前</span>九成、八成修飾「主任、董事長」這類職務角色，幾乎都指已不在其位；<span class="m 舊">舊</span>、<span class="m 老">老</span>則多半修飾「同事、部屬」這類關係角色，而<span class="m 老">老</span>約六成二（773／1,244 句）的時間參照是「延續」，其中五成五同時為「延續＋持續」：人還在，只是資歷深。</p></div>
   <div class="split">
     <div class="card"><h3 style="font-size:18px;margin-bottom:10px">修飾哪一類職場身分</h3><div id="roleBars"></div>
       <div class="legend"><span><i style="background:var(--bar3)"></i>職務角色</span><span><i style="background:#c9a66b"></i>關係角色</span><span><i style="background:var(--bar2)"></i>組織成員</span></div>
@@ -318,7 +345,7 @@ a{color:var(--link)}
 </div></section>
 
 <section id="s2"><div class="wrap">
-  <div class="kicker">第二站 · 逐層探測</div>
+  <div class="kicker">第二站 · 逐層探測<span class="rqtag">RQ2</span></div>
   <h2>一句話穿過 BERT 的 13 層</h2>
   <div class="narrow"><p>我們在每一層取出「原、前、舊、老」那個位置的向量，訓練最簡單的線性分類器去猜標註。分數越高，代表該層<b>讀得出</b>這項資訊。每項分數都和「只看是哪個字」的詞彙基準比較。</p></div>
   <div class="scrolly">
@@ -338,7 +365,7 @@ a{color:var(--link)}
 </div></section>
 
 <section id="s3"><div class="wrap">
-  <div class="kicker">第三站 · 語義星圖</div>
+  <div class="kicker">第三站 · 語義星圖<span class="rqtag">RQ2</span></div>
   <h2>2,271 顆星，跟著層數移動</h2>
   <div class="narrow"><p>每一點是一句語料，位置是該層修飾語向量的二維投影（PCA，逐層對齊）。拖動滑桿或按「播放」，看四群怎麼移動：第 0 層依字分成四團；到第 12 層，<span class="m 原">原</span>和<span class="m 前">前</span>連成一片，<span class="m 舊">舊</span>和<span class="m 老">老</span>仍各自成群。點任一顆星可讀原句。</p></div>
   <div class="mapgrid">
@@ -353,7 +380,7 @@ a{color:var(--link)}
 </div></section>
 
 <section id="s4"><div class="wrap">
-  <div class="kicker">第四站 · 行為測試</div>
+  <div class="kicker">第四站 · 行為測試<span class="rqtag">RQ3</span></div>
   <h2>轉折：BERT 選字時，真的用上了嗎？</h2>
   <div class="narrow"><p>我們把每句的修飾語換成 [MASK]，只比較 BERT 對四個字的機率。如果它真的懂這些差別，應該遠勝過「只看名詞最常配哪個字」這種土法煉鋼的方法。</p></div>
   <div class="big3">
@@ -363,14 +390,14 @@ a{color:var(--link)}
   </div>
   <div class="split">
     <div><p>BERT 只比土法煉鋼的方法多 3.3 個百分點。它最常犯的錯，是把<span class="m 舊">舊</span>填成<span class="m 老">老</span>：一半的<span class="m 舊">舊</span>都被改成<span class="m 老">老</span>。</p>
-      <p>更關鍵的是<span class="m 老">老</span>的時間。探針在第 7 層能以 0.77 分辨「過去」和「延續」，但 BERT 填空時的選擇幾乎不受影響（AUC = 0.58，0.5 代表完全無關）；在「老同事」裡甚至方向相反（AUC = 0.41）。</p>
-      <p><b>資訊就在模型裡，模型卻沒有用它來選字。</b></p></div>
+      <p>更關鍵的是<span class="m 老">老</span>的時間。探針在第 7 層能以 0.77 分辨「過去」和「延續」，但 BERT 填空選擇與這項判斷的對應很弱：完整語境 AUC = 0.577（0.5 代表沒有區辨力）；在「老同事」中，完整語境 AUC = 0.405，方向相反；只給語境時 AUC = 0.457，置換檢定 <i>p</i> = .270，未達顯著。</p>
+      <p><b>探針雖能從模型的中高層表徵中解碼「老」的時間參照，但此資訊未穩定反映於模型的遮蔽填空選擇，顯示表徵中的可解碼資訊不必然等同於模型預測時實際利用的資訊。</b></p></div>
     <div class="card"><h3 style="font-size:17px;margin-bottom:10px">BERT 的混淆矩陣（列：語料原字；欄：BERT 選擇）</h3><div class="cm" id="cm"></div></div>
   </div>
 </div></section>
 
 <section id="mind"><div class="wrap">
-  <div class="kicker">第五站 · 模型 vs. 實際</div>
+  <div class="kicker">第五站 · 模型 vs. 實際<span class="rqtag">RQ3</span></div>
   <h2>模型知道，實際卻選錯</h2>
   <div class="narrow"><p>同一句話，我們同時看兩件事。</p><p><b>模型</b>：每一層的探針從修飾語向量讀到了什麼（時間、鏈結、身分、評價；已扣除「是哪個字」的資訊，所以探針不能只靠字形）。</p><p><b>實際</b>：BERT 遮住那個字後實際的選擇。挑一句看看，兩者常常對不上。</p></div>
   <div class="card" style="margin-top:20px">
@@ -386,12 +413,19 @@ a{color:var(--link)}
     </div>
     <div class="mverdict" id="mindVerdict"></div>
   </div>
-  <p class="narrow" style="margin-top:18px">在 169 句「<span class="m 舊">舊</span>」中，有 <b>72</b> 句的第 7 層探針同時讀對了時間參照與身分鏈結（多半是「過去＋中止」），BERT 填空時卻沒有填出<span class="m 舊">舊</span>，其中大多填成<span class="m 老">老</span>。</p><p class="narrow" style="font-size:14px;color:var(--muted)">探針機率為五折交叉驗證的樣本外預測，共收錄 384 句（全部 169 句「舊」，及原、前、老的抽樣）。訓練前已在訓練折內扣除各修飾語的平均向量，所以探針讀到的是同一個字在不同語境中的差異，而不是字本身。</p>
+  <p class="narrow" style="margin-top:18px">在 169 句「<span class="m 舊">舊</span>」中，有 <b>72</b> 句的第 7 層探針同時讀對了時間參照與身分鏈結（多半是「過去＋中止」），BERT 的填空結果卻不是<span class="m 舊">舊</span>，其中大多為<span class="m 老">老</span>。這顯示可解碼的資訊與實際選字之間並不一致，但不足以證明模型「完全沒有使用」這些資訊。</p><details class="card mnote" style="margin-top:14px"><summary><b>方法說明：去中心化的計算方式、適用範圍與限制</b></summary>
+    <ol>
+      <li><b>計算方式</b>：在五折交叉驗證的每一折中，只用訓練資料分別計算「原、前、舊、老」在該層的平均向量；每一句的向量都減去其修飾語的平均向量（測試句使用訓練折算出的平均），再訓練線性探針。</li>
+      <li><b>目的</b>：移除「是哪個字」造成的整體位移，讓探針較難只憑字形判斷時間或鏈結，比較能看出同一個字在不同語境中的差異。</li>
+      <li><b>適用範圍</b>：本站 384 句（全部 169 句「舊」，及原、前、老的抽樣）、bert-base-chinese 第 0–12 層、線性（邏輯迴歸）探針；機率為樣本外預測。</li>
+      <li><b>限制</b>：去中心化只移除平均差異（一階資訊），字的資訊仍可能以非線性形式或與語境交互的形式殘留；探針讀得出某項資訊，只代表該資訊「可被線性解碼」，不代表模型在預測時使用了它；樣本以書面語為主，「原、前」的延續與持續樣本極少。</li>
+    </ol></details>
 </div></section>
 
 <section id="s5"><div class="wrap">
-  <div class="kicker">第六站 · 語境改寫實驗台</div>
+  <div class="kicker">第六站 · 語境改寫實驗台<span class="rqtag">RQ3</span></div>
   <h2>自己加一點時間線索試試</h2>
+  <div class="caveat"><b>注意</b>這是「模型對人工添加線索的機率反應」，用來檢查模型選字是否隨線索改變；不是人類語義理解實驗，結果也不能直接推論模型的內部推理。</div>
   <div class="narrow"><p>如果 BERT 會用時間資訊，那在名詞前加上「已經離職的」，它應該更傾向<span class="m 原">原</span>、<span class="m 前">前</span>；加上「至今仍一起工作的」，應該更傾向<span class="m 老">老</span>。選一個句子和線索，看機率怎麼動。</p></div>
   <div class="labgrid">
     <div class="card">
@@ -409,7 +443,7 @@ a{color:var(--link)}
   </div>
   <div class="card" style="margin-top:24px"><h3 style="font-size:17px;margin-bottom:6px">所有造句的總結：加入線索後，P(原＋前) 平均變化</h3><div id="cueChart"></div>
     <p style="font-size:13px;color:var(--muted);margin:6px 0 0">每條長條是一種線索，在 2 種句框 × 6 個名詞上的平均變化（相對於不加線索）。往右代表更傾向<span class="m 原">原</span>、<span class="m 前">前</span>；橘色是指向「已不再」的線索，紅色是指向「仍在」的線索。</p>
-    <p style="margin:14px 0 0">結果和預期不一樣。指向「已不再」的四種線索，平均讓 P(原＋前) <b>下降</b> 12.6 個百分點；指向「仍在」的四種線索平均下降 15.0 個百分點，兩組幾乎沒有差別。「退休多年的」反而最強烈地把 BERT 推向<span class="m 老">老</span>（−27.9）；「已經離職的」主要提高的是<span class="m 舊">舊</span>。BERT 似乎在回應「多年」「離職」這類字面聯想，而不是推理「這個人還在不在職」。</p></div>
+    <p style="margin:14px 0 0">結果和預期不一樣。指向「已不再」的四種線索，平均讓 P(原＋前) <b>下降</b> 12.6 個百分點；指向「仍在」的四種線索平均下降 15.0 個百分點，兩組幾乎沒有差別。「退休多年的」反而最強烈地把 BERT 推向<span class="m 老">老</span>（−27.9）；「已經離職的」主要提高的是<span class="m 舊">舊</span>。這些變化較接近模型對「多年」「離職」等字面線索的共現聯想；本實驗只描述機率變化，無法據此推論模型是否「理解」此人仍在職，也不代表人類讀者的判斷。</p></div>
   <div class="card" style="margin-top:24px"><h3 style="font-size:17px;margin-bottom:6px">時間滑桿：把「幾年」拉長，BERT 會改變心意嗎？</h3>
     <div class="slgrid">
       <div>
@@ -422,8 +456,25 @@ a{color:var(--link)}
       </div>
       <div><div id="slChart"></div><p id="slNote" style="font-size:15px;margin:8px 0 0"></p></div>
     </div>
-    <p style="margin:16px 0 0">句子明說「後來我們就沒有再一起工作了」，BERT 對「同事」仍有 76%–89% 押<span class="m 老">老</span>；年數越長，<span class="m 老">老</span>只會越高。它把「X 年」讀成「交情久」，而不是「關係已經結束」。只有「主管」比較常選<span class="m 前">前</span>，但機率最高也只有 36%。</p>
+    <p style="margin:16px 0 0">句子明說「後來我們就沒有再一起工作了」，BERT 對「同事」仍有 76%–89% 押<span class="m 老">老</span>；年數越長，<span class="m 老">老</span>的機率越高。這樣的機率變化與「交情久」的讀法一致，而不是「關係已經結束」；但這描述的是模型對句框的反應，不是對理解過程的推論。只有「主管」比較常選<span class="m 前">前</span>，但機率最高也只有 36%。</p>
   </div>
+</div></section>
+
+<section id="focus"><div class="wrap">
+  <div class="kicker">第七站 · 語義焦點與概念模型<span class="rqtag">RQ4</span></div>
+  <h2>四個字，各自把焦點放在哪裡？</h2>
+  <div class="narrow"><p>綜合辭典義項與 2,271 句的人工標註，四個字都帶有「過去」的意涵，差別在於語義焦點：說話者想強調的是職務的原初狀態、曾任的歷史事實、過去的關係，還是時間的累積。下圖以「時間參照」與「身分鏈結」兩個構面為座標，圓的大小代表語料筆數。</p></div>
+  <div class="focusgrid">
+    <div class="card" style="padding:14px"><div id="focusMap"></div></div>
+    <div class="focuscards">
+      <div class="card fc"><b class="m 原">原</b><div><h3>原初狀態</h3><p>強調「異動前原本的那一位」。九成修飾職務角色，98% 標為中止；負向比例最高（37%），多見於新聞報導。</p></div></div>
+      <div class="card fc"><b class="m 前">前</b><div><h3>曾任的歷史事實</h3><p>強調「曾經擔任某職」。675 句全部標為過去，99% 為中止，評價多為中性（84%）。</p></div></div>
+      <div class="card fc"><b class="m 舊">舊</b><div><h3>過去的關係</h3><p>強調「曾經一起共事」。七成修飾關係角色；八成為過去，但身分鏈結約一半中止、一半持續。</p></div></div>
+      <div class="card fc"><b class="m 老">老</b><div><h3>時間的累積</h3><p>強調資歷、熟悉與交情。約六成二為延續、七成六為持續，正向評價比例最高（15%）。</p></div></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:20px"><h3 style="font-size:18px;margin-bottom:6px">概念模型：三個構面的組合</h3>
+    <p style="margin:0">以「時間參照 × 身分鏈結 × 評價傾向」描述四個字的語義焦點：<span class="m 原">原</span>、<span class="m 前">前</span>位於「過去＋中止」，差別在於強調原初狀態或歷史事實；<span class="m 舊">舊</span>以「過去」為主，但關係可中止也可持續；<span class="m 老">老</span>以「延續＋持續」為主，並帶有評價。<span class="m 舊">舊</span>與<span class="m 老">老</span>在「過去的關係」與「長久的關係」之間重疊，正是語料與 BERT 都最容易混淆之處。此模型是對語料分布的描述，不代表每一句的用法都落在典型位置。</p></div>
 </div></section>
 
 <section id="minds"><div class="wrap">
@@ -663,7 +714,7 @@ renderLab();
     const tj=pt[0]>=.5?0:1, lj=pl[0]>=.5?0:1, tok=CL.time[tj]===it[5], lok=CL.link[lj]===it[6], mok=mp===it[1];
     const read = `第 ${L} 層的探針讀到：時間＝<b>${CL.time[tj]}</b>${tok?"（與標註一致）":"（標註為"+it[5]+"）"}、鏈結＝<b>${CL.link[lj]}</b>${lok?"（與標註一致）":"（標註為"+it[6]+"）"}。`;
     const mouthTxt = `BERT 實際填的是<b class="m ${mp}">${mp}</b>（${(Math.max(...mouth)*100).toFixed(0)}%），語料原字是<b class="m ${it[1]}">${it[1]}</b>。`;
-    const verdict = (tok&&lok) ? (mok ? "<b>讀得出，也用對了。</b>" : "<b>讀得出，卻沒用上。</b>") : (mok ? "這一句模型沒有完全讀對，實際倒是選對了（可能靠名詞搭配）。" : "這一句模型沒有完全讀對，實際也選錯了。");
+    const verdict = (tok&&lok) ? (mok ? "<b>讀得出，選字也一致。</b>" : "<b>讀得出，但選字未反映。</b>") : (mok ? "這一句模型沒有完全讀對，實際倒是選對了（可能靠名詞搭配）。" : "這一句模型沒有完全讀對，實際也選錯了。");
     $("#mindVerdict").innerHTML = read + mouthTxt + verdict;
   }
   function show(i){
@@ -672,7 +723,7 @@ renderLab();
     render(true);
   }
   const groups = [
-    ["讀得出卻沒用上", i=>{ const k=pos.get(i), it=ITEMS[i]; const t=PR.time[7][k], l=PR.link[7][k]; return CL.time[t[0]>=50?0:1]===it[5] && CL.link[l[0]>=50?0:1]===it[6] && bertPick(i)!==it[1]; }],
+    ["讀得出、選字未反映", i=>{ const k=pos.get(i), it=ITEMS[i]; const t=PR.time[7][k], l=PR.link[7][k]; return CL.time[t[0]>=50?0:1]===it[5] && CL.link[l[0]>=50?0:1]===it[6] && bertPick(i)!==it[1]; }],
     ["舊 被填成 老", i=>ITEMS[i][1]==="舊" && bertPick(i)==="老"],
     ["老（延續）", i=>ITEMS[i][1]==="老" && ITEMS[i][5]==="延續"],
     ["老（過去）", i=>ITEMS[i][1]==="老" && ITEMS[i][5]==="過去"],
@@ -685,6 +736,24 @@ renderLab();
   show(890);
 })();
 
+
+/* ---------- 第七站：語義焦點圖 ---------- */
+(function(){
+  const D={原:{n:183,past:99.5,end:97.8},前:{n:675,past:100,end:98.5},舊:{n:169,past:79.9,end:52.7},老:{n:1244,past:37.9,end:23.9}};
+  const W=460,H=380,l=64,r=20,t=20,b=56,X=v=>l+(106-v)/112*(W-l-r),Y=v=>t+(106-v)/112*(H-t-b);
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="四個字在時間參照與身分鏈結上的位置">`;
+  for(const v of [0,25,50,75,100]){ s+=`<line x1="${X(v)}" x2="${X(v)}" y1="${t}" y2="${H-b}" stroke="var(--track)"/><line x1="${l}" x2="${W-r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--track)"/>`;
+    s+=`<text x="${X(v)}" y="${H-b+16}" font-size="11" text-anchor="middle" fill="var(--muted)">${v}%</text><text x="${l-8}" y="${Y(v)+4}" font-size="11" text-anchor="end" fill="var(--muted)">${v}%</text>`; }
+  s+=`<text x="${(l+W-r)/2}" y="${H-12}" font-size="12.5" text-anchor="middle" fill="var(--ink)">時間參照為「過去」的比例 →</text>`;
+  s+=`<text transform="translate(16 ${(t+H-b)/2}) rotate(-90)" font-size="12.5" text-anchor="middle" fill="var(--ink)">身分鏈結為「中止」的比例 →</text>`;
+  s+=`<text x="${X(92)}" y="${Y(66)}" font-size="11.5" fill="var(--muted)">↖ 過去＋中止</text><text x="${X(8)}" y="${Y(4)-8}" font-size="11.5" text-anchor="end" fill="var(--muted)">延續＋持續 ↘</text>`;
+  const LAB={原:[34,-12,"start"],前:[34,22,"start"],舊:[0,7,"middle"],老:[0,7,"middle"]};
+  for(const m of ["老","舊","前","原"]){ const d=D[m], rr=8+Math.sqrt(d.n)*.75, cx=X(d.past), cy=Y(d.end);
+    s+=`<circle cx="${cx}" cy="${cy}" r="${rr}" fill="${COL[m]}" fill-opacity=".22" stroke="${COL[m]}" stroke-width="2"/>`; }
+  for(const m of ["老","舊","前","原"]){ const d=D[m], cx=X(d.past), cy=Y(d.end), [dx,dy,a]=LAB[m];
+    s+=`<text x="${cx+dx}" y="${cy+dy}" font-size="20" font-weight="700" text-anchor="${a}" fill="${COL[m]}" font-family="var(--serif)">${m}</text>`; }
+  s+=`</svg>`; document.getElementById("focusMap").innerHTML=s;
+})();
 /* ---------- 時間滑桿 ---------- */
 (function(){
   const Y=EX2.years, T=EX2.templ, SN=EX2.sn, P=EX2.psl;
@@ -868,13 +937,16 @@ const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 })();
 
 /* ---------- count-up ---------- */
-document.querySelectorAll('[data-count]').forEach(el=>{
+function countUp(){ document.querySelectorAll('[data-count]').forEach(el=>{
   const to=+el.dataset.count, dec=+(el.dataset.dec||0), suf=el.dataset.suf||'', fmt=v=>v.toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec})+suf;
   if(RM){el.textContent=fmt(to);return;}
-  const t0=performance.now()+700, D=1400;
-  const step=now=>{const u=Math.max(0,Math.min(1,(now-t0)/D)), e=1-Math.pow(1-u,3); el.textContent=fmt(to*e); if(u<1) requestAnimationFrame(step);};
+  const t0=performance.now()+300, D=1400;
+  const step=now=>{const u=Math.max(0,Math.min(1,(now-t0)/D)), e=1-Math.pow(1-u,3); el.textContent=fmt(u>=1?to:to*e); if(u<1) requestAnimationFrame(step);};
   requestAnimationFrame(step);
-});
+}); }
+/* 數字預設即為最終值；有開場動畫時，等開場結束再跑數字動畫 */
+let introWill=false; try{ introWill=!sessionStorage.getItem('yq-intro') && !location.hash && !RM; }catch(e){}
+if(introWill) addEventListener('yq-intro-done',countUp,{once:true}); else countUp();
 
 /* ---------- scroll reveal ---------- */
 const revealTargets=[];

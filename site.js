@@ -311,7 +311,7 @@ function playIntro(force){
   let dead=false; const timers=[]; const stops=[];
   const wait=ms=>new Promise(r=>{ const id=setTimeout(r,ms); timers.push(id); });
   const $=s=>ov.querySelector(s);
-  function end(){ if(dead) return; dead=true; timers.forEach(clearTimeout); stops.forEach(f=>f()); ov.classList.add('yi-out'); SS.set('yq-intro','seen'); setTimeout(()=>{ ov.remove(); doc.classList.remove('yq-intro-open'); introOn=false; },900); removeEventListener('keydown',key); }
+  function end(){ if(dead) return; dead=true; timers.forEach(clearTimeout); stops.forEach(f=>f()); ov.classList.add('yi-out'); SS.set('yq-intro','seen'); window.dispatchEvent(new Event('yq-intro-done')); setTimeout(()=>{ ov.remove(); doc.classList.remove('yq-intro-open'); introOn=false; },900); removeEventListener('keydown',key); }
   function key(e){ if(e.key==='Escape') end(); if(e.key==='Enter'&&!started) start(); }
   addEventListener('keydown',key);
   $('.yi-skip').onclick=end;
