@@ -9,10 +9,10 @@
 <title>人工語義標註闖關｜原、前、舊、老</title>
 <style>
 /* ===== theme tokens (dark default / light) ===== */
-:root,html[data-theme=dark]{--bg:#0b1526;--card:#13223d;--ink:#e8eef8;--muted:#9fb3d1;--line:rgba(255,255,255,.1);--track:#24375a;--track2:#1a2c4d;--grid:#2f4670;--grid2:#3d5480;--bar1:#6f8fbf;--bar2:#2a3d5f;--bar3:#7d8fb0;--soft:#c9d6ea;--yuan:#7fa8ec;--qian:#f0a04b;--jiu:#86c46f;--lao:#ec7376;--tipbg:#1a2a45;--tipline:#3a4f75;--hl:#3b3520;--kick:#8ea6c8;--ink2:#dbe6f5;--link:#bcd0ee;--deep:#070e1b;
- --glass1:rgba(26,44,77,.82);--glass2:rgba(19,34,61,.82);--glassb:rgba(255,255,255,.09);--glow1:rgba(29,53,96,.6);--shadow-c:rgba(0,0,0,.6);--btnbg:rgba(255,255,255,.04);--btnline:rgba(255,255,255,.22);--heroA:#1d3560;--heroB:#1a2b4d;--heroBg:#0b1526;--heroInk:#fff;--heroSub:#b4c4dc;--heroK:#9fb3d1;--heroGlass:rgba(255,255,255,.07);--heroGlassB:rgba(255,255,255,.14);--heroPanel:rgba(11,21,38,.55);color-scheme:dark}
-html[data-theme=light]{--bg:#e2ebf6;--card:#ffffff;--ink:#16233a;--muted:#566377;--line:#d4deea;--track:#e3eaf3;--track2:#eef3f9;--grid:#c3cfdf;--grid2:#9fb0c8;--bar1:#3d5a8a;--bar2:#b8c6da;--bar3:#8a8577;--soft:#3d3a33;--yuan:#2f5fa7;--qian:#d07a1f;--jiu:#4f8a3a;--lao:#b23b3b;--tipbg:#fff6df;--tipline:#f0dca8;--hl:#fff1c9;--kick:#566377;--ink2:#16233a;--link:#2f5fa7;--deep:#16233a;
- --glass1:rgba(255,255,255,.92);--glass2:rgba(255,255,255,.86);--glassb:#d4deea;--glow1:rgba(160,195,240,.55);--shadow-c:rgba(22,35,58,.25);--btnbg:#fff;--btnline:#9fb0c8;--heroA:#c6dbf5;--heroB:#d7e6f8;--heroBg:#e8f0fa;--heroInk:#16233a;--heroSub:#3d4d66;--heroK:#566377;--heroGlass:rgba(255,255,255,.65);--heroGlassB:#c9d7ea;--heroPanel:rgba(255,255,255,.72);color-scheme:light}
+:root,html[data-theme=dark]{--bg:#161a2e;--card:#20253d;--ink:#eef0fa;--muted:#a9aecb;--line:rgba(255,255,255,.1);--track:#2c3352;--track2:#232944;--grid:#3a4266;--grid2:#4a527a;--bar1:#8f9bd0;--bar2:#333a5c;--bar3:#9a90b8;--soft:#d6dcef;--yuan:#7db6e0;--qian:#b3a7e0;--jiu:#e0a6d8;--lao:#f6a199;--tipbg:#262c48;--tipline:#4a527a;--hl:#3d2f4a;--kick:#b6b9d8;--ink2:#e3e6f6;--link:#c9cefe;--deep:#0f1222;
+ --glass1:rgba(36,42,70,.82);--glass2:rgba(32,37,61,.82);--glassb:rgba(255,255,255,.09);--glow1:rgba(43,47,85,.6);--shadow-c:rgba(0,0,0,.6);--btnbg:rgba(255,255,255,.04);--btnline:rgba(255,255,255,.22);--heroA:#2b2f55;--heroB:#262a47;--heroBg:#161a2e;--heroInk:#fff;--heroSub:#b8bcd8;--heroK:#a9aecb;--heroGlass:rgba(255,255,255,.07);--heroGlassB:rgba(255,255,255,.14);--heroPanel:rgba(22,26,46,.55);color-scheme:dark}
+html[data-theme=light]{--bg:#f5f6fb;--card:#ffffff;--ink:#2a2f4f;--muted:#666b8c;--line:#dfe3f1;--track:#e9ecf6;--track2:#f2f4fa;--grid:#d6dfef;--grid2:#a5b3d0;--bar1:#4f587d;--bar2:#c9cfe6;--bar3:#9a8fb5;--soft:#3d3f55;--yuan:#006bad;--qian:#6a5f99;--jiu:#a85c9f;--lao:#c45a50;--tipbg:#fdf1ef;--tipline:#f8c9c3;--hl:#fce8e6;--kick:#666b8c;--ink2:#2a2f4f;--link:#006bad;--deep:#2a2f4f;
+ --glass1:rgba(255,255,255,.92);--glass2:rgba(255,255,255,.86);--glassb:#dfe3f1;--glow1:rgba(201,206,254,.55);--shadow-c:rgba(42,47,79,.25);--btnbg:#fff;--btnline:#a5b3d0;--heroA:#d6dfef;--heroB:#fce8e6;--heroBg:#f5f6fb;--heroInk:#2a2f4f;--heroSub:#4f587d;--heroK:#666b8c;--heroGlass:rgba(255,255,255,.65);--heroGlassB:#d6dfef;--heroPanel:rgba(255,255,255,.72);color-scheme:light}
 
 :root{
   color-scheme:dark;
@@ -37,8 +37,8 @@ header .sub{color:var(--muted);font-family:var(--serif);font-size:19px;margin-to
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px}
 button{font:inherit;font-size:15px;border:1px solid rgba(255,255,255,.25);background:var(--card);color:var(--ink);border-radius:24px;padding:8px 18px;cursor:pointer;transition:background .2s,color .2s}
 button:hover:not(:disabled){background:var(--track2)}
-button.primary{background:linear-gradient(135deg,#3f6fc0,#2a4f92);color:#fff}
-button.primary:hover{background:linear-gradient(135deg,#4b7bcc,#30589e)}
+button.primary{background:linear-gradient(135deg,#668fca,#4f587d);color:#fff}
+button.primary:hover{background:linear-gradient(135deg,#7a9fd6,#5b6590)}
 button:disabled{cursor:default}
 /* level map */
 .map{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:20px 0 26px}
@@ -92,12 +92,12 @@ button:disabled{cursor:default}
 .legend i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:5px;vertical-align:-1px}
 .tip{background:var(--tip);border:1px solid var(--tipline);border-radius:12px;padding:16px 18px;margin-top:18px}
 .tip h3{font-size:18px;margin-bottom:6px}
-.tip .tag{display:inline-block;font-size:12px;background:rgba(243,217,143,.16);border-radius:10px;padding:0 8px;margin-right:6px;color:#f3d98f}
+.tip .tag{display:inline-block;font-size:12px;background:rgba(201,206,254,.16);border-radius:10px;padding:0 8px;margin-right:6px;color:#c9cefe}
 .tip ul{margin:6px 0 0;padding-left:1.2em}
 .tip li{margin:4px 0;font-size:15.5px}
 .steps{counter-reset:s;list-style:none;padding:0;margin:10px 0}
 .steps li{counter-increment:s;position:relative;padding:10px 12px 10px 52px;margin:8px 0;background:rgba(255,255,255,.04);border-radius:10px}
-.steps li::before{content:counter(s);position:absolute;left:12px;top:10px;width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#3f6fc0,#2a4f92);color:#fff;display:grid;place-items:center;font-family:var(--serif);font-weight:700}
+.steps li::before{content:counter(s);position:absolute;left:12px;top:10px;width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#668fca,#4f587d);color:#fff;display:grid;place-items:center;font-family:var(--serif);font-weight:700}
 .res{list-style:none;padding:0;margin:8px 0 0}
 .res li{margin:8px 0;font-size:15px}
 .res a{font-weight:700}
@@ -109,25 +109,25 @@ footer{padding:40px 0 60px;font-size:13.5px;color:var(--muted)}
 /* ===== premium layer ===== */
 :root{--navy:var(--bg);--ease:cubic-bezier(.22,.8,.24,1)}
 body{-webkit-font-smoothing:antialiased}
-header{position:relative;overflow:hidden;margin-top:14px;padding:40px 36px 36px;border-radius:22px;color:#eef3fb;background:radial-gradient(700px 400px at 85% 30%,#1d3560,rgba(19,34,61,0) 65%),var(--navy);box-shadow:0 30px 60px -30px rgba(11,21,38,.6)}
+header{position:relative;overflow:hidden;margin-top:14px;padding:40px 36px 36px;border-radius:22px;color:#eef0fa;background:radial-gradient(700px 400px at 85% 30%,#2b2f55,rgba(32,37,61,0) 65%),var(--navy);box-shadow:0 30px 60px -30px rgba(22,26,46,.6)}
 header .kicker{color:var(--muted)}
 header h1{color:#fff}
-header .sub{color:#b4c4dc}
+header .sub{color:#b8bcd8}
 header .m{background:#fff;}
-header .m.原{color:#2f5fa7}header .m.前{color:#d07a1f}header .m.舊{color:#4f8a3a}header .m.老{color:#b23b3b}
+header .m.原{color:#006bad}header .m.前{color:#6a5f99}header .m.舊{color:#a85c9f}header .m.老{color:#c45a50}
 header .m{border-radius:10px;padding:0 6px;margin:0 2px;box-shadow:0 8px 20px -8px rgba(0,0,0,.6);display:inline-block;transform:translateY(-2px)}
 .floaters{position:absolute;right:28px;top:50%;transform:translateY(-50%);display:flex;gap:12px;perspective:700px;pointer-events:none}
 .floaters span{font-family:var(--serif);font-weight:700;font-size:40px;width:64px;height:64px;display:grid;place-items:center;border-radius:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(6px);animation:fl 6s ease-in-out infinite;transform-style:preserve-3d}
 .floaters span:nth-child(2){animation-delay:-1.5s}.floaters span:nth-child(3){animation-delay:-3s}.floaters span:nth-child(4){animation-delay:-4.5s}
 @keyframes fl{0%,100%{transform:translateY(0) rotateY(-18deg) rotateX(8deg)}50%{transform:translateY(-12px) rotateY(18deg) rotateX(-6deg)}}
-.card{box-shadow:0 1px 2px rgba(22,35,58,.06),0 10px 30px -14px rgba(22,35,58,.25);animation:cin .55s var(--ease)}
+.card{box-shadow:0 1px 2px rgba(42,47,79,.06),0 10px 30px -14px rgba(42,47,79,.25);animation:cin .55s var(--ease)}
 @keyframes cin{from{opacity:0;transform:translateY(14px) scale(.99)}to{opacity:1;transform:none}}
 .lv{transition:transform .25s var(--ease),box-shadow .25s,background .25s}
-.lv.open:hover,.lv.done:hover{transform:translateY(-3px);box-shadow:0 12px 24px -14px rgba(22,35,58,.5)}
+.lv.open:hover,.lv.done:hover{transform:translateY(-3px);box-shadow:0 12px 24px -14px rgba(42,47,79,.5)}
 .lv.now{outline:none;background:var(--navy)!important;border-color:var(--navy)!important;color:var(--muted)}
 .lv.now b{color:#fff}
 button{transition:transform .2s var(--ease),background .2s,color .2s,box-shadow .2s}
-button:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 16px -10px rgba(22,35,58,.55)}
+button:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 16px -10px rgba(42,47,79,.55)}
 button:active:not(:disabled){transform:scale(.96)}
 .opts button.right{animation:pulse .5s var(--ease)}
 .opts button.wrong{animation:shake .42s}
@@ -139,7 +139,7 @@ button:active:not(:disabled){transform:scale(.96)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* ===== unified deep-navy theme ===== */
-body{background:radial-gradient(1200px 800px at 85% -10%,rgba(29,53,96,.6),transparent 60%),var(--bg);background-attachment:fixed;color:var(--ink);-webkit-font-smoothing:antialiased}
+body{background:radial-gradient(1200px 800px at 85% -10%,rgba(43,47,85,.6),transparent 60%),var(--bg);background-attachment:fixed;color:var(--ink);-webkit-font-smoothing:antialiased}
 h1,h2,h3{color:#fff}
 .card,.q,.big div,.opt,.scene,.panel{box-shadow:0 1px 0 rgba(255,255,255,.05) inset,0 18px 40px -22px rgba(0,0,0,.7)}
 a{color:var(--link)}
@@ -177,7 +177,7 @@ const LEVELS=[
   q:"這個名詞屬於哪一類職場身分？",
   intro:"先看「中心名詞」。同一個修飾語，接上不同類型的身分名詞，意思就不一樣。本研究參考 Stryker 與 Burke（2000）、Ashforth（2001）的身分分類，把職場身分名詞分成三類：",
   labels:[["職務角色身分","組織裡的正式職位或管理角色：主任、董事長、校長、經理"],["關係角色身分","透過工作互動建立的人際角色：同事、部屬、夥伴、上司、雇主"],["組織成員身分","只標示屬於某個組織，不指特定職位：員工、職員、成員"]],
-  colors:["var(--kick)","#c9a66b","var(--grid)"],
+  colors:["var(--kick)","#ee9f98","var(--grid)"],
   items:[
    {s:"新舊行事風格差異之大，也讓老員工無所適從。",t:"老員工",a:"組織成員身分",why:"「員工」只說明他屬於這間公司，沒有指出職位，也不是相對於某個人的關係，所以是組織成員身分。"},
    {s:"民國三十八年大陸淪共前夕，政校新聞系在原系主任馬星野率領下，來到台北籌備《中央日報》復刊事宜。",t:"原系主任",a:"職務角色身分",why:"「系主任」是學校裡的正式職位，帶有權責（「率領」），屬於職務角色身分。"},
@@ -259,7 +259,7 @@ const LEVELS=[
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const cf=document.createElement('canvas');cf.id='confetti';document.body.appendChild(cf);const cx=cf.getContext('2d');let parts=[],run=false;
 function sizeCf(){cf.width=innerWidth*devicePixelRatio;cf.height=innerHeight*devicePixelRatio;cx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);}sizeCf();addEventListener('resize',sizeCf);
-function burst(x,y,n=60){ if(RM) return; const cols=['#7fa8ec','#f0a04b','#86c46f','#ec7376','#f3d98f'];
+function burst(x,y,n=60){ if(RM) return; const cols=['#7db6e0','#b3a7e0','#e0a6d8','#f6a199','#c9cefe'];
   for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,v=3+Math.random()*6;parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-4,r:3+Math.random()*4,c:cols[i%5],rot:Math.random()*6,vr:(Math.random()-.5)*.4,life:1});}
   if(!run){run=true;requestAnimationFrame(tick);} }
 function tick(){cx.clearRect(0,0,innerWidth,innerHeight);parts=parts.filter(p=>p.life>0);

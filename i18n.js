@@ -12,10 +12,31 @@ const LAB={過去:'past',延續:'continuing',中止:'ended',持續:'ongoing',正
 const L=x=>LAB[x]||x;
 
 window.YQ_I18N={
-titles:{index:'How BERT reads 原 前 舊 老 · Chinese near-synonyms',annotate:'Annotation challenge · 原 前 舊 老',duel:'Fill the blank: human vs. BERT · 原 前 舊 老',story:'Xiao Zhang’s thirty years at work · 原 前 舊 老'},
+titles:{index:'A corpus and BERT study of Chinese temporal modifiers · 原 前 舊 老',annotate:'Annotation challenge · 原 前 舊 老',duel:'Fill the blank: human vs. BERT · 原 前 舊 老',story:'Xiao Zhang’s thirty years at work · 原 前 舊 老'},
 
 /* ---------- shared ---------- */
 common:{
+ '研究議題導覽':'Research themes','四問為引，七境尋幽':'Four questions to guide, seven realms to explore',
+ '開始遊戲前，先看看兩種「認知」的差異':'Before the games, see how the two kinds of “cognition” differ',
+ '探微索隱':'Seek the subtle','破譯微光':'Decode the glimmer','字謎心鏡':'Riddle mirror','職場浮生':'Working lives','探微':'Explore','破譯':'Decode','字謎':'Riddle','浮生':'Lives',
+ '字句有聲，標籤無言，':'Words speak; labels stay silent,','卻藏著最深的讀解':'yet they hold the deepest reading.',
+ '模型能在一瞬之間遍覽古今、拆解最複雜的句式，':'In an instant a model can survey the ages and untangle the most intricate sentence,',
+ '但唯有經歷過聚散的人類，才能真正讀懂華語裡那份「言有盡而意無窮」的深情':'but only people who have known meeting and parting can truly read the feeling in Chinese where words end, yet meaning goes on.',
+ '同一段職場緣分，時間只是輕輕換了一個字，':'One bond formed at work — time gently changes a single word,',
+ '就把從前的朝夕相處，寫成了各自安好。':'and the days once shared become two lives, each doing well.',
+ '研究首頁':'Home','標註闖關':'Annotate','你來填':'Fill in','小張故事':'Story','首頁':'Home','闖關':'Annotate','填空':'Fill in','故事':'Story',
+ '每一個標籤，':'Every label','都是一次細讀。':'is a close reading.','人讀語境，BERT 讀機率；':'People read context, BERT reads probabilities —','你們誰更懂華語？':'who knows Chinese better?','同一段人際關係，':'The same working relationship','隨著時間換了一個字。':'changes its word over time.',
+ '第五站 · 默識未施':'Stop 5 · Known in silence, left unused','第七站 · 異彩紛呈':'Stop 7 · A riot of colours','終點 · 待君落墨':'Finish · Awaiting your ink',
+ '第五站「默識未施」':'Stop 5 · Known in silence, left unused','第七站「異彩紛呈」':'Stop 7 · A riot of colours',
+ '默識未施':'Known, unused','異彩紛呈':'Many colours','待君落墨':'Your ink','未完待續':'To be continued','矽碳對話':'Silicon & carbon',
+ '當矽基的理智遇見碳基的浪漫，每一次都是未完待續的對話':'When silicon reason meets carbon romance, every exchange is a conversation to be continued',
+ '四道提問，鋪成七站旅途':'Four questions, paved into a seven-stop journey',
+ '第一站「各司其職」':'Stop 1 · Each to its own post','第二站「十三重門」、第三站「星河流轉」':'Stop 2 · Thirteen gates; Stop 3 · A drifting galaxy','第四站「一字之擇」、第五站「知而未用」、第六站「點字成境」':'Stop 4 · The choice of a word; Stop 5 · Known, yet unused; Stop 6 · A word that shifts the scene','第七站「各有所指」':'Stop 7 · Each points its own way','第二站「十三重門」':'Stop 2 · Thirteen gates','第三站「星河流轉」':'Stop 3 · A drifting galaxy','第四站「一字之擇」':'Stop 4 · The choice of a word','第五站「知而未用」':'Stop 5 · Known, yet unused','第六站「點字成境」':'Stop 6 · A word that shifts the scene',
+ '起點 · 辭海尋義':'Start · Seeking meaning in the dictionary','第一站 · 各司其職':'Stop 1 · Each to its own post','第二站 · 十三重門':'Stop 2 · Thirteen gates','第三站 · 星河流轉':'Stop 3 · A drifting galaxy','第四站 · 一字之擇':'Stop 4 · The choice of a word','第五站 · 知而未用':'Stop 5 · Known, yet unused','第六站 · 點字成境':'Stop 6 · A word that shifts the scene','第七站 · 各有所指':'Stop 7 · Each points its own way','終點 · 換你落筆':'Finish · Your turn to write',
+ '辭海尋義':'Dictionary','各司其職':'Own posts','十三重門':'13 gates','星河流轉':'Galaxy','一字之擇':'Word choice','知而未用':'Known, unused','點字成境':'Shift the scene','各有所指':'Own focus','換你落筆':'Your turn',
+ '導覽':'Guide','起點':'Start','語料':'Corpus','逐層探測':'Layer probing','語義星圖':'Star map','行為測試':'Behaviour test','模型 vs. 實際':'Model vs. actual','語境改寫':'Context edits','語義焦點':'Semantic focus','兩種讀法':'Two readings','終點':'Finish',
+ '2,271 句有效語料':'2,271 corpus sentences','人工語義標註':'Manual semantic annotation','13 層逐層探針':'13-layer probing','遮蔽填空':'Masked fill-in','語境改寫實驗':'Context rewriting','華語教學':'Chinese language teaching',
+ '模型讀得出時間與關係，':'The model can read time and relation,','選字時卻不一定用得上。':'yet does not always use it when choosing.','回到頂部 ↑':'Back to top ↑',
  '、':', ','，':', ','。':'.','；':'; ','：':': ','（':' (','）':')','？':'?','」':'”','和':' and ','或':' or ',
  '過去':'past','延續':'continuing','中止':'ended','持續':'ongoing','正向':'positive','中性':'neutral','負向':'negative',
  '職場身分':'Workplace identity','時間參照':'Time reference','身分鏈結':'Identity link','評價傾向':'Evaluation','修飾語':'Modifier',
@@ -38,7 +59,7 @@ rules_common:[
 index:{
  '三維語義塔：2,271 句在 BERT 13 層中的位置，可拖曳旋轉':'3-D semantic tower: where the 2,271 sentences sit in each of BERT’s 13 layers. Drag to rotate.',
  '計算語言學與語言學概論 · 期末專案':'Computational Linguistics · Final project',
- '以語料庫與語義向量探討華語語義差異':'Corpus and semantic vectors for Chinese near-synonyms',
+ '以語料庫與BERT探討華語時間性修飾語語義差異':'A corpus and BERT study of Chinese temporal modifiers',
  '——以「原、前、舊、老」為例':`— the case of ${R('原')}, ${R('前')}, ${R('舊')} and ${R('老')} (“former / old”)`,
  'BERT 如何解讀華語的「原、前、舊、老」':'How does BERT read four Chinese words that all mean “former”?',
  '句有效語料（COCT 2019）':'authentic sentences (COCT 2019)','層 BERT 表徵逐層探測':'BERT layers, probed one by one','BERT 遮蔽填空正確率':'BERT fill-in-the-blank accuracy',
@@ -70,7 +91,7 @@ index:{
  '強調「曾經一起共事」。七成修飾關係角色；八成為過去，但身分鏈結約一半中止、一半持續。':'Stresses “we once worked together”. 70% modify relational roles; 80% are “past”, yet the link is about half ended, half ongoing.',
  '強調資歷、熟悉與交情。約六成二為延續、七成六為持續，正向評價比例最高（15%）。':'Stresses seniority, familiarity and long bonds. About 62% “continuing”, 76% “ongoing”; the highest positive share (15%).',
  '概念模型：三個構面的組合':'Conceptual model: three dimensions combined',
- '時間參照為「過去」的比例 →':'share with “past” time reference →','身分鏈結為「中止」的比例 →':'share with “ended” identity link →','過去＋中止':'past + ended','延續＋持續':'continuing + ongoing','↖ 過去＋中止':'↖ past + ended','延續＋持續 ↘':'continuing + ongoing ↘','四個字在時間參照與身分鏈結上的位置':'Positions of the four words on time reference and identity link',
+ 'x：時間參照為「過去」的比例（%）':'x: share with “past” time reference (%)','y：身分鏈結為「中止」的比例（%）':'y: share with “ended” identity link (%)','過去＋中止 ↗':'past + ended ↗','↙ 延續＋持續':'↙ continuing + ongoing','圓面積 ∝ 語料筆數':'circle area ∝ corpus count','時間參照為「過去」的比例 →':'share with “past” time reference →','身分鏈結為「中止」的比例 →':'share with “ended” identity link →','過去＋中止':'past + ended','延續＋持續':'continuing + ongoing','↖ 過去＋中止':'↖ past + ended','延續＋持續 ↘':'continuing + ongoing ↘','四個字在時間參照與身分鏈結上的位置':'Positions of the four words on time reference and identity link',
  '方法說明：去中心化的計算方式、適用範圍與限制':'Method note: how mean-centring works, its scope and limits',
  '起點 · 辭典裡的語義集合':'Start · Senses in the dictionary','四個字，共享哪些意思？':'Which meanings do the four words share?',
  '依教育部《重編國語辭典修訂本》的釋義，把「原、前、舊、老」與職場身分相關的義項，歸納成六個語義集合。兩個字連到同一個集合，代表它們在這個意思上有重疊，也是最容易混用的地方。點一個字或一個集合，看辭典怎麼說。':
@@ -164,7 +185,7 @@ index:{
  '？':'?'
 },
 el_index:{
- '以語料庫與語義向量探討華語語義差異<br><span class="h1sub">——以「原、前、舊、老」為例</span>':`Corpus and semantic vectors for Chinese near-synonyms<br><span class="h1sub">— the case of ${R('原')} ${R('前')} ${R('舊')} ${R('老')}</span>`,
+ '<span class="h1l">以語料庫與BERT探討</span><br><span class="h1l">華語時間性修飾語語義差異</span><br><span class="h1sub">——以「原、前、舊、老」修飾職場身分名詞為例</span>':`A corpus and BERT study of Chinese temporal modifiers<br><span class="h1sub">— ${R('原')} ${R('前')} ${R('舊')} ${R('老')} with workplace identity nouns</span>`,
  '「原校長」通常指因職務異動或制度變動而不再擔任原有職務者；「前校長」其語義焦點則側重於曾經擔任某項職務的歷史事實；「舊同事」多強調過去工作關係；「老員工」則除表示任職時間較長外，更可能延伸出資歷、經驗、熟悉度及組織認同等社會評價。四個字都帶著「過去」的意涵，卻不能任意互換。本研究從臺灣華語文語料庫（<span lang="en">Cor­pus of Con­tem­po­rary Tai­wan­ese Man­da­rin</span>, COCT）2019 收集了 2,271 筆真實語料，逐句標註它們修飾的職場身分、時間參照、身分鏈結與評價傾向，並透過 Chinese BERT-base 模型探究兩件事：<b>模型的內部表徵讀得出這些細微差異嗎？在選字時使用了這些語言資訊嗎？</b>':
   `${R('原')}校長 (<i>yuán xiàozhǎng</i>) usually means a principal who left the post through a change of duty or system; ${R('前')}校長 (<i>qián xiàozhǎng</i>) stresses the historical fact that someone once held it; ${R('舊')}同事 (<i>jiù tóngshì</i>) highlights a past working relationship; and ${R('老')}員工 (<i>lǎo yuángōng</i>) means a long-serving employee, often with overtones of seniority, experience, familiarity and loyalty. All four carry a sense of “the past”, yet they are not interchangeable. From the Corpus of Contemporary Taiwanese Mandarin (COCT) 2019 we collected 2,271 authentic sentences, labelled each for workplace identity, time reference, identity link and evaluation, and used Chinese BERT-base to ask two questions: <b>Can the model’s internal representations read these subtle differences? And does it use them when it chooses a word?</b>`,
 
