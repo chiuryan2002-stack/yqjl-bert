@@ -4,8 +4,8 @@
 <script>(function(){var d=document.documentElement,t=null,l=null;try{t=localStorage.getItem('yq-theme');l=localStorage.getItem('yq-lang');}catch(e){}var u=new URLSearchParams(location.search).get('lang');if(u){l=u;try{localStorage.setItem('yq-lang',u)}catch(e){}}d.dataset.theme=t==='light'?'light':'dark';d.dataset.lang=l==='en'?'en':'zh';if(d.dataset.lang==='en')d.classList.add('i18n-pending');})();</script>
 <link rel="stylesheet" href="site.css">
 <meta name="theme-color" content="#161a2e">
-<link rel="apple-touch-icon" href="icons/icon-180.png">
-<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-180.png?v=2">
+<link rel="icon" href="icons/icon-192.png?v=2">
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -303,6 +303,12 @@ html[data-theme=dark] .bar div.lt{color:var(--ink)}
 .ac-go{flex:none;padding:10px 18px;border-radius:24px;color:#fff;font-weight:600;font-size:14px;background:linear-gradient(135deg,#668fca,#4f587d)}
 @media (max-width:640px){.appcard{flex-direction:column;align-items:flex-start}.hc-app b{font-size:15px}}
 .fr-btns{display:flex;gap:10px;flex-wrap:wrap}.fr-appbtn{background:linear-gradient(135deg,#668fca,#776b97);color:#fff!important;border-color:transparent!important}
+html[data-theme=light] .hc-app{color:#2a2f4f;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.9);box-shadow:0 14px 34px -16px rgba(79,88,125,.45),inset 0 1px 0 #fff;backdrop-filter:blur(18px) saturate(170%);-webkit-backdrop-filter:blur(18px) saturate(170%)}
+html[data-theme=light] .hc-app small{color:#666b8c;opacity:1}
+html[data-theme=light] .hc-app img{box-shadow:0 4px 12px -4px rgba(79,88,125,.4)}
+html[data-theme=light] .hc-go{color:#4f587d;border-color:rgba(79,88,125,.3);background:rgba(255,255,255,.35);backdrop-filter:blur(12px)}
+html[data-theme=light] .ac-go,html[data-theme=light] #frBar .fr-app,html[data-theme=light] .fr-appbtn{color:#2a2f4f!important;background:rgba(255,255,255,.62)!important;border:1px solid rgba(255,255,255,.95)!important;box-shadow:0 8px 22px -12px rgba(79,88,125,.5),inset 0 1px 0 #fff;backdrop-filter:blur(14px)}
+html[data-theme=light] .appcard{background:rgba(255,255,255,.5);border-color:rgba(255,255,255,.9);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);box-shadow:0 16px 40px -24px rgba(79,88,125,.45),inset 0 1px 0 #fff}
 </style>
 </head>
 <body>
@@ -321,7 +327,7 @@ html[data-theme=dark] .bar div.lt{color:var(--ink)}
         <div class="stat"><b class="num" data-count="13">13</b><span>層 BERT 表徵逐層探測</span></div>
         <div class="stat"><b class="num" data-count="75.3" data-dec="1" data-suf="%">75.3%</b><span>BERT 遮蔽填空正確率</span></div>
       </div>
-      <div class="hero-ctas fx-in d5"><a class="hc-app" href="https://chiuryan2002-stack.github.io/xueershixi/"><img src="icons/icon-192.png" alt="" width="34" height="34"><span><b>開啟學習 App「學而時習」</b><small>每日一題・分級練習・錯題本，可安裝到手機</small></span><i>↗</i></a><a class="hc-go" href="#rq">先看研究 ↓</a></div>
+      <div class="hero-ctas fx-in d5"><a class="hc-app" href="https://chiuryan2002-stack.github.io/xueershixi/?install=1"><img src="icons/icon-192.png?v=2" alt="" width="34" height="34"><span><b>開啟學習 App「學而時習」</b><small>每日一題・分級練習・錯題本，可安裝到電腦或手機</small></span><i>↗</i></a><a class="hc-go" href="#rq">先看研究 ↓</a></div>
       <div class="byline fx-in d5">邱珮慈 · 國立臺灣師範大學 · 模型：bert-base-chinese（參數凍結）</div>
     </div>
     <div class="towerinfo fx-in d4">
@@ -522,7 +528,7 @@ html[data-theme=dark] .bar div.lt{color:var(--ink)}
   <h2>換你來填</h2>
   <p>跟著小張走過三十年職場，看 BERT 在哪一幕跟不上故事；或者直接挑戰真實語料題。你能比 BERT 更會選嗎？從真實語料抽題，先選再揭曉語料原字與 BERT 的答案。課堂上可用「主持模式」讓全班一起和 BERT 對決。</p>
   <div class="cta"><a href="annotate.html">人工標註闖關</a><a href="story.html">小張的職場三十年（互動故事）</a><a href="duel.html">開始「你來填」</a><a class="ghost" href="duel.html#host">主持模式（課堂用）</a></div>
-  <a class="appcard" href="https://chiuryan2002-stack.github.io/xueershixi/"><img src="icons/icon-192.png" alt="" width="64" height="64"><div><div class="ac-k">華語教學應用</div><b>把研究變成練習：學而時習 App</b><p>96 題依 CEFR 分級（初級 A1–A2、中級 B1–B2、高級 C1–C2），每題附線索解析與英譯；學習端有錯題本與間隔複習，教師端有班級後台與講義；還有「語義眼鏡」瀏覽器外掛，在任何網頁標出原、前、舊、老。</p></div><span class="ac-go">開啟 App ↗</span></a>
+  <a class="appcard" href="https://chiuryan2002-stack.github.io/xueershixi/?install=1"><img src="icons/icon-192.png?v=2" alt="" width="64" height="64"><div><div class="ac-k">華語教學應用</div><b>把研究變成練習：學而時習 App</b><p>96 題依 CEFR 分級（初級 A1–A2、中級 B1–B2、高級 C1–C2），每題附線索解析與英譯；學習端有錯題本與間隔複習，教師端有班級後台與講義；還有「語義眼鏡」瀏覽器外掛，在任何網頁標出原、前、舊、老。</p></div><span class="ac-go">開啟並安裝 App ↗</span></a>
 </div></div></section>
 
 <footer><div class="wrap">
