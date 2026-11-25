@@ -95,6 +95,7 @@ const SFX=(()=>{
   return api;
 })();
 window.SFX=SFX;
+window.YQ_SITE={setTheme:t=>setTheme(t),setLang:l=>switchLang(l),get theme(){return doc.dataset.theme},get lang(){return EN?'en':'zh'}};
 
 /* generic UI sounds: buttons, sliders, section arrivals */
 ['pointerdown','touchend','click','keydown'].forEach(ev=>document.addEventListener(ev,()=>{ if(!SFX.ready()) SFX.unlock(); },{capture:true,passive:true}));
@@ -112,7 +113,8 @@ document.addEventListener('change',e=>{ if(e.target.type==='range') SFX.lever();
 /* ---------------------------------------------------------
    2. THEME
    --------------------------------------------------------- */
-function setTheme(t){ doc.dataset.theme=t; LS.set('yq-theme',t); window.dispatchEvent(new CustomEvent('yq-theme',{detail:t})); }
+const THEME_KEY=PAGE==='app'?'yq-app-theme':'yq-theme';
+function setTheme(t){ doc.dataset.theme=t; LS.set(THEME_KEY,t); window.dispatchEvent(new CustomEvent('yq-theme',{detail:t})); }
 
 /* ---------------------------------------------------------
    3. LANGUAGE — runtime translation + pinyin
@@ -214,8 +216,8 @@ if(DICT){
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',go); else go();
 } else doc.classList.remove('i18n-pending');
 
-function switchLang(){
-  const to=EN?'zh':'en'; LS.set('yq-lang',to);
+function switchLang(force){
+  const to=force||(EN?'zh':'en'); if(force&&force===(EN?'en':'zh')) return; LS.set('yq-lang',to);
   SS.set('yq-scroll',JSON.stringify({p:location.pathname,y:scrollY/Math.max(1,document.documentElement.scrollHeight)}));
   location.reload();
 }
@@ -232,6 +234,7 @@ const ICON={
  play:'<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M7 5l12 7-12 7z"/></svg>'
 };
 function buildControls(){
+  if(PAGE==='app') return;   // the app has its own settings panel
   const bar=document.createElement('div'); bar.className='yq-ctrl'; bar.setAttribute('data-i18n-done',''); bar.setAttribute('role','toolbar'); bar.setAttribute('aria-label',EN?'Display settings':'顯示設定');
   const th=doc.dataset.theme;
   bar.innerHTML=`
