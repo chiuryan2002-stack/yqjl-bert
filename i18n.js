@@ -18,7 +18,7 @@ titles:{index:'A corpus and BERT study of Chinese temporal modifiers · 原 前 
 common:{
  '開啟學習 App「學而時習」':'Open the learning app','每日一題・分級練習・錯題本，可安裝到手機':'Daily question · graded practice · mistakes · installable','先看研究 ↓':'See the research ↓',
  '華語教學應用':'For Chinese teaching','把研究變成練習：學而時習 App':'From research to practice: the learning app',
- '96 題分級辨析（初級、中級、高級），每題附線索解析與英譯；錯題本、間隔複習、教師後台，也能在瀏覽器裡讓 BERT 填你造的句子。手機開啟後可加入主畫面。':'96 graded items (beginner to advanced), each with the deciding clue explained and an English translation; a mistakes list, spaced review, a teacher dashboard, and BERT filling in your own sentences in the browser. Add it to your home screen on a phone.',
+ '96 題依 CEFR 分級（初級 A1–A2、中級 B1–B2、高級 C1–C2），每題附線索解析與英譯；學習端有錯題本與間隔複習，教師端有班級後台與講義；還有「語義眼鏡」瀏覽器外掛，在任何網頁標出原、前、舊、老。':'96 items graded by CEFR (Beginner A1–A2, Intermediate B1–B2, Advanced C1–C2), each with the deciding clue explained and an English translation; learners get a mistakes list and spaced review, teachers a class dashboard and handouts; plus the Semantic Glasses browser extension, which marks 原, 前, 舊, 老 on any web page.',
  '開啟 App ↗':'Open the app ↗','學而時習 App ↗':'Learning app ↗',
  '學而時習':'Learn & practise','學習':'Learn','學而時習 →':'Learn & practise →',
  '研究議題導覽':'Research themes','四問為引，七境尋幽':'Four questions to guide, seven realms to explore',
