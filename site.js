@@ -432,7 +432,7 @@ function starfield(cv){
    --------------------------------------------------------- */
 function frSub(){
   if(PAGE==='index' || document.getElementById('frBar')) return;
-  const pages=[['index','index.html','00','探微索隱','探微'],['annotate','annotate.html','01','破譯微光','破譯'],['duel','duel.html','02','字謎心鏡','字謎'],['story','story.html','03','職場浮生','浮生']];
+  const pages=[['index','index.html','00','探微索隱','探微'],['annotate','annotate.html','01','破譯微光','破譯'],['duel','duel.html','02','字謎心鏡','字謎'],['story','story.html','03','職場浮生','浮生'],['app','app.html','04','學而時習','學習']];
   const bar=document.createElement('div'); bar.id='frBar';
   bar.innerHTML='<a class="fr-brand" href="index.html"><i></i>原前舊老</a><div class="fr-chips">'+
     pages.map(([k,href,no,lab,sh])=>`<a href="${href}"${k===PAGE?' class="on" aria-current="page"':''}><b>${no}</b><span>${lab}</span><em class="s">${sh}</em></a>`).join('')+'</div>';
@@ -456,6 +456,7 @@ function frSub(){
    7. BOOT
    --------------------------------------------------------- */
 function boot(){
+  if('serviceWorker' in navigator && location.protocol!=='file:') navigator.serviceWorker.register('sw.js').catch(()=>{});
   buildControls();
   frSub();
   document.querySelectorAll('[data-twominds]').forEach(twoMinds);

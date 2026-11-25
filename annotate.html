@@ -3,6 +3,12 @@
 <head>
 <script>(function(){var d=document.documentElement,t=null,l=null;try{t=localStorage.getItem('yq-theme');l=localStorage.getItem('yq-lang');}catch(e){}var u=new URLSearchParams(location.search).get('lang');if(u){l=u;try{localStorage.setItem('yq-lang',u)}catch(e){}}d.dataset.theme=t==='light'?'light':'dark';d.dataset.lang=l==='en'?'en':'zh';if(d.dataset.lang==='en')d.classList.add('i18n-pending');})();</script>
 <link rel="stylesheet" href="site.css">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#161a2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="原前舊老">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -343,6 +349,7 @@ function answer(o){
     <div class="ans">人工標註答案：<b>${L.chars?mk(it.t):it.a}</b>　·　目標詞：${mk(it.t)}</div>
     <p style="margin:0">${it.why}</p>${bert}`;
   fb.classList.add('show');
+  if(window.YQL) YQL.activity('annotate',ok?3:1);
   if(window.SFX) ok?SFX.correct():SFX.wrong();
   requestAnimationFrame(()=>setTimeout(()=>fb.querySelectorAll('.tr div').forEach(d=>d.style.width=d.dataset.w+'%'),30));
   document.getElementById('next').classList.remove('hidden');
@@ -402,6 +409,7 @@ function finale(){
 
 home();
 </script>
+<script src="learn_store.js"></script>
 <script src="i18n.js"></script>
 <script src="site.js"></script>
 </body>

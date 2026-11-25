@@ -16,6 +16,7 @@ titles:{index:'A corpus and BERT study of Chinese temporal modifiers · 原 前 
 
 /* ---------- shared ---------- */
 common:{
+ '學而時習':'Learn & practise','學習':'Learn','學而時習 →':'Learn & practise →',
  '研究議題導覽':'Research themes','四問為引，七境尋幽':'Four questions to guide, seven realms to explore',
  '開始遊戲前，先看看兩種「認知」的差異':'Before the games, see how the two kinds of “cognition” differ',
  '探微索隱':'Seek the subtle','破譯微光':'Decode the glimmer','字謎心鏡':'Riddle mirror','職場浮生':'Working lives','探微':'Explore','破譯':'Decode','字謎':'Riddle','浮生':'Lives',

@@ -3,6 +3,12 @@
 <head>
 <script>(function(){var d=document.documentElement,t=null,l=null;try{t=localStorage.getItem('yq-theme');l=localStorage.getItem('yq-lang');}catch(e){}var u=new URLSearchParams(location.search).get('lang');if(u){l=u;try{localStorage.setItem('yq-lang',u)}catch(e){}}d.dataset.theme=t==='light'?'light':'dark';d.dataset.lang=l==='en'?'en':'zh';if(d.dataset.lang==='en')d.classList.add('i18n-pending');})();</script>
 <link rel="stylesheet" href="site.css">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#161a2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="原前舊老">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -155,6 +161,7 @@ function answer(i, c, el){
     <div class="note">${m.note}</div>
     <button class="btn" id="n${i}">${i+1<META.length?"下一幕":"看結局"}</button>`;
   r.classList.add("on");
+  if(window.YQL) YQL.record({id:"s"+i,gold:m.ok[0],pick:c,ok:ok>0,lv:"L2",src:"story",bertPick:bp});
   if(window.SFX) ok===1?SFX.correct():ok?SFX.meh():SFX.wrong();
   requestAnimationFrame(()=>requestAnimationFrame(()=>r.querySelectorAll(".t div").forEach(d=>d.style.width=d.dataset.w+"%")));
   $("#n"+i).onclick = e=>{ e.target.remove(); i+1<META.length ? scene(i+1) : end(); };
@@ -172,6 +179,7 @@ function end(){
 }
 score(); scene(0);
 </script>
+<script src="learn_store.js"></script>
 <script src="i18n.js"></script>
 <script src="site.js"></script>
 </body>

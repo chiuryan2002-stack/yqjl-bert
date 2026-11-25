@@ -255,3 +255,4 @@ html[data-theme=dark] body,:root:not([data-theme=light]) body{background:radial-
 html[data-theme=light] #starwrap{background:radial-gradient(circle at 50% 40%,#3a3f6b,#1c2038 78%)!important}
 .yq-nw{white-space:nowrap}
 html[lang=en] .hm .rl{font-size:11px}
+html[data-page=app] .fr-subfoot{display:none}

@@ -3,6 +3,12 @@
 <head>
 <script>(function(){var d=document.documentElement,t=null,l=null;try{t=localStorage.getItem('yq-theme');l=localStorage.getItem('yq-lang');}catch(e){}var u=new URLSearchParams(location.search).get('lang');if(u){l=u;try{localStorage.setItem('yq-lang',u)}catch(e){}}d.dataset.theme=t==='light'?'light':'dark';d.dataset.lang=l==='en'?'en':'zh';if(d.dataset.lang==='en')d.classList.add('i18n-pending');})();</script>
 <link rel="stylesheet" href="site.css">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#161a2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="原前舊老">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -285,6 +291,8 @@ section:not(.hero3d){padding:112px 0}
 html[data-theme=dark] .bar div.lt{color:var(--ink)}
 .hm .rl,.hm .gl{min-width:0;line-height:1.25;overflow-wrap:anywhere}
 @media (max-width:820px){.hm{overflow:hidden}.hm>*{min-width:0}.hm .rl{font-size:10.5px;line-height:1.25;overflow-wrap:anywhere}}
+#frBar .fr-app{flex:none;display:flex;align-items:center;height:38px;padding:0 14px;margin-left:4px;border-radius:20px;text-decoration:none;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(135deg,#668fca,#776b97);white-space:nowrap}
+@media (max-width:640px){#frBar .fr-app{height:32px;padding:0 10px;font-size:12px}}
 </style>
 </head>
 <body>
@@ -1010,7 +1018,7 @@ addEventListener('scroll',onScroll,{passive:true}); onScroll();
 (function(){
   const order=[['rq','RQ','導覽'],['s0','00','辭海尋義'],['s1','01','各司其職'],['s2','02','十三重門'],['s3','03','星河流轉'],['s4','04','一字之擇'],['mind','05','默識未施'],['s5','06','點字成境'],['focus','07','異彩紛呈'],['minds','08','矽碳對話'],['s6','09','待君落墨']];
   const bar=document.createElement('div'); bar.id='frBar';
-  bar.innerHTML='<a class="fr-brand" href="#top"><i></i>原前舊老</a><div class="fr-chips"></div>';
+  bar.innerHTML='<a class="fr-brand" href="#top"><i></i>原前舊老</a><div class="fr-chips"></div><a class="fr-app" href="app.html">學而時習 →</a>';
   const chips=bar.querySelector('.fr-chips'); const secs=[];
   order.forEach(([id,no,lab])=>{ const sec=document.getElementById(id); if(!sec) return; secs.push(sec);
     const k=sec.querySelector('.kicker'); if(k) k.dataset.no=no;
@@ -1044,6 +1052,7 @@ addEventListener('scroll',onScroll,{passive:true}); onScroll();
   document.addEventListener('click',e=>{ if(e.target.closest('.yq-ctrl')) setTimeout(fit,80); });
 })();
 </script>
+<script src="learn_store.js"></script>
 <script src="i18n.js"></script>
 <script src="site.js"></script>
 </body>

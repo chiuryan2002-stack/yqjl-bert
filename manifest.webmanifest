@@ -1,0 +1,24 @@
+{
+  "name": "原前舊老 · 學而時習",
+  "short_name": "原前舊老",
+  "description": "練習辨析華語「原、前、舊、老」修飾職場身分名詞：每日一題、分級練習、錯題本、間隔複習、教師後台與瀏覽器內的 BERT 實驗室。",
+  "lang": "zh-Hant",
+  "start_url": "./app.html#home",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#161a2e",
+  "theme_color": "#161a2e",
+  "categories": ["education"],
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ],
+  "shortcuts": [
+    {"name": "每日一題", "url": "./app.html#home", "icons": [{"src": "icons/icon-192.png", "sizes": "192x192"}]},
+    {"name": "練習", "url": "./app.html#practice", "icons": [{"src": "icons/icon-192.png", "sizes": "192x192"}]},
+    {"name": "複習卡片", "url": "./app.html#review", "icons": [{"src": "icons/icon-192.png", "sizes": "192x192"}]},
+    {"name": "教師後台", "url": "./app.html#teacher", "icons": [{"src": "icons/icon-192.png", "sizes": "192x192"}]}
+  ]
+}
