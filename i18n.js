@@ -16,6 +16,10 @@ titles:{index:'A corpus and BERT study of Chinese temporal modifiers · 原 前 
 
 /* ---------- shared ---------- */
 common:{
+ '開啟學習 App「學而時習」':'Open the learning app','每日一題・分級練習・錯題本，可安裝到手機':'Daily question · graded practice · mistakes · installable','先看研究 ↓':'See the research ↓',
+ '華語教學應用':'For Chinese teaching','把研究變成練習：學而時習 App':'From research to practice: the learning app',
+ '96 題分級辨析（初級、中級、高級），每題附線索解析與英譯；錯題本、間隔複習、教師後台，也能在瀏覽器裡讓 BERT 填你造的句子。手機開啟後可加入主畫面。':'96 graded items (beginner to advanced), each with the deciding clue explained and an English translation; a mistakes list, spaced review, a teacher dashboard, and BERT filling in your own sentences in the browser. Add it to your home screen on a phone.',
+ '開啟 App ↗':'Open the app ↗','學而時習 App ↗':'Learning app ↗',
  '學而時習':'Learn & practise','學習':'Learn','學而時習 →':'Learn & practise →',
  '研究議題導覽':'Research themes','四問為引，七境尋幽':'Four questions to guide, seven realms to explore',
  '開始遊戲前，先看看兩種「認知」的差異':'Before the games, see how the two kinds of “cognition” differ',

@@ -430,11 +430,16 @@ function starfield(cv){
 /* ---------------------------------------------------------
    6b. FRAMER LAYER FOR SUBPAGES (top bar, ticker, wordmark footer)
    --------------------------------------------------------- */
+/* the research site and the learner app live in two GitHub Pages repos; change these two lines to rename */
+const YQ_WEB_URL='https://chiuryan2002-stack.github.io/yqjl-bert/';
+const YQ_APP_URL='https://chiuryan2002-stack.github.io/xueershixi/';
+window.YQ_URLS={web:YQ_WEB_URL,app:YQ_APP_URL};
 function frSub(){
   if(PAGE==='index' || document.getElementById('frBar')) return;
-  const pages=[['index','index.html','00','探微索隱','探微'],['annotate','annotate.html','01','破譯微光','破譯'],['duel','duel.html','02','字謎心鏡','字謎'],['story','story.html','03','職場浮生','浮生'],['app','app.html','04','學而時習','學習']];
+  const W=PAGE==='app'?YQ_WEB_URL:'', A=PAGE==='app'?'./':YQ_APP_URL;
+  const pages=[['index',W+'index.html','00','探微索隱','探微'],['annotate',W+'annotate.html','01','破譯微光','破譯'],['duel',W+'duel.html','02','字謎心鏡','字謎'],['story',W+'story.html','03','職場浮生','浮生'],['app',A,'04','學而時習','學習']];
   const bar=document.createElement('div'); bar.id='frBar';
-  bar.innerHTML='<a class="fr-brand" href="index.html"><i></i>原前舊老</a><div class="fr-chips">'+
+  bar.innerHTML=`<a class="fr-brand" href="${W}index.html"><i></i>原前舊老</a><div class="fr-chips">`+
     pages.map(([k,href,no,lab,sh])=>`<a href="${href}"${k===PAGE?' class="on" aria-current="page"':''}><b>${no}</b><span>${lab}</span><em class="s">${sh}</em></a>`).join('')+'</div>';
   document.body.prepend(bar);
   const fit=()=>{ const c=document.querySelector('.yq-ctrl'); if(!c) return; const r=c.getBoundingClientRect();
